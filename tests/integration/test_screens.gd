@@ -60,11 +60,35 @@ func test_options_menu() -> void:
 	assert_gte(_count_type(n, "HSlider"), 4)
 
 
-func test_campaign_placeholder() -> void:
+func test_campaign_map_opens_and_ends_turn() -> void:
+	var old_dir: String = Session.saves_dir
+	Session.saves_dir = "user://test_campaign_saves"
 	Session.start_new_game("476_caduta_di_roma", "vandali")
-	var n: Node = await _open(Scenes.CAMPAIGN)
-	assert_gte(_count_type(n, "Label"), 10)
+	var n: Node = await _open(Scenes.CAMPAIGN, 10)
+	var scene := n as CampaignMapScene
+	assert_not_null(scene)
+	assert_gte(_count_type(n, "MultiMeshInstance3D"), 4, "città per tipo + eserciti")
+	assert_eq(_count_type(n, "Label3D"), GameData.db.provinces.size(), "un nome per città")
+	assert_eq(scene.army_layer.multimesh.instance_count, Session.state.armies.size())
+	# selezione e pannello
+	scene.select_province("africa")
+	assert_eq(scene.selected, "africa")
+	scene.select_province("")
+	assert_eq(scene.selected, "")
+	# fine turno: calendario, riepilogo, salvataggio automatico
+	scene.end_turn()
+	await wait_frames(2)
+	assert_eq(Session.state.turn, 2)
+	assert_true(scene.hud.is_modal_open(), "riepilogo di inizio turno")
+	scene.end_turn()
+	assert_eq(Session.state.turn, 2, "con una finestra aperta il turno non avanza")
+	assert_eq(Session.list_saves().size(), 1)
+	for s: Dictionary in Session.list_saves():
+		SaveSystem.delete_save(s["path"])
+	DirAccess.remove_absolute(Session.saves_dir)
+	Session.saves_dir = old_dir
 	Session.end_game()
+
 
 
 func test_benchmark_runs() -> void:
@@ -87,3 +111,19 @@ func test_soldier_meshes_are_low_poly() -> void:
 	var idx_cav: int = (cav.surface_get_arrays(0)[Mesh.ARRAY_INDEX] as PackedInt32Array).size()
 	assert_lt(idx_inf / 3.0, 400.0, "fante sotto i 400 triangoli")
 	assert_lt(idx_cav / 3.0, 700.0, "cavaliere sotto i 700 triangoli")
+
+
+func test_map_benchmark_flies_the_camera() -> void:
+	Session.end_game()
+	Session.start_map_benchmark()
+	assert_true(Session.benchmark_owns_game, "senza partita il test ne crea una di prova")
+	var n: Node = await _open(Scenes.CAMPAIGN, 5)
+	var scene := n as CampaignMapScene
+	assert_not_null(scene.get_node_or_null("TestMappa"))
+	assert_false(scene.cam.input_enabled, "durante il test la telecamera non risponde ai comandi")
+	var start: Vector3 = scene.cam.camera.global_position
+	await wait_frames(30)
+	assert_ne(scene.cam.camera.global_position, start, "la telecamera segue il percorso")
+	Session.map_benchmark = false
+	Session.benchmark_owns_game = false
+	Session.end_game()

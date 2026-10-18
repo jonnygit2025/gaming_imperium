@@ -268,5 +268,106 @@
       "longobardi",
       -20
     ]
+  ],
+  "armies": [
+    {
+      "id": "longobardi_1",
+      "faction": "longobardi",
+      "province": "aquileia",
+      "general": "Alboino",
+      "units": [
+        "arimanni",
+        "arimanni",
+        "arimanni",
+        "lancieri_longobardi",
+        "lancieri_longobardi",
+        "arcieri_longobardi",
+        "cavalleria_longobarda",
+        "cavalleria_longobarda",
+        "gasindi"
+      ]
+    },
+    {
+      "id": "bizantini_1",
+      "faction": "bizantini",
+      "province": "ravenna",
+      "general": "Longino",
+      "units": [
+        "skutatoi",
+        "skutatoi",
+        "toxotai",
+        "bucellarii"
+      ]
+    },
+    {
+      "id": "bizantini_2",
+      "faction": "bizantini",
+      "province": "thracia",
+      "general": "Tiberio",
+      "units": [
+        "skutatoi",
+        "skutatoi",
+        "toxotai",
+        "toxotai",
+        "kataphraktoi"
+      ]
+    },
+    {
+      "id": "avari_1",
+      "faction": "avari",
+      "province": "pannonia",
+      "general": "Bayan",
+      "units": [
+        "arcieri_cavallo_avari",
+        "arcieri_cavallo_avari",
+        "arcieri_cavallo_avari",
+        "lancieri_cavallo_avari",
+        "lancieri_cavallo_avari",
+        "fanteria_slava",
+        "fanteria_slava",
+        "guardia_khan"
+      ]
+    },
+    {
+      "id": "franchi_1",
+      "faction": "franchi",
+      "province": "austrasia",
+      "general": "Sigeberto I",
+      "units": [
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "leudes",
+        "scara"
+      ]
+    },
+    {
+      "id": "visigoti_1",
+      "faction": "visigoti",
+      "province": "carthaginensis",
+      "general": "Leovigildo",
+      "units": [
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "lancieri_goti",
+        "lancieri_goti",
+        "cavalleria_gotica",
+        "cavalleria_gotica"
+      ]
+    },
+    {
+      "id": "sasanidi_1",
+      "faction": "sasanidi",
+      "province": "asoristan",
+      "general": "Cosroe I",
+      "units": [
+        "paighan",
+        "paighan",
+        "dailamiti",
+        "arcieri_persiani",
+        "savaran",
+        "savaran"
+      ]
+    }
   ]
 }

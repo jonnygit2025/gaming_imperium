@@ -1,7 +1,7 @@
 class_name CampaignState
 extends RefCounted
 ## Stato completo di una partita di campagna. Logica pura, serializzabile.
-## Fase 1: data, fazioni, padroni delle province, risorse, guerre e relazioni.
+## Data, fazioni, padroni delle province, risorse, guerre, relazioni ed eserciti.
 
 const TURNS_PER_YEAR: int = 2
 
@@ -18,6 +18,8 @@ var province_owner: Dictionary[String, String] = {}
 var relations: Dictionary[String, int] = {}
 ## "a|b" -> true se in guerra
 var wars: Dictionary[String, bool] = {}
+## army_id -> esercito
+var armies: Dictionary[String, ArmyState] = {}
 
 
 ## Restituisce un messaggio di errore, oppure "" se la nuova partita si può creare.
@@ -58,7 +60,18 @@ static func new_game(db: GameDatabase, scen_id: String, player_faction_id: Strin
 		st.set_relation(rel["a"], rel["b"], rel["value"])
 	for pair: PackedStringArray in s.wars:
 		st.set_war(pair[0], pair[1], true)
+	st.add_starting_armies(db)
 	return st
+
+
+## Aggiunge gli eserciti di partenza dello scenario (usato anche per i salvataggi della Fase 1).
+func add_starting_armies(db: GameDatabase) -> void:
+	var s: ScenarioDef = db.scenarios.get(scenario_id)
+	if s == null:
+		return
+	for def: ArmyDef in s.armies:
+		if factions.has(def.faction) and not armies.has(def.id):
+			armies[def.id] = ArmyState.from_def(def, db)
 
 
 static func pair_key(a: String, b: String) -> String:
@@ -103,6 +116,15 @@ func date_label() -> String:
 	return "%s %d d.C." % [season_name(), year()]
 
 
+## Ultimo turno previsto dallo scenario (poi la partita può continuare, ma è "conclusa").
+func last_turn() -> int:
+	return maxi(1, (end_year - start_year) * TURNS_PER_YEAR - start_season)
+
+
+func is_finished() -> bool:
+	return turn > last_turn()
+
+
 # ------------------------------------------------------------------ interrogazioni
 
 func provinces_of(faction_id: String) -> PackedStringArray:
@@ -117,17 +139,49 @@ func player() -> FactionState:
 	return factions.get(player_faction)
 
 
+## Eserciti presenti in una provincia, in ordine di id.
+func armies_in(province_id: String) -> Array[ArmyState]:
+	var out: Array[ArmyState] = []
+	for a: ArmyState in armies.values():
+		if a.province == province_id:
+			out.append(a)
+	out.sort_custom(func(x: ArmyState, y: ArmyState) -> bool: return x.id < y.id)
+	return out
+
+
+func armies_of(faction_id: String) -> Array[ArmyState]:
+	var out: Array[ArmyState] = []
+	for a: ArmyState in armies.values():
+		if a.faction == faction_id:
+			out.append(a)
+	return out
+
+
+## Fazioni in guerra con quella indicata.
+func enemies_of(faction_id: String) -> PackedStringArray:
+	var out := PackedStringArray()
+	for fid: String in factions:
+		if fid != faction_id and at_war(faction_id, fid):
+			out.append(fid)
+	return out
+
+
 # ------------------------------------------------------------------ serializzazione
 
 func to_dict() -> Dictionary:
 	var facs: Dictionary = {}
 	for fid: String in factions:
 		facs[fid] = factions[fid].to_dict()
+	var army_list: Array = []
+	var ids: Array = armies.keys()
+	ids.sort()
+	for aid: String in ids:
+		army_list.append(armies[aid].to_dict())
 	return {
 		"scenario_id": scenario_id, "player_faction": player_faction, "turn": turn,
 		"start_year": start_year, "start_season": start_season, "end_year": end_year,
 		"factions": facs, "province_owner": province_owner.duplicate(),
-		"relations": relations.duplicate(), "wars": wars.keys(),
+		"relations": relations.duplicate(), "wars": wars.keys(), "armies": army_list,
 	}
 
 
@@ -152,6 +206,10 @@ static func from_dict(d: Dictionary) -> CampaignState:
 		st.relations[str(k)] = int(rels[k])
 	for k: Variant in DataUtil.to_array(d, "wars"):
 		st.wars[str(k)] = true
+	for item: Variant in DataUtil.to_array(d, "armies"):
+		if item is Dictionary:
+			var a: ArmyState = ArmyState.from_dict(item)
+			st.armies[a.id] = a
 	return st
 
 
@@ -166,4 +224,8 @@ func check_against(db: GameDatabase) -> String:
 			return "Provincia sconosciuta nel salvataggio: %s" % pid
 		if not factions.has(province_owner[pid]):
 			return "Padrone sconosciuto per %s" % pid
+	for a: ArmyState in armies.values():
+		var err: String = a.check(db, factions.keys())
+		if not err.is_empty():
+			return err
 	return ""

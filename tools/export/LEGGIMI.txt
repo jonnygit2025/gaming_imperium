@@ -1,0 +1,18 @@
+REGNA - L'Ombra di Roma (Fase 2: mappa di campagna 3D)
+
+1. Doppio clic su AVVIA_REGNA.bat
+   La prima volta ricompone Regna.exe dai pezzi (Regna.zip.part0, part1, ...)
+   e lo avvia. Le volte successive puoi aprire direttamente Regna.exe.
+
+2. Se Windows mostra "Windows ha protetto il PC":
+   clic su "Ulteriori informazioni" e poi "Esegui comunque".
+   (Il file non e' firmato digitalmente, e' normale.)
+
+3. In Opzioni ci sono due test prestazioni: "Battaglia" e "Mappa di campagna".
+   I risultati vanno nel file benchmark_risultati.txt in questa cartella.
+
+Tasti sulla mappa: WASD/frecce o bordo dello schermo = muovi, rotella = zoom,
+Q/E o tasto centrale = ruota, clic = seleziona, doppio clic = centra,
+clic destro/Esc = deseleziona, Esc = pausa, Invio = fine turno, F3 = misure.
+
+Impostazioni, salvataggi e log: %APPDATA%\Regna

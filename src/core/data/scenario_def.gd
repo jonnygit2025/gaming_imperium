@@ -15,6 +15,8 @@ var factions: Dictionary[String, ScenarioFactionDef] = {}
 var wars: Array[PackedStringArray] = []
 ## [{"a": String, "b": String, "value": int}]
 var relations: Array[Dictionary] = []
+## Eserciti presenti all'inizio.
+var armies: Array[ArmyDef] = []
 
 
 static func from_dict(d: Dictionary) -> ScenarioDef:
@@ -37,6 +39,9 @@ static func from_dict(d: Dictionary) -> ScenarioDef:
 	for rel: Variant in DataUtil.to_array(d, "relations"):
 		if rel is Array and rel.size() == 3:
 			s.relations.append({"a": str(rel[0]), "b": str(rel[1]), "value": int(rel[2])})
+	for item: Variant in DataUtil.to_array(d, "armies"):
+		if item is Dictionary:
+			s.armies.append(ArmyDef.from_dict(item))
 	return s
 
 
