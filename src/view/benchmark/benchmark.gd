@@ -157,7 +157,9 @@ func _build_world() -> void:
 
 func _build_army(side: float, color: Color) -> void:
 	var g: GraphicsSettings = Settings.graphics
-	var per_regiment: int = maxi(12, roundi(float(g.target_soldiers()) / (REGIMENTS_PER_SIDE * 2)))
+	# La cavalleria ha reggimenti di metà uomini: il totale deve tornare con l'obiettivo del preset.
+	var units_equiv: float = (REGIMENTS_PER_SIDE - CAVALRY_PER_SIDE) + CAVALRY_PER_SIDE * 0.5
+	var per_regiment: int = maxi(12, roundi(float(g.target_soldiers()) / (units_equiv * 2.0)))
 	var shader: Shader = load("res://assets/shaders/soldier.gdshader")
 	var inf_mat := ShaderMaterial.new()
 	inf_mat.shader = shader

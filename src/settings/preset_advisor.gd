@@ -84,6 +84,18 @@ static func recommend(h: HardwareProfile) -> Dictionary:
 	var tier: int = gpu_tier(h.gpu_name, h.gpu_type)
 	var reasons := PackedStringArray()
 	reasons.append("scheda video di fascia %s" % ["bassa", "media", "alta", "altissima"][tier])
+	var renderer: String = "forward_plus"
+	if tier == TIER_BASSO or prefers_compatibility(h.gpu_name, h.gpu_type):
+		renderer = "gl_compatibility"
+		reasons.append("renderer Compatibilità, più leggero per le schede meno recenti")
+		# Misurato su GTX 650: con Compatibilità regge 1.800 soldati a 60 FPS, con Forward+
+		# 1.080 soldati a 40 FPS. Su una scheda dedicata il renderer leggero vale un preset in più.
+		if h.gpu_type == HardwareProfile.GPU_DISCRETE and tier < TIER_ALTO and not _is_software(h.gpu_name):
+			tier += 1
+	if h.rendering_method == "gl_compatibility" and h.gpu_type != HardwareProfile.GPU_CPU and not h.gpu_name.is_empty():
+		# Il motore è già ripiegato su OpenGL: Vulkan/DirectX 12 non sono disponibili.
+		renderer = "gl_compatibility"
+	# Memoria e processore limitano per ultimi.
 	if h.ram_gb > 0.0 and h.ram_gb < 6.0 and tier > TIER_BASSO:
 		tier = TIER_BASSO
 		reasons.append("poca memoria (%.0f GB)" % h.ram_gb)
@@ -93,19 +105,39 @@ static func recommend(h: HardwareProfile) -> Dictionary:
 	if h.cpu_cores < 4 and tier > TIER_MEDIO:
 		tier = TIER_MEDIO
 		reasons.append("processore con pochi core")
-	var renderer: String = "forward_plus"
-	if tier == TIER_BASSO:
-		renderer = "gl_compatibility"
-		reasons.append("renderer Compatibilità, più leggero per le schede meno recenti")
-	if h.rendering_method == "gl_compatibility" and h.gpu_type != HardwareProfile.GPU_CPU and not h.gpu_name.is_empty():
-		# Il motore è già ripiegato su OpenGL: Vulkan/DirectX 12 non sono disponibili.
-		renderer = "gl_compatibility"
 	return {
 		"preset": GraphicsSettings.PRESETS[tier],
 		"renderer": renderer,
 		"tier": tier,
 		"reason": ", ".join(reasons),
 	}
+
+
+## Schede di vecchia generazione (2012-2015 circa) dove Forward+ costa troppo:
+## NVIDIA GTX 400-900 e GT, AMD HD/R5/R7/R9, Intel integrate non Arc.
+static func prefers_compatibility(gpu_name: String, gpu_type: int) -> bool:
+	var n: String = gpu_name.to_lower()
+	if _is_software(n) or gpu_type == HardwareProfile.GPU_CPU:
+		return true
+	if n.contains("geforce") or n.contains("nvidia") or n.contains("gtx") or n.contains("rtx"):
+		if n.contains("rtx"):
+			return false
+		var gtx: int = _first_number(n, "gtx\\s*(\\d{3,4})")
+		return gtx < 1000  # GTX 4xx-9xx e GT/MX (senza numero GTX)
+	if n.contains("radeon") or n.contains("amd") or n.contains("ati "):
+		if _first_number(n, "rx\\s*(\\d{3,4})") > 0 or _first_number(n, "(\\d{3})m\\b") >= 680:
+			return false
+		return n.contains("hd ") or n.contains("r5") or n.contains("r7") or n.contains("r9") \
+				or gpu_type == HardwareProfile.GPU_INTEGRATED
+	if n.contains("intel"):
+		return not n.contains("arc")
+	return false
+
+
+static func _is_software(gpu_name: String) -> bool:
+	var n: String = gpu_name.to_lower()
+	return n.is_empty() or n.contains("llvmpipe") or n.contains("swiftshader") or n.contains("software") \
+			or n.contains("basic render") or n.contains("dummy")
 
 
 ## Dopo un test di prestazioni: alza o abbassa il preset.

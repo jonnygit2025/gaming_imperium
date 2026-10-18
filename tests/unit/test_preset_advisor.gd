@@ -36,7 +36,8 @@ func test_recommend_for_this_pc() -> void:
 	# Il PC di sviluppo: i5-4440, 4 core, 16 GB, GTX 650.
 	var h := HardwareProfile.make("NVIDIA GeForce GTX 650", D, 4, 15.9)
 	var rec: Dictionary = PresetAdvisor.recommend(h)
-	assert_eq(rec["preset"], "basso")
+	# Misurato: con Compatibilità Medio e Alto restano a 60 FPS, con Forward+ Medio scende a 40.
+	assert_eq(rec["preset"], "medio")
 	assert_eq(rec["renderer"], "gl_compatibility")
 
 
@@ -72,3 +73,30 @@ func test_benchmark_adjustment() -> void:
 	assert_eq(PresetAdvisor.adjust_after_benchmark("basso", 10.0, 5.0), "basso")
 	assert_eq(PresetAdvisor.adjust_after_benchmark("ultra", 200.0, 150.0), "ultra")
 	assert_eq(PresetAdvisor.adjust_after_benchmark("personalizzato", 60.0, 45.0), "medio")
+
+
+func test_prefers_compatibility() -> void:
+	assert_true(PresetAdvisor.prefers_compatibility("NVIDIA GeForce GTX 650", D))
+	assert_true(PresetAdvisor.prefers_compatibility("NVIDIA GeForce GTX 970", D))
+	assert_true(PresetAdvisor.prefers_compatibility("NVIDIA GeForce GT 730", D))
+	assert_true(PresetAdvisor.prefers_compatibility("AMD Radeon R9 280X", D))
+	assert_true(PresetAdvisor.prefers_compatibility("Intel(R) HD Graphics 4600", I))
+	assert_false(PresetAdvisor.prefers_compatibility("NVIDIA GeForce GTX 1060 6GB", D))
+	assert_false(PresetAdvisor.prefers_compatibility("NVIDIA GeForce RTX 3060", D))
+	assert_false(PresetAdvisor.prefers_compatibility("AMD Radeon RX 580", D))
+	assert_false(PresetAdvisor.prefers_compatibility("Intel(R) Arc(TM) A750 Graphics", D))
+
+
+func test_old_integrated_and_software_stay_low() -> void:
+	var intel := HardwareProfile.make("Intel(R) HD Graphics 4600", I, 4, 8.0)
+	assert_eq(PresetAdvisor.recommend(intel)["preset"], "basso")
+	assert_eq(PresetAdvisor.recommend(intel)["renderer"], "gl_compatibility")
+	var sw := HardwareProfile.make("llvmpipe (LLVM 19.1.1, 256 bits)", HardwareProfile.GPU_CPU, 8, 16.0)
+	assert_eq(PresetAdvisor.recommend(sw)["preset"], "basso")
+
+
+func test_modern_card_keeps_forward_plus() -> void:
+	var h := HardwareProfile.make("NVIDIA GeForce GTX 1060 6GB", D, 6, 16.0)
+	var rec: Dictionary = PresetAdvisor.recommend(h)
+	assert_eq(rec["preset"], "alto")
+	assert_eq(rec["renderer"], "forward_plus")
