@@ -1,0 +1,266 @@
+{
+  "id": "535_guerra_gotica",
+  "order": 2,
+  "year": 535,
+  "season": "estate",
+  "end_year": 600,
+  "name": "535 – La guerra greco-gotica",
+  "description": "Belisario ha distrutto il regno dei Vandali e sbarca in Sicilia. Giustiniano vuole l'Italia; gli Ostrogoti, senza più Teodorico, si preparano a resistere.",
+  "playable": [
+    "bizantini",
+    "ostrogoti",
+    "franchi",
+    "visigoti"
+  ],
+  "factions": {
+    "bizantini": {
+      "provinces": [
+        "thracia",
+        "macedonia",
+        "achaea",
+        "asia",
+        "galatia",
+        "cappadocia",
+        "syria",
+        "palaestina",
+        "aegyptus",
+        "moesia",
+        "phoenice",
+        "cyrenaica",
+        "tripolitania",
+        "africa",
+        "numidia",
+        "sardinia",
+        "sicilia"
+      ],
+      "capital": "thracia",
+      "leader": "Giustiniano",
+      "difficulty": "facile",
+      "resources": {
+        "gold": 9000,
+        "food": 1220,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Riconquista l'Italia intera e controlla 28 province.",
+        "provinces": [
+          "roma",
+          "ravenna",
+          "mediolanum",
+          "africa",
+          "sicilia"
+        ],
+        "min_provinces": 28
+      }
+    },
+    "ostrogoti": {
+      "provinces": [
+        "roma",
+        "ravenna",
+        "mediolanum",
+        "aquileia",
+        "tuscia",
+        "spoletium",
+        "neapolis",
+        "apulia",
+        "dalmatia",
+        "provincia"
+      ],
+      "capital": "ravenna",
+      "leader": "Teodato",
+      "difficulty": "difficile",
+      "resources": {
+        "gold": 5000,
+        "food": 800,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Respingi Belisario: tieni l'Italia e riprendi la Sicilia.",
+        "provinces": [
+          "roma",
+          "ravenna",
+          "sicilia",
+          "dalmatia"
+        ],
+        "min_provinces": 14
+      }
+    },
+    "franchi": {
+      "provinces": [
+        "belgica",
+        "austrasia",
+        "parisii",
+        "armorica",
+        "turonensis",
+        "aquitania",
+        "tolosa",
+        "burgundia"
+      ],
+      "capital": "parisii",
+      "leader": "Teodeberto I",
+      "difficulty": "media",
+      "resources": {
+        "gold": 5000,
+        "food": 680,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Domina tutta la Gallia e scendi in Italia: 16 province.",
+        "provinces": [
+          "parisii",
+          "provincia",
+          "septimania",
+          "mediolanum"
+        ],
+        "min_provinces": 16
+      },
+      "religion": "cristiana_nicena"
+    },
+    "visigoti": {
+      "provinces": [
+        "septimania",
+        "tarraconensis",
+        "carthaginensis",
+        "baetica",
+        "lusitania"
+      ],
+      "capital": "carthaginensis",
+      "leader": "Teudi",
+      "difficulty": "media",
+      "resources": {
+        "gold": 4000,
+        "food": 500,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Unisci la Hispania e riprendi Tolosa: 10 province.",
+        "provinces": [
+          "carthaginensis",
+          "gallaecia",
+          "septimania",
+          "tolosa"
+        ],
+        "min_provinces": 10
+      }
+    },
+    "svevi": {
+      "provinces": [
+        "gallaecia"
+      ],
+      "capital": "gallaecia",
+      "leader": "Re svevo",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1500,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 5
+      }
+    },
+    "mauri": {
+      "provinces": [
+        "tingitana",
+        "caesariensis"
+      ],
+      "capital": "caesariensis",
+      "leader": "Masties",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1500,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 5
+      }
+    },
+    "gepidi": {
+      "provinces": [
+        "pannonia"
+      ],
+      "capital": "pannonia",
+      "leader": "Elemondo",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1500,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 5
+      }
+    },
+    "sasanidi": {
+      "provinces": [
+        "asoristan",
+        "mesopotamia"
+      ],
+      "capital": "asoristan",
+      "leader": "Cosroe I",
+      "difficulty": "media",
+      "resources": {
+        "gold": 7000,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 8
+      }
+    },
+    "tribu_arabe": {
+      "provinces": [
+        "hijaz"
+      ],
+      "capital": "hijaz",
+      "leader": "Capi tribali",
+      "difficulty": "media",
+      "resources": {
+        "gold": 800,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 3
+      }
+    }
+  },
+  "wars": [
+    [
+      "bizantini",
+      "ostrogoti"
+    ]
+  ],
+  "relations": [
+    [
+      "franchi",
+      "ostrogoti",
+      -10
+    ],
+    [
+      "bizantini",
+      "franchi",
+      10
+    ]
+  ]
+}

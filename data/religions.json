@@ -1,0 +1,49 @@
+{
+  "religions": [
+    {
+      "id": "cristiana_nicena",
+      "name": "Cristianesimo niceno",
+      "temple_names": [
+        "Chiesa",
+        "Basilica",
+        "Cattedrale"
+      ]
+    },
+    {
+      "id": "cristiana_ariana",
+      "name": "Cristianesimo ariano",
+      "temple_names": [
+        "Chiesa ariana",
+        "Basilica ariana",
+        "Cattedrale ariana"
+      ]
+    },
+    {
+      "id": "pagana",
+      "name": "Paganesimo",
+      "temple_names": [
+        "Santuario",
+        "Bosco sacro",
+        "Grande tempio"
+      ]
+    },
+    {
+      "id": "islamica",
+      "name": "Islam",
+      "temple_names": [
+        "Moschea",
+        "Grande moschea",
+        "Moschea del venerdì"
+      ]
+    },
+    {
+      "id": "zoroastriana",
+      "name": "Zoroastrismo",
+      "temple_names": [
+        "Tempio del fuoco",
+        "Atash Behram",
+        "Grande tempio del fuoco"
+      ]
+    }
+  ]
+}

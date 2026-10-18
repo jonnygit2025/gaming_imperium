@@ -1,0 +1,2473 @@
+{
+  "units": [
+    {
+      "id": "limitanei",
+      "name": "Limitanei",
+      "cultures": [
+        "tardo_romana"
+      ],
+      "class": "lancieri",
+      "tier": 1,
+      "description": "Truppe di frontiera: poco addestrate ma salde dietro gli scudi.",
+      "men": 100,
+      "attack": 7,
+      "defense": 10,
+      "armor": 6,
+      "charge": 4,
+      "morale": 8,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 400,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 90,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "ovale",
+        "weapon": "lancia",
+        "helmet": "a_cresta"
+      }
+    },
+    {
+      "id": "comitatenses",
+      "name": "Legionari comitatensi",
+      "cultures": [
+        "tardo_romana"
+      ],
+      "class": "fanteria_pesante",
+      "tier": 2,
+      "description": "Il cuore dell'ultimo esercito romano d'Occidente.",
+      "men": 100,
+      "attack": 10,
+      "defense": 12,
+      "armor": 11,
+      "charge": 6,
+      "morale": 11,
+      "speed": 3.6,
+      "stamina": 5,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 770,
+        "iron": 55,
+        "manpower": 100
+      },
+      "upkeep": 182,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "muro_di_scudi"
+      ],
+      "look": {
+        "mounted": false,
+        "shield": "ovale",
+        "weapon": "spatha",
+        "helmet": "a_cresta"
+      }
+    },
+    {
+      "id": "sagittarii",
+      "name": "Sagittarii",
+      "cultures": [
+        "tardo_romana"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri di fanteria con arco composito.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 150,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "foederati_eruli",
+      "name": "Foederati eruli",
+      "cultures": [
+        "tardo_romana"
+      ],
+      "class": "fanteria_leggera",
+      "tier": 1,
+      "description": "Guerrieri germanici al soldo di Roma: feroci ma poco disciplinati.",
+      "men": 100,
+      "attack": 10,
+      "defense": 6,
+      "armor": 3,
+      "charge": 9,
+      "morale": 6,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 250,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spatha",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "equites",
+      "name": "Equites",
+      "cultures": [
+        "tardo_romana"
+      ],
+      "class": "cavalleria_leggera",
+      "tier": 1,
+      "description": "Cavalleria romana per esplorazione e inseguimento.",
+      "men": 60,
+      "attack": 7,
+      "defense": 4,
+      "armor": 4,
+      "charge": 14,
+      "morale": 7,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 500,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 120,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": true,
+        "shield": "ovale",
+        "weapon": "giavellotto",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "scholae_palatinae",
+      "name": "Scholae palatinae",
+      "cultures": [
+        "tardo_romana"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 3,
+      "description": "La guardia a cavallo del sovrano.",
+      "men": 30,
+      "attack": 12,
+      "defense": 9,
+      "armor": 13,
+      "charge": 22,
+      "morale": 15,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1620,
+        "iron": 65,
+        "manpower": 30
+      },
+      "upkeep": 360,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 3
+        },
+        {
+          "building": "fabbro",
+          "level": 2
+        }
+      ],
+      "abilities": [
+        "guardia"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "ovale",
+        "weapon": "lancia",
+        "helmet": "a_cresta"
+      }
+    },
+    {
+      "id": "skutatoi",
+      "name": "Skutatoi",
+      "cultures": [
+        "bizantina"
+      ],
+      "class": "lancieri",
+      "tier": 2,
+      "description": "Fanteria pesante con grande scudo e lancia: la linea che non cede.",
+      "men": 100,
+      "attack": 8,
+      "defense": 11,
+      "armor": 9,
+      "charge": 4,
+      "morale": 10,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 560,
+        "iron": 45,
+        "manpower": 100
+      },
+      "upkeep": 125,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 2
+        }
+      ],
+      "abilities": [
+        "muro_di_scudi"
+      ],
+      "look": {
+        "mounted": false,
+        "shield": "ovale",
+        "weapon": "lancia",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "toxotai",
+      "name": "Toxotai",
+      "cultures": [
+        "bizantina"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri bizantini con arco composito a lunga gittata.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 170,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "akontistai",
+      "name": "Akontistai",
+      "cultures": [
+        "bizantina"
+      ],
+      "class": "schermagliatori",
+      "tier": 1,
+      "description": "Fanteria leggera con giavellotti.",
+      "men": 80,
+      "attack": 5,
+      "defense": 4,
+      "armor": 2,
+      "charge": 3,
+      "morale": 5,
+      "speed": 4.6,
+      "stamina": 8,
+      "bonus_vs_cavalry": 0,
+      "ammo": 6,
+      "range": 50,
+      "missile_damage": 9,
+      "cost": {
+        "gold": 280,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "giavellotto",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "bucellarii",
+      "name": "Bucellarii",
+      "cultures": [
+        "bizantina"
+      ],
+      "class": "arcieri_cavallo",
+      "tier": 2,
+      "description": "Il seguito personale dei generali, come quello di Belisario: arco e lancia.",
+      "men": 60,
+      "attack": 8,
+      "defense": 5,
+      "armor": 8,
+      "charge": 12,
+      "morale": 9,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 20,
+      "range": 120,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 909,
+        "iron": 40,
+        "manpower": 60
+      },
+      "upkeep": 210,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 2
+        }
+      ],
+      "abilities": [
+        "tiro_in_movimento"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "arco",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "foederati_unni",
+      "name": "Foederati unni",
+      "cultures": [
+        "bizantina"
+      ],
+      "class": "arcieri_cavallo",
+      "tier": 1,
+      "description": "Arcieri a cavallo delle steppe al servizio dell'Impero.",
+      "men": 60,
+      "attack": 5,
+      "defense": 4,
+      "armor": 2,
+      "charge": 6,
+      "morale": 7,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 20,
+      "range": 120,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 650,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 150,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "tiro_in_movimento"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "kataphraktoi",
+      "name": "Kataphraktoi",
+      "cultures": [
+        "bizantina"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 3,
+      "description": "Cavalieri e cavalli coperti di ferro.",
+      "men": 30,
+      "attack": 12,
+      "defense": 9,
+      "armor": 15,
+      "charge": 22,
+      "morale": 15,
+      "speed": 7.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1620,
+        "iron": 75,
+        "manpower": 30
+      },
+      "upkeep": 360,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 3
+        },
+        {
+          "building": "fabbro",
+          "level": 2
+        }
+      ],
+      "abilities": [
+        "carica_devastante"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "conico",
+        "barded": true
+      }
+    },
+    {
+      "id": "guerrieri_goti",
+      "name": "Guerrieri goti",
+      "cultures": [
+        "germanica"
+      ],
+      "class": "fanteria_leggera",
+      "tier": 1,
+      "description": "Uomini liberi armati di spada e scudo rotondo.",
+      "men": 100,
+      "attack": 8,
+      "defense": 6,
+      "armor": 4,
+      "charge": 8,
+      "morale": 6,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 250,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spatha",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "lancieri_goti",
+      "name": "Lancieri goti",
+      "cultures": [
+        "germanica"
+      ],
+      "class": "lancieri",
+      "tier": 1,
+      "description": "Fanteria con lancia, ottima contro la cavalleria.",
+      "men": 100,
+      "attack": 7,
+      "defense": 10,
+      "armor": 6,
+      "charge": 4,
+      "morale": 8,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 400,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 90,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "arcieri_goti",
+      "name": "Arcieri goti",
+      "cultures": [
+        "germanica"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri a piedi con arco semplice.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 130,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "cavalieri_vandali",
+      "name": "Cavalieri leggeri",
+      "cultures": [
+        "germanica"
+      ],
+      "class": "cavalleria_leggera",
+      "tier": 1,
+      "description": "Cavalleria leggera per razzie e inseguimenti.",
+      "men": 60,
+      "attack": 7,
+      "defense": 4,
+      "armor": 4,
+      "charge": 14,
+      "morale": 7,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 500,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 120,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "giavellotto",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "cavalleria_gotica",
+      "name": "Cavalleria gotica",
+      "cultures": [
+        "germanica"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 2,
+      "description": "Lancieri a cavallo: il vanto dei regni goti.",
+      "men": 50,
+      "attack": 11,
+      "defense": 8,
+      "armor": 12,
+      "charge": 24,
+      "morale": 12,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1260,
+        "iron": 60,
+        "manpower": 50
+      },
+      "upkeep": 280,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "carica_devastante"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "comitatus_gotico",
+      "name": "Comitatus del re",
+      "cultures": [
+        "germanica"
+      ],
+      "class": "fanteria_pesante",
+      "tier": 3,
+      "description": "I compagni giurati del re, armati di tutto punto.",
+      "men": 60,
+      "attack": 12,
+      "defense": 12,
+      "armor": 12,
+      "charge": 6,
+      "morale": 14,
+      "speed": 3.6,
+      "stamina": 5,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 990,
+        "iron": 60,
+        "manpower": 60
+      },
+      "upkeep": 234,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 3
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "guardia"
+      ],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spatha",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "guerrieri_franchi",
+      "name": "Guerrieri franchi",
+      "cultures": [
+        "franca"
+      ],
+      "class": "fanteria_leggera",
+      "tier": 1,
+      "description": "Lanciano la francisca un attimo prima dell'urto.",
+      "men": 100,
+      "attack": 9,
+      "defense": 6,
+      "armor": 4,
+      "charge": 10,
+      "morale": 6,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 1,
+      "range": 15,
+      "missile_damage": 12,
+      "cost": {
+        "gold": 250,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "lancio_asce"
+      ],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "francisca",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "leudes",
+      "name": "Leudes",
+      "cultures": [
+        "franca"
+      ],
+      "class": "fanteria_pesante",
+      "tier": 2,
+      "description": "Uomini del re ben armati, capaci di formare un muro di scudi.",
+      "men": 100,
+      "attack": 10,
+      "defense": 11,
+      "armor": 11,
+      "charge": 6,
+      "morale": 11,
+      "speed": 3.6,
+      "stamina": 5,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 770,
+        "iron": 55,
+        "manpower": 100
+      },
+      "upkeep": 182,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "muro_di_scudi"
+      ],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spatha",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "lancieri_franchi",
+      "name": "Lancieri franchi",
+      "cultures": [
+        "franca"
+      ],
+      "class": "lancieri",
+      "tier": 1,
+      "description": "Leva armata di lancia e scudo.",
+      "men": 100,
+      "attack": 7,
+      "defense": 10,
+      "armor": 6,
+      "charge": 4,
+      "morale": 8,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 400,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 90,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "angonarii",
+      "name": "Lanciatori di angone",
+      "cultures": [
+        "franca"
+      ],
+      "class": "schermagliatori",
+      "tier": 1,
+      "description": "L'angone, un giavellotto uncinato, rende inutili gli scudi nemici.",
+      "men": 80,
+      "attack": 5,
+      "defense": 4,
+      "armor": 2,
+      "charge": 3,
+      "morale": 5,
+      "speed": 4.6,
+      "stamina": 8,
+      "bonus_vs_cavalry": 0,
+      "ammo": 3,
+      "range": 50,
+      "missile_damage": 12,
+      "cost": {
+        "gold": 280,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "angone",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "arcieri_franchi",
+      "name": "Arcieri franchi",
+      "cultures": [
+        "franca"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri di leva.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 150,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "scara",
+      "name": "Scara",
+      "cultures": [
+        "franca"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 2,
+      "description": "Cavalleria pesante dei maggiordomi di palazzo.",
+      "men": 50,
+      "attack": 11,
+      "defense": 8,
+      "armor": 12,
+      "charge": 22,
+      "morale": 12,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1260,
+        "iron": 60,
+        "manpower": 50
+      },
+      "upkeep": 280,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "carica_devastante"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "antrustioni",
+      "name": "Antrustioni",
+      "cultures": [
+        "franca"
+      ],
+      "class": "fanteria_pesante",
+      "tier": 3,
+      "description": "La guardia personale del re franco.",
+      "men": 60,
+      "attack": 11,
+      "defense": 12,
+      "armor": 12,
+      "charge": 6,
+      "morale": 14,
+      "speed": 3.6,
+      "stamina": 5,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 990,
+        "iron": 60,
+        "manpower": 60
+      },
+      "upkeep": 234,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 3
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "guardia",
+        "muro_di_scudi"
+      ],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spatha",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "arimanni",
+      "name": "Arimanni",
+      "cultures": [
+        "longobarda"
+      ],
+      "class": "fanteria_leggera",
+      "tier": 1,
+      "description": "Uomini liberi in armi del popolo longobardo.",
+      "men": 100,
+      "attack": 8,
+      "defense": 6,
+      "armor": 5,
+      "charge": 6,
+      "morale": 6,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 250,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spatha",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "lancieri_longobardi",
+      "name": "Lancieri longobardi",
+      "cultures": [
+        "longobarda"
+      ],
+      "class": "lancieri",
+      "tier": 1,
+      "description": "Fanteria con lancia e scudo.",
+      "men": 100,
+      "attack": 7,
+      "defense": 10,
+      "armor": 6,
+      "charge": 4,
+      "morale": 8,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 400,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 90,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "arcieri_longobardi",
+      "name": "Arcieri longobardi",
+      "cultures": [
+        "longobarda"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri a piedi.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 150,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "cavalieri_leggeri_longobardi",
+      "name": "Cavalieri leggeri longobardi",
+      "cultures": [
+        "longobarda"
+      ],
+      "class": "cavalleria_leggera",
+      "tier": 1,
+      "description": "Cavalieri per razzie ed esplorazione.",
+      "men": 60,
+      "attack": 7,
+      "defense": 4,
+      "armor": 4,
+      "charge": 14,
+      "morale": 7,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 500,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 120,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "cavalleria_longobarda",
+      "name": "Cavalleria longobarda",
+      "cultures": [
+        "longobarda"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 2,
+      "description": "Lancieri a cavallo con la lunga lancia: temuti in tutta Italia.",
+      "men": 50,
+      "attack": 11,
+      "defense": 8,
+      "armor": 12,
+      "charge": 25,
+      "morale": 12,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1260,
+        "iron": 60,
+        "manpower": 50
+      },
+      "upkeep": 280,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "carica_devastante"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia_lunga",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "gasindi",
+      "name": "Gasindi",
+      "cultures": [
+        "longobarda"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 3,
+      "description": "Il seguito armato del re e dei duchi.",
+      "men": 30,
+      "attack": 12,
+      "defense": 9,
+      "armor": 13,
+      "charge": 22,
+      "morale": 15,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1620,
+        "iron": 65,
+        "manpower": 30
+      },
+      "upkeep": 360,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 3
+        },
+        {
+          "building": "fabbro",
+          "level": 2
+        }
+      ],
+      "abilities": [
+        "guardia"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia_lunga",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "fanteria_slava",
+      "name": "Fanteria slava",
+      "cultures": [
+        "nomade"
+      ],
+      "class": "fanteria_leggera",
+      "tier": 1,
+      "description": "Guerrieri slavi al seguito dei khan: numerosi ed economici.",
+      "men": 100,
+      "attack": 8,
+      "defense": 6,
+      "armor": 2,
+      "charge": 6,
+      "morale": 6,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 190,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 45,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "giavellottieri_slavi",
+      "name": "Giavellottieri slavi",
+      "cultures": [
+        "nomade"
+      ],
+      "class": "schermagliatori",
+      "tier": 1,
+      "description": "Esperti di imboscate nei boschi.",
+      "men": 80,
+      "attack": 5,
+      "defense": 4,
+      "armor": 2,
+      "charge": 3,
+      "morale": 5,
+      "speed": 4.6,
+      "stamina": 8,
+      "bonus_vs_cavalry": 0,
+      "ammo": 6,
+      "range": 50,
+      "missile_damage": 9,
+      "cost": {
+        "gold": 280,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "giavellotto",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "arcieri_slavi",
+      "name": "Arcieri slavi",
+      "cultures": [
+        "nomade"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri a piedi con frecce avvelenate.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 130,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "arcieri_cavallo_avari",
+      "name": "Arcieri a cavallo avari",
+      "cultures": [
+        "nomade"
+      ],
+      "class": "arcieri_cavallo",
+      "tier": 1,
+      "description": "Il cuore dell'orda: colpiscono e svaniscono.",
+      "men": 60,
+      "attack": 5,
+      "defense": 4,
+      "armor": 3,
+      "charge": 6,
+      "morale": 7,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 120,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 650,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 150,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "tiro_in_movimento"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "lancieri_cavallo_avari",
+      "name": "Lancieri a cavallo avari",
+      "cultures": [
+        "nomade"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 2,
+      "description": "Nobili corazzati con lancia, staffe e arco.",
+      "men": 50,
+      "attack": 11,
+      "defense": 8,
+      "armor": 13,
+      "charge": 22,
+      "morale": 12,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1260,
+        "iron": 65,
+        "manpower": 50
+      },
+      "upkeep": 280,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 2
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": true,
+        "shield": "nessuno",
+        "weapon": "lancia",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "guardia_khan",
+      "name": "Guardia del khagan",
+      "cultures": [
+        "nomade"
+      ],
+      "class": "arcieri_cavallo",
+      "tier": 3,
+      "description": "I migliori guerrieri dell'orda.",
+      "men": 36,
+      "attack": 7,
+      "defense": 6,
+      "armor": 9,
+      "charge": 6,
+      "morale": 12,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 20,
+      "range": 120,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 1170,
+        "iron": 45,
+        "manpower": 36
+      },
+      "upkeep": 270,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 3
+        }
+      ],
+      "abilities": [
+        "guardia",
+        "tiro_in_movimento"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "arco",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "fanteria_tribale",
+      "name": "Fanteria tribale",
+      "cultures": [
+        "araba"
+      ],
+      "class": "fanteria_leggera",
+      "tier": 1,
+      "description": "Guerrieri delle tribù d'Arabia.",
+      "men": 100,
+      "attack": 8,
+      "defense": 6,
+      "armor": 4,
+      "charge": 6,
+      "morale": 6,
+      "speed": 4.5,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 250,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spada",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "lancieri_arabi",
+      "name": "Lancieri arabi",
+      "cultures": [
+        "araba"
+      ],
+      "class": "lancieri",
+      "tier": 1,
+      "description": "Fanteria con lancia, salda contro le cariche.",
+      "men": 100,
+      "attack": 7,
+      "defense": 10,
+      "armor": 6,
+      "charge": 4,
+      "morale": 8,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 400,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 90,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "arcieri_arabi",
+      "name": "Arcieri arabi",
+      "cultures": [
+        "araba"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri del deserto.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 150,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "cavalleria_araba",
+      "name": "Cavalleria araba",
+      "cultures": [
+        "araba"
+      ],
+      "class": "cavalleria_leggera",
+      "tier": 1,
+      "description": "Cavalieri veloci e instancabili.",
+      "men": 60,
+      "attack": 7,
+      "defense": 4,
+      "armor": 4,
+      "charge": 14,
+      "morale": 7,
+      "speed": 10.0,
+      "stamina": 8,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 500,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 120,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "arcieri_cavallo_arabi",
+      "name": "Arcieri a cavallo arabi",
+      "cultures": [
+        "araba"
+      ],
+      "class": "arcieri_cavallo",
+      "tier": 1,
+      "description": "Arcieri montati su cavalli e cammelli.",
+      "men": 60,
+      "attack": 5,
+      "defense": 4,
+      "armor": 3,
+      "charge": 6,
+      "morale": 7,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 20,
+      "range": 120,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 650,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 150,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "tiro_in_movimento"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "faris",
+      "name": "Faris",
+      "cultures": [
+        "araba"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 2,
+      "description": "Cavalieri corazzati dell'élite araba.",
+      "men": 50,
+      "attack": 11,
+      "defense": 8,
+      "armor": 12,
+      "charge": 22,
+      "morale": 12,
+      "speed": 8.5,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1260,
+        "iron": 60,
+        "manpower": 50
+      },
+      "upkeep": 280,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "mubarizun",
+      "name": "Mubarizun",
+      "cultures": [
+        "araba"
+      ],
+      "class": "fanteria_pesante",
+      "tier": 3,
+      "description": "Campioni che sfidano a duello i migliori del nemico.",
+      "men": 60,
+      "attack": 13,
+      "defense": 12,
+      "armor": 12,
+      "charge": 6,
+      "morale": 14,
+      "speed": 3.6,
+      "stamina": 5,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 990,
+        "iron": 60,
+        "manpower": 60
+      },
+      "upkeep": 234,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 3
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "guardia"
+      ],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spada",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "fanteria_berbera",
+      "name": "Fanteria berbera",
+      "cultures": [
+        "berbera",
+        "araba"
+      ],
+      "class": "fanteria_leggera",
+      "tier": 1,
+      "description": "Guerrieri delle montagne del Maghreb.",
+      "men": 100,
+      "attack": 8,
+      "defense": 6,
+      "armor": 4,
+      "charge": 6,
+      "morale": 6,
+      "speed": 4.6,
+      "stamina": 9,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 250,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "piccolo",
+        "weapon": "lancia",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "giavellottieri_berberi",
+      "name": "Giavellottieri berberi",
+      "cultures": [
+        "berbera"
+      ],
+      "class": "schermagliatori",
+      "tier": 1,
+      "description": "Agili e precisi.",
+      "men": 80,
+      "attack": 5,
+      "defense": 4,
+      "armor": 2,
+      "charge": 3,
+      "morale": 5,
+      "speed": 5.0,
+      "stamina": 8,
+      "bonus_vs_cavalry": 0,
+      "ammo": 6,
+      "range": 50,
+      "missile_damage": 9,
+      "cost": {
+        "gold": 280,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 60,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "piccolo",
+        "weapon": "giavellotto",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "arcieri_berberi",
+      "name": "Arcieri berberi",
+      "cultures": [
+        "berbera"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Arcieri delle oasi.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 25,
+      "range": 150,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "lancieri_mauri",
+      "name": "Lancieri mauri",
+      "cultures": [
+        "berbera"
+      ],
+      "class": "lancieri",
+      "tier": 1,
+      "description": "Fanteria con lancia dei regni mauro-romani.",
+      "men": 100,
+      "attack": 7,
+      "defense": 10,
+      "armor": 6,
+      "charge": 4,
+      "morale": 8,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 400,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 90,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "turbante"
+      }
+    },
+    {
+      "id": "cavalleria_numida",
+      "name": "Cavalleria numida",
+      "cultures": [
+        "berbera"
+      ],
+      "class": "cavalleria_leggera",
+      "tier": 1,
+      "description": "Cavalieri senza briglie che tempestano il nemico di giavellotti.",
+      "men": 60,
+      "attack": 7,
+      "defense": 4,
+      "armor": 4,
+      "charge": 14,
+      "morale": 7,
+      "speed": 10.3,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 4,
+      "range": 40,
+      "missile_damage": 7,
+      "cost": {
+        "gold": 500,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 120,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "tiro_in_movimento"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "piccolo",
+        "weapon": "giavellotto",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "nobili_mauri",
+      "name": "Nobili mauri",
+      "cultures": [
+        "berbera"
+      ],
+      "class": "cavalleria_leggera",
+      "tier": 3,
+      "description": "Il seguito dei principi berberi.",
+      "men": 36,
+      "attack": 9,
+      "defense": 6,
+      "armor": 9,
+      "charge": 14,
+      "morale": 12,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 900,
+        "iron": 45,
+        "manpower": 36
+      },
+      "upkeep": 216,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 3
+        }
+      ],
+      "abilities": [
+        "guardia"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "giavellotto",
+        "helmet": "spangenhelm"
+      }
+    },
+    {
+      "id": "paighan",
+      "name": "Paighan",
+      "cultures": [
+        "persiana"
+      ],
+      "class": "lancieri",
+      "tier": 1,
+      "description": "Fanteria di leva contadina.",
+      "men": 100,
+      "attack": 7,
+      "defense": 10,
+      "armor": 6,
+      "charge": 4,
+      "morale": 6,
+      "speed": 3.8,
+      "stamina": 6,
+      "bonus_vs_cavalry": 8,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 320,
+        "iron": 0,
+        "manpower": 100
+      },
+      "upkeep": 90,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "vimini",
+        "weapon": "lancia",
+        "helmet": "nessuno"
+      }
+    },
+    {
+      "id": "arcieri_persiani",
+      "name": "Arcieri persiani",
+      "cultures": [
+        "persiana"
+      ],
+      "class": "arcieri",
+      "tier": 1,
+      "description": "Coprono il cielo di frecce.",
+      "men": 80,
+      "attack": 4,
+      "defense": 3,
+      "armor": 2,
+      "charge": 2,
+      "morale": 5,
+      "speed": 4.2,
+      "stamina": 7,
+      "bonus_vs_cavalry": 0,
+      "ammo": 35,
+      "range": 150,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 350,
+        "iron": 0,
+        "manpower": 80
+      },
+      "upkeep": 80,
+      "recruit_turns": 1,
+      "requires": [
+        {
+          "building": "arceria",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "vimini",
+        "weapon": "arco",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "dailamiti",
+      "name": "Dailamiti",
+      "cultures": [
+        "persiana"
+      ],
+      "class": "fanteria_pesante",
+      "tier": 2,
+      "description": "Montanari del Daylam, la migliore fanteria persiana.",
+      "men": 100,
+      "attack": 11,
+      "defense": 11,
+      "armor": 11,
+      "charge": 6,
+      "morale": 11,
+      "speed": 3.6,
+      "stamina": 5,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 770,
+        "iron": 55,
+        "manpower": 100
+      },
+      "upkeep": 182,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "caserma",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 1
+        }
+      ],
+      "abilities": [],
+      "look": {
+        "mounted": false,
+        "shield": "rotondo",
+        "weapon": "spada",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "arcieri_cavallo_persiani",
+      "name": "Arcieri a cavallo persiani",
+      "cultures": [
+        "persiana"
+      ],
+      "class": "arcieri_cavallo",
+      "tier": 1,
+      "description": "Cavalieri armati d'arco.",
+      "men": 60,
+      "attack": 5,
+      "defense": 4,
+      "armor": 3,
+      "charge": 6,
+      "morale": 7,
+      "speed": 9.5,
+      "stamina": 6,
+      "bonus_vs_cavalry": 0,
+      "ammo": 20,
+      "range": 120,
+      "missile_damage": 6,
+      "cost": {
+        "gold": 650,
+        "iron": 0,
+        "manpower": 60
+      },
+      "upkeep": 150,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 1
+        }
+      ],
+      "abilities": [
+        "tiro_in_movimento"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "nessuno",
+        "weapon": "arco",
+        "helmet": "conico"
+      }
+    },
+    {
+      "id": "savaran",
+      "name": "Savaran",
+      "cultures": [
+        "persiana"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 2,
+      "description": "Cavalieri corazzati della nobiltà persiana.",
+      "men": 50,
+      "attack": 11,
+      "defense": 8,
+      "armor": 14,
+      "charge": 22,
+      "morale": 12,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1260,
+        "iron": 70,
+        "manpower": 50
+      },
+      "upkeep": 280,
+      "recruit_turns": 2,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 2
+        },
+        {
+          "building": "fabbro",
+          "level": 2
+        }
+      ],
+      "abilities": [
+        "carica_devastante"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "conico",
+        "barded": true
+      }
+    },
+    {
+      "id": "immortali_sasanidi",
+      "name": "Immortali sasanidi",
+      "cultures": [
+        "persiana"
+      ],
+      "class": "cavalleria_pesante",
+      "tier": 3,
+      "description": "La guardia d'élite dello shahanshah.",
+      "men": 30,
+      "attack": 12,
+      "defense": 9,
+      "armor": 15,
+      "charge": 22,
+      "morale": 15,
+      "speed": 8.0,
+      "stamina": 4,
+      "bonus_vs_cavalry": 0,
+      "ammo": 0,
+      "range": 0,
+      "missile_damage": 0,
+      "cost": {
+        "gold": 1620,
+        "iron": 75,
+        "manpower": 30
+      },
+      "upkeep": 360,
+      "recruit_turns": 3,
+      "requires": [
+        {
+          "building": "scuderia",
+          "level": 3
+        },
+        {
+          "building": "fabbro",
+          "level": 2
+        }
+      ],
+      "abilities": [
+        "guardia",
+        "carica_devastante"
+      ],
+      "look": {
+        "mounted": true,
+        "shield": "rotondo",
+        "weapon": "lancia",
+        "helmet": "conico",
+        "barded": true
+      }
+    }
+  ]
+}

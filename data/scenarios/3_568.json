@@ -1,0 +1,272 @@
+{
+  "id": "568_invasione_longobarda",
+  "order": 3,
+  "year": 568,
+  "season": "estate",
+  "end_year": 650,
+  "name": "568 – L'invasione longobarda",
+  "description": "L'Italia è stremata da vent'anni di guerra e peste. Alboino guida i Longobardi oltre le Alpi, mentre gli Avari prendono la Pannonia.",
+  "playable": [
+    "longobardi",
+    "bizantini",
+    "franchi",
+    "avari"
+  ],
+  "factions": {
+    "longobardi": {
+      "provinces": [
+        "aquileia"
+      ],
+      "capital": "aquileia",
+      "leader": "Alboino",
+      "difficulty": "media",
+      "resources": {
+        "gold": 3000,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Conquista Pavia, Ravenna e Roma: 12 province.",
+        "provinces": [
+          "mediolanum",
+          "ravenna",
+          "roma",
+          "spoletium",
+          "neapolis"
+        ],
+        "min_provinces": 12
+      }
+    },
+    "bizantini": {
+      "provinces": [
+        "thracia",
+        "macedonia",
+        "achaea",
+        "asia",
+        "galatia",
+        "cappadocia",
+        "syria",
+        "palaestina",
+        "aegyptus",
+        "moesia",
+        "dalmatia",
+        "phoenice",
+        "cyrenaica",
+        "tripolitania",
+        "africa",
+        "numidia",
+        "sardinia",
+        "sicilia",
+        "roma",
+        "ravenna",
+        "mediolanum",
+        "tuscia",
+        "spoletium",
+        "neapolis",
+        "apulia"
+      ],
+      "capital": "thracia",
+      "leader": "Giustino II",
+      "difficulty": "media",
+      "resources": {
+        "gold": 6000,
+        "food": 1700,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Difendi l'Italia e l'Impero: controlla 26 province.",
+        "provinces": [
+          "ravenna",
+          "roma",
+          "africa",
+          "thracia"
+        ],
+        "min_provinces": 26
+      }
+    },
+    "franchi": {
+      "provinces": [
+        "belgica",
+        "austrasia",
+        "parisii",
+        "armorica",
+        "turonensis",
+        "aquitania",
+        "tolosa",
+        "burgundia",
+        "provincia"
+      ],
+      "capital": "parisii",
+      "leader": "Sigeberto I",
+      "difficulty": "media",
+      "resources": {
+        "gold": 5000,
+        "food": 740,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Domina la Gallia e l'Italia del nord: 15 province.",
+        "provinces": [
+          "parisii",
+          "mediolanum",
+          "septimania",
+          "aquileia"
+        ],
+        "min_provinces": 15
+      },
+      "religion": "cristiana_nicena"
+    },
+    "avari": {
+      "provinces": [
+        "pannonia"
+      ],
+      "capital": "pannonia",
+      "leader": "Bayan",
+      "difficulty": "media",
+      "resources": {
+        "gold": 3500,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Saccheggia i Balcani e minaccia Costantinopoli: 8 province.",
+        "provinces": [
+          "pannonia",
+          "moesia",
+          "dalmatia",
+          "aquileia",
+          "thracia"
+        ],
+        "min_provinces": 8
+      }
+    },
+    "visigoti": {
+      "provinces": [
+        "septimania",
+        "tarraconensis",
+        "carthaginensis",
+        "baetica",
+        "lusitania"
+      ],
+      "capital": "carthaginensis",
+      "leader": "Leovigildo",
+      "difficulty": "media",
+      "resources": {
+        "gold": 4000,
+        "food": 500,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 8
+      }
+    },
+    "svevi": {
+      "provinces": [
+        "gallaecia"
+      ],
+      "capital": "gallaecia",
+      "leader": "Miro",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1500,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 4
+      },
+      "religion": "cristiana_nicena"
+    },
+    "mauri": {
+      "provinces": [
+        "tingitana",
+        "caesariensis"
+      ],
+      "capital": "caesariensis",
+      "leader": "Garmul",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1500,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 5
+      }
+    },
+    "sasanidi": {
+      "provinces": [
+        "asoristan",
+        "mesopotamia"
+      ],
+      "capital": "asoristan",
+      "leader": "Cosroe I",
+      "difficulty": "media",
+      "resources": {
+        "gold": 7000,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 8
+      }
+    },
+    "tribu_arabe": {
+      "provinces": [
+        "hijaz"
+      ],
+      "capital": "hijaz",
+      "leader": "Capi tribali",
+      "difficulty": "media",
+      "resources": {
+        "gold": 800,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 3
+      }
+    }
+  },
+  "wars": [
+    [
+      "longobardi",
+      "bizantini"
+    ],
+    [
+      "avari",
+      "bizantini"
+    ]
+  ],
+  "relations": [
+    [
+      "longobardi",
+      "avari",
+      20
+    ],
+    [
+      "franchi",
+      "longobardi",
+      -20
+    ]
+  ]
+}

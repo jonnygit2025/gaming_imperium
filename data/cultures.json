@@ -1,0 +1,49 @@
+{
+  "cultures": [
+    {
+      "id": "tardo_romana",
+      "name": "Tardo-romana",
+      "description": "Eredi dell'esercito d'Occidente: fanteria disciplinata, foederati germanici e pochi cavalieri scelti."
+    },
+    {
+      "id": "bizantina",
+      "name": "Bizantina",
+      "description": "L'Impero d'Oriente: catafratti, arcieri a cavallo e fanteria pesante ben pagata."
+    },
+    {
+      "id": "germanica",
+      "name": "Germanica orientale",
+      "description": "Goti, Vandali, Burgundi, Svevi e Gepidi: cavalleria con la lancia e guerrieri coraggiosi."
+    },
+    {
+      "id": "franca",
+      "name": "Franca",
+      "description": "Fanteria d'urto con la francisca e muri di scudi; la cavalleria pesante cresce col tempo."
+    },
+    {
+      "id": "longobarda",
+      "name": "Longobarda",
+      "description": "Cavalieri con la lancia lunga e arimanni armati: un popolo in armi."
+    },
+    {
+      "id": "nomade",
+      "name": "Nomade della steppa",
+      "description": "Avari e Bulgari: arcieri a cavallo micidiali e fanteria slava al seguito."
+    },
+    {
+      "id": "araba",
+      "name": "Araba",
+      "description": "Cavalleria veloce, campioni a duello e un esercito unito dalla fede."
+    },
+    {
+      "id": "berbera",
+      "name": "Berbera",
+      "description": "Cavalieri leggeri e giavellottieri dell'Africa settentrionale, maestri dell'imboscata."
+    },
+    {
+      "id": "persiana",
+      "name": "Persiana sasanide",
+      "description": "Savaran corazzati, arcieri in massa e fanteria dailamita delle montagne."
+    }
+  ]
+}
