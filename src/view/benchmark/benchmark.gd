@@ -26,10 +26,27 @@ var _advice: String = ""
 
 
 func _ready() -> void:
+	_uncap_fps()
 	_build_world()
 	_build_army(-1.0, Color("b23a3a"))
 	_build_army(1.0, Color("3a6fb2"))
 	_build_hud()
+
+
+## Durante la misura VSync e limite FPS vanno tolti, altrimenti il risultato
+## si ferma a 60 e non dice quanto margine resta alla scheda video.
+func _uncap_fps() -> void:
+	Engine.max_fps = 0
+	if not Settings.is_headless():
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+
+func _restore_fps_cap() -> void:
+	Settings.apply()
+
+
+func _exit_tree() -> void:
+	_restore_fps_cap()
 
 
 # ------------------------------------------------------------------ scena
@@ -231,13 +248,16 @@ func _update_camera() -> void:
 
 func _finish() -> void:
 	_done = true
+	_restore_fps_cap()
 	var avg: float = _stats.average_fps()
 	var low: float = _stats.low_fps()
 	var g: GraphicsSettings = Settings.graphics
 	var current: String = g.matching_preset()
 	_advice = PresetAdvisor.adjust_after_benchmark(current, avg, low)
 	var verdict: String
-	if avg >= 55.0 and low >= 40.0:
+	if avg >= 75.0 and low >= 50.0:
+		verdict = "Fluido e con margine: la scheda video regge anche di più."
+	elif avg >= 55.0 and low >= 40.0:
 		verdict = "Fluido: le impostazioni attuali vanno bene."
 	elif avg >= 30.0:
 		verdict = "Giocabile, con qualche rallentamento."
@@ -254,7 +274,8 @@ func _finish() -> void:
 		"Renderer: %s · preset %s · finestra %d×%d · scala %d%% · AA %s · ombre %s" % [
 			Settings.current_renderer(), GraphicsSettings.PRESET_NAMES.get(current, current), size.x, size.y,
 			roundi(g.render_scale * 100), g.effective_antialiasing(Settings.current_renderer()), g.shadows],
-		"Soldati: %d · alberi: %d%%" % [_total_soldiers, roundi(g.vegetation_density * 100)],
+		"Soldati: %d · alberi: %d%% · VSync e limite FPS disattivati durante la misura" % [
+			_total_soldiers, roundi(g.vegetation_density * 100)],
 		"FPS medi: %.1f · FPS minimi (1%%): %.1f · fotogramma peggiore: %.1f ms" % [avg, low, _stats.worst_frame_ms()],
 		verdict, adv_text,
 	]))
