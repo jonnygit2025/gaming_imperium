@@ -1,0 +1,342 @@
+{
+  "id": "476_caduta_di_roma",
+  "order": 1,
+  "year": 476,
+  "season": "estate",
+  "end_year": 568,
+  "name": "476 – La caduta di Roma",
+  "description": "Odoacre depone Romolo Augustolo e rimanda le insegne imperiali a Costantinopoli. L'Occidente è diviso tra regni germanici: chi raccoglierà l'eredità di Roma?",
+  "playable": [
+    "odoacre",
+    "bizantini",
+    "visigoti",
+    "franchi",
+    "vandali",
+    "ostrogoti"
+  ],
+  "factions": {
+    "odoacre": {
+      "provinces": [
+        "roma",
+        "ravenna",
+        "mediolanum",
+        "aquileia",
+        "tuscia",
+        "spoletium",
+        "neapolis",
+        "apulia",
+        "dalmatia"
+      ],
+      "capital": "ravenna",
+      "leader": "Odoacre",
+      "difficulty": "media",
+      "resources": {
+        "gold": 4000,
+        "food": 740,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Tieni l'Italia, conquista la Sicilia e controlla 15 province.",
+        "provinces": [
+          "roma",
+          "ravenna",
+          "mediolanum",
+          "sicilia",
+          "dalmatia"
+        ],
+        "min_provinces": 15
+      }
+    },
+    "bizantini": {
+      "provinces": [
+        "thracia",
+        "macedonia",
+        "achaea",
+        "asia",
+        "galatia",
+        "cappadocia",
+        "syria",
+        "palaestina",
+        "aegyptus",
+        "phoenice",
+        "cyrenaica"
+      ],
+      "capital": "thracia",
+      "leader": "Zenone",
+      "difficulty": "facile",
+      "resources": {
+        "gold": 8000,
+        "food": 860,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Riconquista Roma e Cartagine e controlla 24 province.",
+        "provinces": [
+          "thracia",
+          "roma",
+          "africa",
+          "aegyptus",
+          "ravenna"
+        ],
+        "min_provinces": 24
+      },
+      "name": "Impero d'Oriente"
+    },
+    "visigoti": {
+      "provinces": [
+        "tolosa",
+        "aquitania",
+        "septimania",
+        "provincia",
+        "turonensis",
+        "tarraconensis",
+        "carthaginensis",
+        "baetica",
+        "lusitania"
+      ],
+      "capital": "tolosa",
+      "leader": "Eurico",
+      "difficulty": "media",
+      "resources": {
+        "gold": 4000,
+        "food": 740,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Unisci Hispania e Gallia del sud: controlla 15 province.",
+        "provinces": [
+          "tolosa",
+          "carthaginensis",
+          "baetica",
+          "gallaecia"
+        ],
+        "min_provinces": 15
+      }
+    },
+    "franchi": {
+      "provinces": [
+        "belgica",
+        "austrasia"
+      ],
+      "capital": "belgica",
+      "leader": "Childerico",
+      "difficulty": "difficile",
+      "resources": {
+        "gold": 2500,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Conquista Parigi e la Gallia: controlla 12 province.",
+        "provinces": [
+          "parisii",
+          "burgundia",
+          "tolosa",
+          "aquitania"
+        ],
+        "min_provinces": 12
+      }
+    },
+    "vandali": {
+      "provinces": [
+        "africa",
+        "numidia",
+        "tripolitania",
+        "caesariensis",
+        "sicilia",
+        "sardinia"
+      ],
+      "capital": "africa",
+      "leader": "Genserico",
+      "difficulty": "media",
+      "resources": {
+        "gold": 5000,
+        "food": 560,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Domina il Mediterraneo occidentale: controlla 12 province, Roma compresa.",
+        "provinces": [
+          "africa",
+          "sicilia",
+          "sardinia",
+          "roma"
+        ],
+        "min_provinces": 12
+      }
+    },
+    "ostrogoti": {
+      "provinces": [
+        "moesia",
+        "pannonia"
+      ],
+      "capital": "moesia",
+      "leader": "Teodorico",
+      "difficulty": "difficile",
+      "resources": {
+        "gold": 2500,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Conquista l'Italia e controlla 12 province.",
+        "provinces": [
+          "ravenna",
+          "roma",
+          "mediolanum",
+          "aquileia"
+        ],
+        "min_provinces": 12
+      }
+    },
+    "svevi": {
+      "provinces": [
+        "gallaecia"
+      ],
+      "capital": "gallaecia",
+      "leader": "Remismondo",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1500,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 6
+      }
+    },
+    "burgundi": {
+      "provinces": [
+        "burgundia"
+      ],
+      "capital": "burgundia",
+      "leader": "Gundobado",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1800,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 6
+      }
+    },
+    "soissons": {
+      "provinces": [
+        "parisii",
+        "armorica"
+      ],
+      "capital": "parisii",
+      "leader": "Siagrio",
+      "difficulty": "media",
+      "resources": {
+        "gold": 2000,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 6
+      }
+    },
+    "mauri": {
+      "provinces": [
+        "tingitana"
+      ],
+      "capital": "tingitana",
+      "leader": "Masuna",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1200,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 5
+      }
+    },
+    "sasanidi": {
+      "provinces": [
+        "asoristan",
+        "mesopotamia"
+      ],
+      "capital": "asoristan",
+      "leader": "Peroz I",
+      "difficulty": "media",
+      "resources": {
+        "gold": 6000,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 8
+      }
+    },
+    "tribu_arabe": {
+      "provinces": [
+        "hijaz"
+      ],
+      "capital": "hijaz",
+      "leader": "Capi tribali",
+      "difficulty": "media",
+      "resources": {
+        "gold": 800,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 3
+      }
+    }
+  },
+  "wars": [
+    [
+      "franchi",
+      "soissons"
+    ],
+    [
+      "odoacre",
+      "vandali"
+    ]
+  ],
+  "relations": [
+    [
+      "ostrogoti",
+      "bizantini",
+      20
+    ],
+    [
+      "odoacre",
+      "bizantini",
+      10
+    ],
+    [
+      "visigoti",
+      "svevi",
+      -30
+    ]
+  ]
+}

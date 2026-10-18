@@ -1,0 +1,242 @@
+{
+  "id": "636_espansione_islamica",
+  "order": 4,
+  "year": 636,
+  "season": "estate",
+  "end_year": 732,
+  "name": "636 – L'espansione islamica",
+  "description": "Persiani e Bizantini sono esausti dopo trent'anni di guerra. Dall'Arabia gli eserciti del Califfo avanzano: sul fiume Yarmuk si decide il destino del Levante.",
+  "playable": [
+    "califfato",
+    "bizantini",
+    "sasanidi"
+  ],
+  "factions": {
+    "califfato": {
+      "provinces": [
+        "hijaz",
+        "phoenice"
+      ],
+      "capital": "hijaz",
+      "leader": "Omar ibn al-Khattab",
+      "difficulty": "media",
+      "resources": {
+        "gold": 4000,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Conquista Siria, Egitto e Persia: 12 province.",
+        "provinces": [
+          "phoenice",
+          "palaestina",
+          "syria",
+          "aegyptus",
+          "asoristan"
+        ],
+        "min_provinces": 12
+      }
+    },
+    "bizantini": {
+      "provinces": [
+        "thracia",
+        "macedonia",
+        "achaea",
+        "asia",
+        "galatia",
+        "cappadocia",
+        "syria",
+        "palaestina",
+        "aegyptus",
+        "mesopotamia",
+        "cyrenaica",
+        "tripolitania",
+        "africa",
+        "numidia",
+        "sardinia",
+        "sicilia",
+        "roma",
+        "ravenna",
+        "neapolis",
+        "dalmatia"
+      ],
+      "capital": "thracia",
+      "leader": "Eraclio",
+      "difficulty": "difficile",
+      "resources": {
+        "gold": 7000,
+        "food": 1400,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Ferma il Califfato: tieni Siria ed Egitto e 20 province.",
+        "provinces": [
+          "thracia",
+          "syria",
+          "aegyptus",
+          "palaestina",
+          "africa"
+        ],
+        "min_provinces": 20
+      }
+    },
+    "sasanidi": {
+      "provinces": [
+        "asoristan"
+      ],
+      "capital": "asoristan",
+      "leader": "Yazdgard III",
+      "difficulty": "difficile",
+      "resources": {
+        "gold": 5000,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Sopravvivi e riprendi la Mesopotamia: 6 province.",
+        "provinces": [
+          "asoristan",
+          "mesopotamia",
+          "syria"
+        ],
+        "min_provinces": 6
+      }
+    },
+    "longobardi": {
+      "provinces": [
+        "mediolanum",
+        "aquileia",
+        "tuscia",
+        "spoletium",
+        "apulia"
+      ],
+      "capital": "mediolanum",
+      "leader": "Rotari",
+      "difficulty": "media",
+      "resources": {
+        "gold": 3500,
+        "food": 500,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 8
+      }
+    },
+    "franchi": {
+      "provinces": [
+        "belgica",
+        "austrasia",
+        "parisii",
+        "armorica",
+        "turonensis",
+        "aquitania",
+        "tolosa",
+        "burgundia",
+        "provincia"
+      ],
+      "capital": "parisii",
+      "leader": "Dagoberto I",
+      "difficulty": "media",
+      "resources": {
+        "gold": 5000,
+        "food": 740,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 12
+      },
+      "religion": "cristiana_nicena"
+    },
+    "visigoti": {
+      "provinces": [
+        "septimania",
+        "tarraconensis",
+        "carthaginensis",
+        "baetica",
+        "lusitania",
+        "gallaecia"
+      ],
+      "capital": "carthaginensis",
+      "leader": "Chintila",
+      "difficulty": "media",
+      "resources": {
+        "gold": 4000,
+        "food": 560,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 8
+      },
+      "religion": "cristiana_nicena"
+    },
+    "avari": {
+      "provinces": [
+        "pannonia",
+        "moesia"
+      ],
+      "capital": "pannonia",
+      "leader": "Khagan avaro",
+      "difficulty": "media",
+      "resources": {
+        "gold": 3000,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 5
+      }
+    },
+    "mauri": {
+      "provinces": [
+        "tingitana",
+        "caesariensis"
+      ],
+      "capital": "caesariensis",
+      "leader": "Principi mauri",
+      "difficulty": "media",
+      "resources": {
+        "gold": 1500,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 5
+      }
+    }
+  },
+  "wars": [
+    [
+      "califfato",
+      "bizantini"
+    ],
+    [
+      "califfato",
+      "sasanidi"
+    ]
+  ],
+  "relations": [
+    [
+      "bizantini",
+      "sasanidi",
+      10
+    ]
+  ]
+}

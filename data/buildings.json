@@ -1,0 +1,629 @@
+{
+  "buildings": [
+    {
+      "id": "quartieri",
+      "name": "Case e quartieri",
+      "category": "civile",
+      "description": "Più abitanti, più tasse e più spazio per costruire.",
+      "levels": [
+        {
+          "name": "Case",
+          "cost": {
+            "gold": 300,
+            "wood": 60,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "pop_growth": 0.5,
+            "tax_bonus": 5,
+            "building_slots": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Quartieri",
+          "cost": {
+            "gold": 800,
+            "wood": 160,
+            "iron": 0
+          },
+          "turns": 3,
+          "effects": {
+            "pop_growth": 1.0,
+            "tax_bonus": 10,
+            "building_slots": 1,
+            "public_order": -1
+          },
+          "requires": []
+        },
+        {
+          "name": "Quartieri cittadini",
+          "cost": {
+            "gold": 1600,
+            "wood": 320,
+            "iron": 20
+          },
+          "turns": 4,
+          "effects": {
+            "pop_growth": 1.5,
+            "tax_bonus": 15,
+            "building_slots": 1,
+            "public_order": -2
+          },
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "fattoria",
+      "name": "Fattorie",
+      "category": "economia",
+      "description": "Producono il cibo che nutre città ed eserciti.",
+      "levels": [
+        {
+          "name": "Fattorie",
+          "cost": {
+            "gold": 250,
+            "wood": 40,
+            "iron": 0
+          },
+          "turns": 1,
+          "effects": {
+            "food": 4,
+            "pop_growth": 0.3
+          },
+          "requires": []
+        },
+        {
+          "name": "Poderi",
+          "cost": {
+            "gold": 600,
+            "wood": 100,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "food": 8,
+            "pop_growth": 0.6
+          },
+          "requires": []
+        },
+        {
+          "name": "Grandi tenute",
+          "cost": {
+            "gold": 1200,
+            "wood": 200,
+            "iron": 10
+          },
+          "turns": 3,
+          "effects": {
+            "food": 12,
+            "pop_growth": 0.9
+          },
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "mercato",
+      "name": "Mercato",
+      "category": "economia",
+      "description": "Commercio e oro.",
+      "levels": [
+        {
+          "name": "Mercato",
+          "cost": {
+            "gold": 400,
+            "wood": 80,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "gold": 60
+          },
+          "requires": []
+        },
+        {
+          "name": "Foro dei mercanti",
+          "cost": {
+            "gold": 900,
+            "wood": 160,
+            "iron": 0
+          },
+          "turns": 3,
+          "effects": {
+            "gold": 140
+          },
+          "requires": [
+            {
+              "building": "quartieri",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "Emporio",
+          "cost": {
+            "gold": 1800,
+            "wood": 300,
+            "iron": 20
+          },
+          "turns": 4,
+          "effects": {
+            "gold": 260
+          },
+          "requires": [
+            {
+              "building": "quartieri",
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segheria",
+      "name": "Taglialegna",
+      "category": "economia",
+      "description": "Legname per costruire. Solo nelle province con boschi.",
+      "province_resource": "legname",
+      "levels": [
+        {
+          "name": "Taglialegna",
+          "cost": {
+            "gold": 200,
+            "wood": 0,
+            "iron": 0
+          },
+          "turns": 1,
+          "effects": {
+            "wood": 3
+          },
+          "requires": []
+        },
+        {
+          "name": "Segheria",
+          "cost": {
+            "gold": 500,
+            "wood": 0,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "wood": 6
+          },
+          "requires": []
+        },
+        {
+          "name": "Grande segheria",
+          "cost": {
+            "gold": 1000,
+            "wood": 0,
+            "iron": 10
+          },
+          "turns": 3,
+          "effects": {
+            "wood": 10
+          },
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "miniera",
+      "name": "Miniera",
+      "category": "economia",
+      "description": "Estrae ferro. Solo nelle province con giacimenti.",
+      "province_resource": "ferro",
+      "levels": [
+        {
+          "name": "Miniera",
+          "cost": {
+            "gold": 400,
+            "wood": 80,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "iron": 3
+          },
+          "requires": []
+        },
+        {
+          "name": "Miniera profonda",
+          "cost": {
+            "gold": 900,
+            "wood": 160,
+            "iron": 0
+          },
+          "turns": 3,
+          "effects": {
+            "iron": 6
+          },
+          "requires": []
+        },
+        {
+          "name": "Distretto minerario",
+          "cost": {
+            "gold": 1800,
+            "wood": 300,
+            "iron": 0
+          },
+          "turns": 4,
+          "effects": {
+            "iron": 10,
+            "public_order": -1
+          },
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "caserma",
+      "name": "Caserma",
+      "category": "militare",
+      "description": "Recluta la fanteria.",
+      "levels": [
+        {
+          "name": "Campo d'armi",
+          "cost": {
+            "gold": 300,
+            "wood": 80,
+            "iron": 0
+          },
+          "turns": 1,
+          "effects": {
+            "recruit_slots": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Caserma",
+          "cost": {
+            "gold": 800,
+            "wood": 160,
+            "iron": 20
+          },
+          "turns": 2,
+          "effects": {
+            "recruit_slots": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Accademia militare",
+          "cost": {
+            "gold": 1600,
+            "wood": 300,
+            "iron": 60
+          },
+          "turns": 3,
+          "effects": {
+            "recruit_slots": 1,
+            "unit_experience": 1
+          },
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "scuderia",
+      "name": "Scuderie",
+      "category": "militare",
+      "description": "Recluta la cavalleria.",
+      "levels": [
+        {
+          "name": "Recinti",
+          "cost": {
+            "gold": 500,
+            "wood": 120,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {},
+          "requires": [
+            {
+              "building": "fattoria",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "Scuderie",
+          "cost": {
+            "gold": 1100,
+            "wood": 200,
+            "iron": 30
+          },
+          "turns": 3,
+          "effects": {},
+          "requires": [
+            {
+              "building": "caserma",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "Allevamento reale",
+          "cost": {
+            "gold": 2000,
+            "wood": 320,
+            "iron": 80
+          },
+          "turns": 4,
+          "effects": {},
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "arceria",
+      "name": "Arceria",
+      "category": "militare",
+      "description": "Recluta arcieri e schermagliatori.",
+      "levels": [
+        {
+          "name": "Tiro con l'arco",
+          "cost": {
+            "gold": 300,
+            "wood": 100,
+            "iron": 0
+          },
+          "turns": 1,
+          "effects": {},
+          "requires": []
+        },
+        {
+          "name": "Arceria",
+          "cost": {
+            "gold": 700,
+            "wood": 180,
+            "iron": 10
+          },
+          "turns": 2,
+          "effects": {},
+          "requires": []
+        },
+        {
+          "name": "Scuola di arcieri",
+          "cost": {
+            "gold": 1400,
+            "wood": 280,
+            "iron": 30
+          },
+          "turns": 3,
+          "effects": {
+            "unit_experience": 1
+          },
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "fabbro",
+      "name": "Fabbro",
+      "category": "militare",
+      "description": "Armi e armature migliori per le unità reclutate.",
+      "levels": [
+        {
+          "name": "Fucina",
+          "cost": {
+            "gold": 400,
+            "wood": 60,
+            "iron": 20
+          },
+          "turns": 2,
+          "effects": {
+            "unit_armor_bonus": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Armeria",
+          "cost": {
+            "gold": 1000,
+            "wood": 120,
+            "iron": 60
+          },
+          "turns": 3,
+          "effects": {
+            "unit_armor_bonus": 1
+          },
+          "requires": [
+            {
+              "building": "caserma",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "name": "Grande armeria",
+          "cost": {
+            "gold": 2000,
+            "wood": 200,
+            "iron": 120
+          },
+          "turns": 4,
+          "effects": {
+            "unit_armor_bonus": 1
+          },
+          "requires": []
+        }
+      ]
+    },
+    {
+      "id": "mura",
+      "name": "Mura",
+      "category": "difesa",
+      "description": "Difendono la città dagli assedi.",
+      "levels": [
+        {
+          "name": "Palizzata",
+          "cost": {
+            "gold": 400,
+            "wood": 200,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "wall_level": 1,
+            "garrison": 1,
+            "public_order": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Mura di pietra",
+          "cost": {
+            "gold": 1200,
+            "wood": 200,
+            "iron": 40
+          },
+          "turns": 4,
+          "effects": {
+            "wall_level": 1,
+            "garrison": 1,
+            "public_order": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Mura possenti",
+          "cost": {
+            "gold": 2500,
+            "wood": 300,
+            "iron": 100
+          },
+          "turns": 6,
+          "effects": {
+            "wall_level": 1,
+            "garrison": 2,
+            "public_order": 1
+          },
+          "requires": [
+            {
+              "building": "quartieri",
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "luogo_culto",
+      "name": "Luogo di culto",
+      "category": "religione",
+      "description": "Fede e ordine pubblico. Il nome dipende dalla religione.",
+      "levels": [
+        {
+          "name": "Luogo di culto",
+          "cost": {
+            "gold": 300,
+            "wood": 60,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "faith": 2,
+            "public_order": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Luogo di culto maggiore",
+          "cost": {
+            "gold": 800,
+            "wood": 120,
+            "iron": 0
+          },
+          "turns": 3,
+          "effects": {
+            "faith": 4,
+            "public_order": 2
+          },
+          "requires": []
+        },
+        {
+          "name": "Grande luogo di culto",
+          "cost": {
+            "gold": 1800,
+            "wood": 240,
+            "iron": 0
+          },
+          "turns": 5,
+          "effects": {
+            "faith": 6,
+            "public_order": 3
+          },
+          "requires": [
+            {
+              "building": "quartieri",
+              "level": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "porto",
+      "name": "Porto",
+      "category": "economia",
+      "description": "Commercio marittimo, pesca e trasporto delle truppe via mare. Solo città costiere.",
+      "requires_coastal": true,
+      "levels": [
+        {
+          "name": "Approdo",
+          "cost": {
+            "gold": 400,
+            "wood": 160,
+            "iron": 0
+          },
+          "turns": 2,
+          "effects": {
+            "gold": 40,
+            "food": 1,
+            "sea_transport": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Porto",
+          "cost": {
+            "gold": 1000,
+            "wood": 300,
+            "iron": 20
+          },
+          "turns": 3,
+          "effects": {
+            "gold": 100,
+            "food": 2,
+            "sea_transport": 1
+          },
+          "requires": []
+        },
+        {
+          "name": "Grande porto",
+          "cost": {
+            "gold": 2200,
+            "wood": 500,
+            "iron": 60
+          },
+          "turns": 5,
+          "effects": {
+            "gold": 200,
+            "food": 3,
+            "sea_transport": 1
+          },
+          "requires": [
+            {
+              "building": "mercato",
+              "level": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

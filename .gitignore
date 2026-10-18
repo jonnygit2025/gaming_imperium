@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Godot 4
+.godot/
+/build/
+*.tmp
+export_credentials.cfg
+# Risultati locali del test prestazioni
+benchmark_risultati.txt

@@ -1,0 +1,252 @@
+{
+  "id": "711_hispania_poitiers",
+  "order": 5,
+  "year": 711,
+  "season": "estate",
+  "end_year": 760,
+  "name": "711–732 – Hispania e Poitiers",
+  "description": "Tariq sbarca a Gibilterra e il regno visigoto crolla. Vent'anni dopo, tra Poitiers e Tours, Carlo Martello e il duca Oddone attendono l'esercito del Califfo.",
+  "playable": [
+    "omayyadi",
+    "visigoti",
+    "franchi",
+    "aquitania"
+  ],
+  "factions": {
+    "omayyadi": {
+      "provinces": [
+        "hijaz",
+        "palaestina",
+        "phoenice",
+        "syria",
+        "mesopotamia",
+        "asoristan",
+        "aegyptus",
+        "cyrenaica",
+        "tripolitania",
+        "africa",
+        "numidia",
+        "caesariensis",
+        "tingitana"
+      ],
+      "capital": "phoenice",
+      "leader": "al-Walid I",
+      "difficulty": "facile",
+      "resources": {
+        "gold": 9000,
+        "food": 980,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Conquista la Hispania e varca i Pirenei: 22 province.",
+        "provinces": [
+          "baetica",
+          "carthaginensis",
+          "septimania",
+          "aquitania",
+          "turonensis"
+        ],
+        "min_provinces": 22
+      }
+    },
+    "visigoti": {
+      "provinces": [
+        "septimania",
+        "tarraconensis",
+        "carthaginensis",
+        "baetica",
+        "lusitania",
+        "gallaecia"
+      ],
+      "capital": "carthaginensis",
+      "leader": "Roderico",
+      "difficulty": "difficile",
+      "resources": {
+        "gold": 4000,
+        "food": 560,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Respingi l'invasione e porta la guerra in Africa.",
+        "provinces": [
+          "carthaginensis",
+          "baetica",
+          "tingitana"
+        ],
+        "min_provinces": 7
+      },
+      "religion": "cristiana_nicena"
+    },
+    "franchi": {
+      "provinces": [
+        "belgica",
+        "austrasia",
+        "parisii",
+        "armorica",
+        "turonensis",
+        "burgundia",
+        "provincia"
+      ],
+      "capital": "austrasia",
+      "leader": "Carlo Martello",
+      "difficulty": "media",
+      "resources": {
+        "gold": 5000,
+        "food": 620,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Unifica la Gallia e ferma gli Arabi: 12 province.",
+        "provinces": [
+          "parisii",
+          "aquitania",
+          "septimania",
+          "provincia"
+        ],
+        "min_provinces": 12
+      },
+      "religion": "cristiana_nicena"
+    },
+    "aquitania": {
+      "provinces": [
+        "aquitania",
+        "tolosa"
+      ],
+      "capital": "aquitania",
+      "leader": "Oddone",
+      "difficulty": "difficile",
+      "resources": {
+        "gold": 2500,
+        "food": 320,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "Resta indipendente tra Franchi e Arabi: 6 province.",
+        "provinces": [
+          "aquitania",
+          "tolosa",
+          "septimania",
+          "turonensis"
+        ],
+        "min_provinces": 6
+      }
+    },
+    "longobardi": {
+      "provinces": [
+        "mediolanum",
+        "aquileia",
+        "tuscia",
+        "spoletium",
+        "apulia"
+      ],
+      "capital": "mediolanum",
+      "leader": "Liutprando",
+      "difficulty": "media",
+      "resources": {
+        "gold": 4000,
+        "food": 500,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 8
+      },
+      "religion": "cristiana_nicena"
+    },
+    "bizantini": {
+      "provinces": [
+        "thracia",
+        "macedonia",
+        "achaea",
+        "asia",
+        "galatia",
+        "cappadocia",
+        "sicilia",
+        "sardinia",
+        "roma",
+        "ravenna",
+        "neapolis",
+        "dalmatia"
+      ],
+      "capital": "thracia",
+      "leader": "Filippico",
+      "difficulty": "media",
+      "resources": {
+        "gold": 6000,
+        "food": 920,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 14
+      }
+    },
+    "avari": {
+      "provinces": [
+        "pannonia"
+      ],
+      "capital": "pannonia",
+      "leader": "Khagan avaro",
+      "difficulty": "media",
+      "resources": {
+        "gold": 2000,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 4
+      }
+    },
+    "bulgari": {
+      "provinces": [
+        "moesia"
+      ],
+      "capital": "moesia",
+      "leader": "Tervel",
+      "difficulty": "media",
+      "resources": {
+        "gold": 2000,
+        "food": 260,
+        "wood": 400,
+        "iron": 150
+      },
+      "victory": {
+        "description": "",
+        "provinces": [],
+        "min_provinces": 4
+      }
+    }
+  },
+  "wars": [
+    [
+      "omayyadi",
+      "visigoti"
+    ],
+    [
+      "omayyadi",
+      "bizantini"
+    ],
+    [
+      "franchi",
+      "aquitania"
+    ]
+  ],
+  "relations": [
+    [
+      "franchi",
+      "longobardi",
+      20
+    ]
+  ]
+}

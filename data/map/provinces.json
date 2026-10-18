@@ -1,0 +1,1127 @@
+{
+  "provinces": [
+    {
+      "id": "roma",
+      "name": "Latium",
+      "region": "Italia",
+      "city": "Roma",
+      "lat": 41.9,
+      "lon": 12.5,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "vino"
+      ],
+      "population": 320,
+      "fertility": 3,
+      "wealth": 5,
+      "neighbors": [
+        "tuscia",
+        "spoletium",
+        "neapolis"
+      ]
+    },
+    {
+      "id": "ravenna",
+      "name": "Flaminia",
+      "region": "Italia",
+      "city": "Ravenna",
+      "lat": 44.42,
+      "lon": 12.2,
+      "terrain": "paludi",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "sale"
+      ],
+      "population": 260,
+      "fertility": 4,
+      "wealth": 4,
+      "neighbors": [
+        "mediolanum",
+        "aquileia",
+        "tuscia",
+        "spoletium"
+      ]
+    },
+    {
+      "id": "mediolanum",
+      "name": "Liguria",
+      "region": "Italia",
+      "city": "Mediolanum",
+      "lat": 45.46,
+      "lon": 9.19,
+      "terrain": "pianura",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "legname"
+      ],
+      "population": 340,
+      "fertility": 5,
+      "wealth": 4,
+      "neighbors": [
+        "ravenna",
+        "aquileia",
+        "tuscia",
+        "provincia",
+        "burgundia"
+      ]
+    },
+    {
+      "id": "aquileia",
+      "name": "Venetia et Histria",
+      "region": "Italia",
+      "city": "Aquileia",
+      "lat": 45.77,
+      "lon": 13.37,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "vino",
+        "legname"
+      ],
+      "population": 260,
+      "fertility": 4,
+      "wealth": 3,
+      "neighbors": [
+        "ravenna",
+        "mediolanum",
+        "dalmatia",
+        "pannonia"
+      ]
+    },
+    {
+      "id": "tuscia",
+      "name": "Tuscia",
+      "region": "Italia",
+      "city": "Luca",
+      "lat": 43.84,
+      "lon": 10.5,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "vino",
+        "ferro",
+        "legname"
+      ],
+      "population": 240,
+      "fertility": 3,
+      "wealth": 3,
+      "neighbors": [
+        "roma",
+        "ravenna",
+        "mediolanum",
+        "spoletium"
+      ]
+    },
+    {
+      "id": "spoletium",
+      "name": "Valeria et Picenum",
+      "region": "Italia",
+      "city": "Spoletium",
+      "lat": 42.73,
+      "lon": 12.74,
+      "terrain": "montagna",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "legname",
+        "olio"
+      ],
+      "population": 180,
+      "fertility": 2,
+      "wealth": 2,
+      "neighbors": [
+        "roma",
+        "ravenna",
+        "tuscia",
+        "neapolis",
+        "apulia"
+      ]
+    },
+    {
+      "id": "neapolis",
+      "name": "Campania",
+      "region": "Italia",
+      "city": "Neapolis",
+      "lat": 40.85,
+      "lon": 14.27,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "vino",
+        "olio",
+        "grano"
+      ],
+      "population": 300,
+      "fertility": 4,
+      "wealth": 4,
+      "neighbors": [
+        "roma",
+        "spoletium",
+        "apulia"
+      ]
+    },
+    {
+      "id": "apulia",
+      "name": "Apulia et Calabria",
+      "region": "Italia",
+      "city": "Tarentum",
+      "lat": 40.47,
+      "lon": 17.24,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "olio",
+        "cavalli"
+      ],
+      "population": 240,
+      "fertility": 3,
+      "wealth": 3,
+      "neighbors": [
+        "spoletium",
+        "neapolis",
+        "sicilia"
+      ]
+    },
+    {
+      "id": "sicilia",
+      "name": "Sicilia",
+      "region": "Italia",
+      "city": "Syracusae",
+      "lat": 37.08,
+      "lon": 15.29,
+      "terrain": "colline",
+      "coastal": true,
+      "island": true,
+      "resources": [
+        "grano",
+        "vino",
+        "olio"
+      ],
+      "population": 300,
+      "fertility": 5,
+      "wealth": 4,
+      "neighbors": [
+        "apulia"
+      ]
+    },
+    {
+      "id": "sardinia",
+      "name": "Sardinia et Corsica",
+      "region": "Italia",
+      "city": "Caralis",
+      "lat": 39.22,
+      "lon": 9.11,
+      "terrain": "colline",
+      "coastal": true,
+      "island": true,
+      "resources": [
+        "grano",
+        "ferro"
+      ],
+      "population": 150,
+      "fertility": 3,
+      "wealth": 2,
+      "neighbors": []
+    },
+    {
+      "id": "septimania",
+      "name": "Septimania",
+      "region": "Gallia",
+      "city": "Narbo",
+      "lat": 43.18,
+      "lon": 3.0,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "vino",
+        "sale"
+      ],
+      "population": 180,
+      "fertility": 3,
+      "wealth": 3,
+      "neighbors": [
+        "provincia",
+        "tolosa",
+        "tarraconensis"
+      ]
+    },
+    {
+      "id": "tolosa",
+      "name": "Novempopulana",
+      "region": "Gallia",
+      "city": "Tolosa",
+      "lat": 43.6,
+      "lon": 1.44,
+      "terrain": "colline",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "vino",
+        "ferro"
+      ],
+      "population": 220,
+      "fertility": 4,
+      "wealth": 3,
+      "neighbors": [
+        "septimania",
+        "aquitania",
+        "turonensis",
+        "burgundia"
+      ]
+    },
+    {
+      "id": "aquitania",
+      "name": "Aquitania",
+      "region": "Gallia",
+      "city": "Burdigala",
+      "lat": 44.84,
+      "lon": -0.58,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "vino",
+        "grano",
+        "legname"
+      ],
+      "population": 240,
+      "fertility": 4,
+      "wealth": 4,
+      "neighbors": [
+        "tolosa",
+        "turonensis",
+        "tarraconensis"
+      ]
+    },
+    {
+      "id": "turonensis",
+      "name": "Lugdunensis III",
+      "region": "Gallia",
+      "city": "Turones",
+      "lat": 47.39,
+      "lon": 0.69,
+      "terrain": "bosco",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "legname"
+      ],
+      "population": 200,
+      "fertility": 4,
+      "wealth": 3,
+      "neighbors": [
+        "aquitania",
+        "tolosa",
+        "burgundia",
+        "parisii",
+        "armorica"
+      ]
+    },
+    {
+      "id": "provincia",
+      "name": "Provincia",
+      "region": "Gallia",
+      "city": "Massilia",
+      "lat": 43.3,
+      "lon": 5.37,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "vino",
+        "olio"
+      ],
+      "population": 220,
+      "fertility": 3,
+      "wealth": 4,
+      "neighbors": [
+        "mediolanum",
+        "septimania",
+        "burgundia"
+      ]
+    },
+    {
+      "id": "burgundia",
+      "name": "Lugdunensis I",
+      "region": "Gallia",
+      "city": "Lugdunum",
+      "lat": 45.76,
+      "lon": 4.84,
+      "terrain": "colline",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "vino",
+        "ferro"
+      ],
+      "population": 240,
+      "fertility": 4,
+      "wealth": 3,
+      "neighbors": [
+        "mediolanum",
+        "provincia",
+        "tolosa",
+        "turonensis",
+        "parisii",
+        "austrasia"
+      ]
+    },
+    {
+      "id": "parisii",
+      "name": "Lugdunensis IV",
+      "region": "Gallia",
+      "city": "Lutetia",
+      "lat": 48.86,
+      "lon": 2.35,
+      "terrain": "pianura",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "legname"
+      ],
+      "population": 220,
+      "fertility": 5,
+      "wealth": 3,
+      "neighbors": [
+        "turonensis",
+        "burgundia",
+        "austrasia",
+        "belgica",
+        "armorica"
+      ]
+    },
+    {
+      "id": "belgica",
+      "name": "Belgica",
+      "region": "Gallia",
+      "city": "Tornacum",
+      "lat": 50.61,
+      "lon": 3.39,
+      "terrain": "bosco",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "legname",
+        "cavalli"
+      ],
+      "population": 180,
+      "fertility": 3,
+      "wealth": 2,
+      "neighbors": [
+        "parisii",
+        "austrasia"
+      ]
+    },
+    {
+      "id": "austrasia",
+      "name": "Belgica I",
+      "region": "Gallia",
+      "city": "Mettis",
+      "lat": 49.12,
+      "lon": 6.18,
+      "terrain": "bosco",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "legname",
+        "ferro",
+        "cavalli"
+      ],
+      "population": 200,
+      "fertility": 3,
+      "wealth": 2,
+      "neighbors": [
+        "belgica",
+        "parisii",
+        "burgundia"
+      ]
+    },
+    {
+      "id": "armorica",
+      "name": "Armorica",
+      "region": "Gallia",
+      "city": "Condate",
+      "lat": 48.11,
+      "lon": -1.68,
+      "terrain": "bosco",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "legname",
+        "pesce"
+      ],
+      "population": 160,
+      "fertility": 3,
+      "wealth": 2,
+      "neighbors": [
+        "turonensis",
+        "parisii"
+      ]
+    },
+    {
+      "id": "tarraconensis",
+      "name": "Tarraconensis",
+      "region": "Hispania",
+      "city": "Tarraco",
+      "lat": 41.12,
+      "lon": 1.25,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "vino",
+        "olio",
+        "ferro"
+      ],
+      "population": 240,
+      "fertility": 3,
+      "wealth": 3,
+      "neighbors": [
+        "septimania",
+        "aquitania",
+        "carthaginensis",
+        "gallaecia"
+      ]
+    },
+    {
+      "id": "carthaginensis",
+      "name": "Carthaginensis",
+      "region": "Hispania",
+      "city": "Toletum",
+      "lat": 39.86,
+      "lon": -4.03,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "ferro",
+        "argento"
+      ],
+      "population": 260,
+      "fertility": 3,
+      "wealth": 3,
+      "neighbors": [
+        "tarraconensis",
+        "baetica",
+        "lusitania",
+        "gallaecia"
+      ]
+    },
+    {
+      "id": "baetica",
+      "name": "Baetica",
+      "region": "Hispania",
+      "city": "Corduba",
+      "lat": 37.89,
+      "lon": -4.78,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "olio",
+        "grano",
+        "argento"
+      ],
+      "population": 300,
+      "fertility": 5,
+      "wealth": 5,
+      "neighbors": [
+        "carthaginensis",
+        "lusitania",
+        "tingitana"
+      ]
+    },
+    {
+      "id": "lusitania",
+      "name": "Lusitania",
+      "region": "Hispania",
+      "city": "Emerita Augusta",
+      "lat": 38.92,
+      "lon": -6.34,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "cavalli"
+      ],
+      "population": 220,
+      "fertility": 3,
+      "wealth": 3,
+      "neighbors": [
+        "carthaginensis",
+        "baetica",
+        "gallaecia"
+      ]
+    },
+    {
+      "id": "gallaecia",
+      "name": "Gallaecia",
+      "region": "Hispania",
+      "city": "Bracara",
+      "lat": 41.55,
+      "lon": -8.43,
+      "terrain": "montagna",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "legname",
+        "ferro",
+        "oro"
+      ],
+      "population": 180,
+      "fertility": 2,
+      "wealth": 2,
+      "neighbors": [
+        "lusitania",
+        "carthaginensis",
+        "tarraconensis"
+      ]
+    },
+    {
+      "id": "tingitana",
+      "name": "Mauretania Tingitana",
+      "region": "Africa",
+      "city": "Tingis",
+      "lat": 35.78,
+      "lon": -5.81,
+      "terrain": "montagna",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "cavalli",
+        "grano"
+      ],
+      "population": 150,
+      "fertility": 2,
+      "wealth": 2,
+      "neighbors": [
+        "caesariensis",
+        "baetica"
+      ]
+    },
+    {
+      "id": "caesariensis",
+      "name": "Mauretania Caesariensis",
+      "region": "Africa",
+      "city": "Caesarea",
+      "lat": 36.61,
+      "lon": 2.19,
+      "terrain": "montagna",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "cavalli"
+      ],
+      "population": 170,
+      "fertility": 3,
+      "wealth": 2,
+      "neighbors": [
+        "tingitana",
+        "numidia"
+      ]
+    },
+    {
+      "id": "numidia",
+      "name": "Numidia",
+      "region": "Africa",
+      "city": "Hippo Regius",
+      "lat": 36.88,
+      "lon": 7.75,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "cavalli",
+        "olio"
+      ],
+      "population": 200,
+      "fertility": 4,
+      "wealth": 3,
+      "neighbors": [
+        "caesariensis",
+        "africa"
+      ]
+    },
+    {
+      "id": "africa",
+      "name": "Africa Proconsularis",
+      "region": "Africa",
+      "city": "Carthago",
+      "lat": 36.85,
+      "lon": 10.32,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "olio"
+      ],
+      "population": 340,
+      "fertility": 5,
+      "wealth": 5,
+      "neighbors": [
+        "numidia",
+        "tripolitania"
+      ]
+    },
+    {
+      "id": "tripolitania",
+      "name": "Tripolitania",
+      "region": "Africa",
+      "city": "Oea",
+      "lat": 32.89,
+      "lon": 13.19,
+      "terrain": "deserto",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "olio",
+        "sale"
+      ],
+      "population": 120,
+      "fertility": 2,
+      "wealth": 2,
+      "neighbors": [
+        "africa",
+        "cyrenaica"
+      ]
+    },
+    {
+      "id": "cyrenaica",
+      "name": "Cyrenaica",
+      "region": "Africa",
+      "city": "Cyrene",
+      "lat": 32.82,
+      "lon": 21.86,
+      "terrain": "deserto",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "cavalli"
+      ],
+      "population": 110,
+      "fertility": 2,
+      "wealth": 2,
+      "neighbors": [
+        "tripolitania",
+        "aegyptus"
+      ]
+    },
+    {
+      "id": "aegyptus",
+      "name": "Aegyptus",
+      "region": "Egitto",
+      "city": "Alexandria",
+      "lat": 31.2,
+      "lon": 29.92,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "papiro",
+        "lino"
+      ],
+      "population": 520,
+      "fertility": 5,
+      "wealth": 5,
+      "neighbors": [
+        "cyrenaica",
+        "palaestina"
+      ]
+    },
+    {
+      "id": "palaestina",
+      "name": "Palaestina",
+      "region": "Oriente",
+      "city": "Hierosolyma",
+      "lat": 31.78,
+      "lon": 35.23,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "olio",
+        "vino"
+      ],
+      "population": 260,
+      "fertility": 3,
+      "wealth": 4,
+      "neighbors": [
+        "aegyptus",
+        "phoenice",
+        "hijaz"
+      ]
+    },
+    {
+      "id": "phoenice",
+      "name": "Phoenice et Arabia",
+      "region": "Oriente",
+      "city": "Damascus",
+      "lat": 33.51,
+      "lon": 36.29,
+      "terrain": "deserto",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "porpora",
+        "legname"
+      ],
+      "population": 260,
+      "fertility": 3,
+      "wealth": 4,
+      "neighbors": [
+        "palaestina",
+        "syria",
+        "hijaz"
+      ]
+    },
+    {
+      "id": "syria",
+      "name": "Syria",
+      "region": "Oriente",
+      "city": "Antiochia",
+      "lat": 36.2,
+      "lon": 36.16,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "seta",
+        "ferro"
+      ],
+      "population": 360,
+      "fertility": 4,
+      "wealth": 5,
+      "neighbors": [
+        "phoenice",
+        "mesopotamia",
+        "cappadocia"
+      ]
+    },
+    {
+      "id": "mesopotamia",
+      "name": "Mesopotamia",
+      "region": "Oriente",
+      "city": "Edessa",
+      "lat": 37.16,
+      "lon": 38.79,
+      "terrain": "pianura",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "cavalli"
+      ],
+      "population": 220,
+      "fertility": 4,
+      "wealth": 3,
+      "neighbors": [
+        "syria",
+        "asoristan",
+        "cappadocia"
+      ]
+    },
+    {
+      "id": "asoristan",
+      "name": "Asoristan",
+      "region": "Oriente",
+      "city": "Ctesifonte",
+      "lat": 33.09,
+      "lon": 44.58,
+      "terrain": "pianura",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "datteri",
+        "cavalli"
+      ],
+      "population": 420,
+      "fertility": 5,
+      "wealth": 5,
+      "neighbors": [
+        "mesopotamia",
+        "hijaz"
+      ]
+    },
+    {
+      "id": "hijaz",
+      "name": "Hijaz",
+      "region": "Oriente",
+      "city": "Yathrib",
+      "lat": 24.47,
+      "lon": 39.61,
+      "terrain": "deserto",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "datteri",
+        "cammelli",
+        "incenso"
+      ],
+      "population": 120,
+      "fertility": 1,
+      "wealth": 2,
+      "neighbors": [
+        "palaestina",
+        "phoenice",
+        "asoristan"
+      ]
+    },
+    {
+      "id": "thracia",
+      "name": "Thracia",
+      "region": "Anatolia",
+      "city": "Costantinopoli",
+      "lat": 41.01,
+      "lon": 28.98,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "seta",
+        "pesce"
+      ],
+      "population": 420,
+      "fertility": 3,
+      "wealth": 5,
+      "neighbors": [
+        "galatia",
+        "macedonia",
+        "moesia"
+      ]
+    },
+    {
+      "id": "asia",
+      "name": "Asia",
+      "region": "Anatolia",
+      "city": "Ephesus",
+      "lat": 37.94,
+      "lon": 27.34,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "vino",
+        "olio",
+        "marmo"
+      ],
+      "population": 340,
+      "fertility": 4,
+      "wealth": 5,
+      "neighbors": [
+        "galatia",
+        "cappadocia"
+      ]
+    },
+    {
+      "id": "galatia",
+      "name": "Galatia",
+      "region": "Anatolia",
+      "city": "Ancyra",
+      "lat": 39.93,
+      "lon": 32.86,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "cavalli",
+        "lana"
+      ],
+      "population": 220,
+      "fertility": 3,
+      "wealth": 3,
+      "neighbors": [
+        "thracia",
+        "asia",
+        "cappadocia"
+      ]
+    },
+    {
+      "id": "cappadocia",
+      "name": "Cappadocia",
+      "region": "Anatolia",
+      "city": "Caesarea di Cappadocia",
+      "lat": 38.72,
+      "lon": 35.49,
+      "terrain": "montagna",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "cavalli",
+        "ferro"
+      ],
+      "population": 200,
+      "fertility": 2,
+      "wealth": 3,
+      "neighbors": [
+        "syria",
+        "mesopotamia",
+        "galatia",
+        "asia"
+      ]
+    },
+    {
+      "id": "macedonia",
+      "name": "Macedonia",
+      "region": "Balcani",
+      "city": "Thessalonica",
+      "lat": 40.64,
+      "lon": 22.94,
+      "terrain": "colline",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "legname"
+      ],
+      "population": 260,
+      "fertility": 3,
+      "wealth": 4,
+      "neighbors": [
+        "thracia",
+        "moesia",
+        "achaea",
+        "dalmatia"
+      ]
+    },
+    {
+      "id": "achaea",
+      "name": "Achaea",
+      "region": "Balcani",
+      "city": "Corinthus",
+      "lat": 37.91,
+      "lon": 22.88,
+      "terrain": "montagna",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "olio",
+        "vino",
+        "marmo"
+      ],
+      "population": 200,
+      "fertility": 2,
+      "wealth": 3,
+      "neighbors": [
+        "macedonia"
+      ]
+    },
+    {
+      "id": "moesia",
+      "name": "Moesia",
+      "region": "Balcani",
+      "city": "Marcianopolis",
+      "lat": 43.22,
+      "lon": 27.57,
+      "terrain": "pianura",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "grano",
+        "legname"
+      ],
+      "population": 180,
+      "fertility": 4,
+      "wealth": 2,
+      "neighbors": [
+        "thracia",
+        "macedonia",
+        "pannonia",
+        "dalmatia"
+      ]
+    },
+    {
+      "id": "dalmatia",
+      "name": "Dalmatia",
+      "region": "Balcani",
+      "city": "Salona",
+      "lat": 43.54,
+      "lon": 16.48,
+      "terrain": "montagna",
+      "coastal": true,
+      "island": false,
+      "resources": [
+        "ferro",
+        "legname"
+      ],
+      "population": 180,
+      "fertility": 2,
+      "wealth": 3,
+      "neighbors": [
+        "aquileia",
+        "pannonia",
+        "macedonia",
+        "moesia"
+      ]
+    },
+    {
+      "id": "pannonia",
+      "name": "Pannonia",
+      "region": "Balcani",
+      "city": "Sirmium",
+      "lat": 44.97,
+      "lon": 19.61,
+      "terrain": "pianura",
+      "coastal": false,
+      "island": false,
+      "resources": [
+        "grano",
+        "cavalli",
+        "legname"
+      ],
+      "population": 200,
+      "fertility": 4,
+      "wealth": 2,
+      "neighbors": [
+        "aquileia",
+        "dalmatia",
+        "moesia"
+      ]
+    }
+  ],
+  "straits": [
+    {
+      "a": "apulia",
+      "b": "sicilia",
+      "name": "Stretto di Messina"
+    },
+    {
+      "a": "baetica",
+      "b": "tingitana",
+      "name": "Stretto di Gibilterra"
+    },
+    {
+      "a": "thracia",
+      "b": "galatia",
+      "name": "Bosforo"
+    }
+  ]
+}

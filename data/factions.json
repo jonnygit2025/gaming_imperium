@@ -1,0 +1,156 @@
+{
+  "factions": [
+    {
+      "id": "odoacre",
+      "name": "Regno di Odoacre",
+      "culture": "tardo_romana",
+      "religion": "cristiana_ariana",
+      "color": "#b23a3a",
+      "description": "Odoacre ha deposto l'ultimo imperatore d'Occidente e governa l'Italia come re."
+    },
+    {
+      "id": "bizantini",
+      "name": "Impero Romano d'Oriente",
+      "culture": "bizantina",
+      "religion": "cristiana_nicena",
+      "color": "#7b3fa0",
+      "description": "Costantinopoli, ricca e potente, sogna di riunire l'Impero."
+    },
+    {
+      "id": "visigoti",
+      "name": "Regno dei Visigoti",
+      "culture": "germanica",
+      "religion": "cristiana_ariana",
+      "color": "#3a6fb2",
+      "description": "Da Tolosa a Toledo, i Visigoti dominano la Gallia del sud e la Hispania."
+    },
+    {
+      "id": "franchi",
+      "name": "Regno dei Franchi",
+      "culture": "franca",
+      "religion": "pagana",
+      "color": "#d9a521",
+      "description": "Un popolo guerriero del nord che aspira a dominare tutta la Gallia."
+    },
+    {
+      "id": "vandali",
+      "name": "Regno dei Vandali",
+      "culture": "germanica",
+      "religion": "cristiana_ariana",
+      "color": "#3fa08a",
+      "description": "Signori di Cartagine e del mare, temuti predoni del Mediterraneo."
+    },
+    {
+      "id": "ostrogoti",
+      "name": "Regno degli Ostrogoti",
+      "culture": "germanica",
+      "religion": "cristiana_ariana",
+      "color": "#2f8f3f",
+      "description": "Il popolo di Teodorico, guerrieri a cavallo in cerca di una patria."
+    },
+    {
+      "id": "longobardi",
+      "name": "Regno dei Longobardi",
+      "culture": "longobarda",
+      "religion": "cristiana_ariana",
+      "color": "#4e8fd6",
+      "description": "Dalla Pannonia scendono in Italia, ultima grande migrazione germanica."
+    },
+    {
+      "id": "avari",
+      "name": "Khaganato degli Avari",
+      "culture": "nomade",
+      "religion": "pagana",
+      "color": "#8a5a2b",
+      "description": "Cavalieri della steppa che dominano la pianura danubiana."
+    },
+    {
+      "id": "califfato",
+      "name": "Califfato dei Rashidun",
+      "culture": "araba",
+      "religion": "islamica",
+      "color": "#2e7d32",
+      "description": "Unite dall'Islam, le tribù d'Arabia escono dal deserto."
+    },
+    {
+      "id": "omayyadi",
+      "name": "Califfato Omayyade",
+      "culture": "araba",
+      "religion": "islamica",
+      "color": "#1b5e20",
+      "description": "Da Damasco all'Atlantico: il più vasto impero del tempo."
+    },
+    {
+      "id": "sasanidi",
+      "name": "Impero Sasanide",
+      "culture": "persiana",
+      "religion": "zoroastriana",
+      "color": "#c0602a",
+      "description": "L'antico rivale di Roma, stremato da secoli di guerre."
+    },
+    {
+      "id": "aquitania",
+      "name": "Ducato d'Aquitania",
+      "culture": "franca",
+      "religion": "cristiana_nicena",
+      "color": "#9c2f6f",
+      "description": "Il duca Oddone difende il sud della Gallia tra Franchi e Arabi."
+    },
+    {
+      "id": "burgundi",
+      "name": "Regno dei Burgundi",
+      "culture": "germanica",
+      "religion": "cristiana_ariana",
+      "color": "#a07a3f",
+      "description": "Regno germanico della valle del Rodano."
+    },
+    {
+      "id": "svevi",
+      "name": "Regno degli Svevi",
+      "culture": "germanica",
+      "religion": "cristiana_ariana",
+      "color": "#5f7f9f",
+      "description": "Piccolo regno della Gallaecia, all'estremo occidente."
+    },
+    {
+      "id": "soissons",
+      "name": "Dominio di Soissons",
+      "culture": "tardo_romana",
+      "religion": "cristiana_nicena",
+      "color": "#c46f6f",
+      "description": "Siagrio governa l'ultimo lembo romano della Gallia del nord."
+    },
+    {
+      "id": "mauri",
+      "name": "Regni mauro-romani",
+      "culture": "berbera",
+      "religion": "cristiana_nicena",
+      "color": "#a88c5a",
+      "description": "Principi berberi e romani dell'interno dell'Africa."
+    },
+    {
+      "id": "gepidi",
+      "name": "Regno dei Gepidi",
+      "culture": "germanica",
+      "religion": "cristiana_ariana",
+      "color": "#6f8f5f",
+      "description": "Germanici del medio Danubio, rivali dei Longobardi."
+    },
+    {
+      "id": "bulgari",
+      "name": "Khanato dei Bulgari",
+      "culture": "nomade",
+      "religion": "pagana",
+      "color": "#7f6f9f",
+      "description": "Nomadi giunti a sud del Danubio nel 681."
+    },
+    {
+      "id": "tribu_arabe",
+      "name": "Tribù arabe",
+      "culture": "araba",
+      "religion": "pagana",
+      "color": "#b59a5a",
+      "description": "Tribù indipendenti della penisola arabica."
+    }
+  ]
+}
