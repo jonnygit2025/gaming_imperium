@@ -31,8 +31,9 @@ func _ready() -> void:
 		["insieme", _scene.map.bounds.get_center(), CampaignCamera.MAX_DISTANCE],
 		["italia", _scene.map.city_pos["roma"], 95.0],
 		["roma", _scene.map.city_pos["roma"], 12.0],
+		["bosco", _scene.map.city_pos["austrasia"] + Vector2(-6.0, 4.0), 16.0],
 	]
-	var variants: Array = ["base", "senza_ombre", "senza_msaa", "senza_glow", "senza_mare", "senza_nomi", "senza_nebbia", "tutto_via"]
+	var variants: Array = ["base", "senza_alberi", "senza_villaggi_porti", "senza_ombre", "senza_mare"]
 	for v: Array in views:
 		_scene.cam.set_yaw(0.0, true)
 		_scene.cam.look_at_point(v[1], v[2], true)
@@ -40,7 +41,7 @@ func _ready() -> void:
 		var base_ms: float = 0.0
 		for variant: String in variants:
 			_set_variant(variant)
-			await _frames(3)
+			await _frames(8)
 			var t0: int = Time.get_ticks_usec()
 			await _frames(4)
 			var ms: float = (Time.get_ticks_usec() - t0) / 4000.0
@@ -67,6 +68,11 @@ func _set_variant(v: String) -> void:
 	_scene.water_node.visible = not (v == "senza_mare" or all_off)
 	_scene.settlements.visible = not (v == "senza_nomi" or all_off)
 	_scene.environment.fog_enabled = not (v == "senza_nebbia" or all_off)
+	for c: Node in _scene.detail_layer.get_children():
+		if c.name.begins_with("Alberi"):
+			(c as Node3D).visible = v != "senza_alberi"
+		else:
+			(c as Node3D).visible = v != "senza_villaggi_porti"
 
 
 func _frames(n: int) -> void:

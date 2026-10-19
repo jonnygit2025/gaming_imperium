@@ -150,3 +150,53 @@ func test_map_benchmark_flies_the_camera() -> void:
 	Session.map_benchmark = false
 	Session.benchmark_owns_game = false
 	Session.end_game()
+
+
+func test_campaign_details_trees_and_city_lod() -> void:
+	Session.start_new_game("476_caduta_di_roma", "franchi")
+	var scene := await _open(Scenes.CAMPAIGN, 5) as CampaignMapScene
+	var layer: DetailLayer = scene.detail_layer
+	assert_not_null(layer)
+	# alberi: preparati su altri thread, poi messi in scena vicino alla telecamera
+	var forest: Vector2 = scene.map.city_pos["austrasia"] + Vector2(-6.0, 4.0)
+	var cam_pos := Vector3(forest.x, 8.0, forest.y + 6.0)
+	var before: int = layer.tree_chunks_built()
+	for _i: int in 40:
+		layer.update_trees(cam_pos)
+		await wait_process_frames(1)
+		if layer.tree_chunks_built() > before + 2:
+			break
+	assert_gt(layer.tree_chunks_built(), before, "blocchi di alberi costruiti vicino alla telecamera")
+	# città: modello semplice da lontano, dettagliato da vicino
+	scene.settlements.update_labels(0.9)
+	assert_true(scene.settlements.lod_active, "da lontano le città semplici")
+	scene.settlements.update_labels(0.05)
+	assert_false(scene.settlements.lod_active, "da vicino le città dettagliate")
+	# villaggi e porti nascosti da lontano
+	layer.update_zoom(400.0)
+	assert_false((layer.get_node("Porti") as Node3D).visible)
+	layer.update_zoom(40.0)
+	assert_true((layer.get_node("Porti") as Node3D).visible)
+	Session.end_game()
+
+
+func test_campaign_terrain_tiers() -> void:
+	Session.start_new_game("476_caduta_di_roma", "odoacre")
+	var scene := await _open(Scenes.CAMPAIGN, 6) as CampaignMapScene
+	scene.update_terrain_material(20.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_material, "da vicino: shader completo")
+	assert_eq(scene.terrain_node.mesh, scene.terrain_mesh_full)
+	scene.update_terrain_material(100.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_mid_material, "media distanza: solo strade")
+	assert_eq(scene.terrain_node.mesh, scene.terrain_mesh_full)
+	scene.update_terrain_material(300.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_far_material, "da lontano: niente dettagli")
+	assert_eq(scene.terrain_node.mesh, scene.terrain_mesh_far, "da lontano: terreno semplificato")
+	# isteresi: appena sotto il confine resta lontano, ben sotto torna medio
+	scene.update_terrain_material(CampaignMapScene.TERRAIN_MID_MAX - 1.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_far_material)
+	scene.update_terrain_material(CampaignMapScene.TERRAIN_MID_MAX - 10.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_mid_material)
+	var far_tris: int = (scene.terrain_mesh_far.surface_get_arrays(0)[Mesh.ARRAY_INDEX] as PackedInt32Array).size() >> 0
+	assert_lt(far_tris, 300000, "terreno lontano semplificato (indici: meno di 100.000 triangoli)")
+	Session.end_game()

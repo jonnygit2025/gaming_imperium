@@ -2,10 +2,12 @@ class_name MapBenchmark
 extends Node
 ## Test prestazioni della mappa di campagna: la telecamera segue un percorso fisso (vista
 ## d'insieme, zoom sull'Italia, Roma da vicino, Costantinopoli, di nuovo la vista d'insieme)
-## e misura FPS medi e minimi. Si avvia da Opzioni; scrive i risultati in benchmark_risultati.txt.
+## e misura FPS medi e minimi. Poi una fase di analisi: su quattro inquadrature fisse misura
+## il costo di ogni parte della scena togliendola una alla volta (sulla scheda video vera, non
+## nell'emulazione del cloud). Si avvia da Opzioni; scrive i risultati in benchmark_risultati.txt.
 
 const WARMUP: float = 3.0
-const MEASURE: float = 20.0
+const MEASURE: float = 24.0
 const RESULT_FILE: String = "benchmark_risultati.txt"
 const TARGET_MS: float = 12.0
 
@@ -28,6 +30,27 @@ var _vp_rid: RID
 ## Orologio reale: con fotogrammi molto lenti il delta di Godot viene limitato e non basta.
 var _last_us: int = 0
 
+const ANALYSIS_VARIANTS: PackedStringArray = ["completo", "terreno_completo", "shader_senza_dettagli", "senza_alberi",
+		"senza_citta_dettagliate", "senza_ombre", "senza_mare"]
+const ANALYSIS_NAMES: Dictionary = {
+	"completo": "completo", "terreno_completo": "terreno con tutti i triangoli",
+	"shader_senza_dettagli": "shader del terreno senza dettagli",
+	"senza_alberi": "senza alberi", "senza_citta_dettagliate": "città semplici e senza villaggi/porti",
+	"senza_ombre": "senza ombre", "senza_mare": "senza mare",
+}
+const ANALYSIS_SETTLE: float = 0.35
+const ANALYSIS_MEASURE: float = 1.0
+const ANALYSIS_VIEW_SETTLE: float = 1.2
+var _analysis: bool = false
+var _steps: Array = []          # [vista, variante (o "" per spostare la telecamera)]
+var _step: int = -1
+var _step_time: float = 0.0
+var _step_sum: float = 0.0
+var _step_gpu: float = 0.0
+var _step_n: int = 0
+var _views: Array = []          # [nome, punto, distanza, rotazione]
+var _results: Dictionary = {}   # vista -> {variante: [ms, ms scheda video]}
+
 
 func setup(owner_scene: CampaignMapScene) -> void:
 	scene = owner_scene
@@ -41,12 +64,23 @@ func setup(owner_scene: CampaignMapScene) -> void:
 		[m.city_pos["thracia"], 60.0, 0.4],
 		[m.city_pos["thracia"], 14.0, -0.3],
 		[m.city_pos["syria"], 160.0, 0.0],
+		[m.city_pos["austrasia"] + Vector2(-6.0, 4.0), 16.0, 0.8],
 		[m.bounds.get_center(), CampaignCamera.MAX_DISTANCE, 0.0],
 	]
 	for seg_name: String in ["vista d'insieme → Italia", "Italia → Roma da vicino", "Roma → Neapolis",
 			"Neapolis → Costantinopoli", "Costantinopoli da vicino", "Costantinopoli → Siria",
-			"Siria → vista d'insieme"]:
+			"Siria → boschi della Gallia", "boschi della Gallia → vista d'insieme"]:
 		_segments.append([seg_name, 0, 0.0, 0.0, 0])
+	_views = [
+		["vista d'insieme", m.bounds.get_center(), CampaignCamera.MAX_DISTANCE, 0.0],
+		["Italia", m.city_pos["roma"], 95.0, 0.0],
+		["Roma da vicino", m.city_pos["roma"], 12.0, 0.6],
+		["bosco della Gallia", m.city_pos["austrasia"] + Vector2(-6.0, 4.0), 16.0, 0.8],
+	]
+	for v: Array in _views:
+		_steps.append([v, ""])
+		for variant: String in ANALYSIS_VARIANTS:
+			_steps.append([v, variant])
 	_vp_rid = scene.get_viewport().get_viewport_rid()
 	RenderingServer.viewport_set_measure_render_time(_vp_rid, true)
 	scene.cam.input_enabled = false
@@ -73,6 +107,9 @@ func _process(_delta: float) -> void:
 	var now: int = Time.get_ticks_usec()
 	var delta: float = 0.0 if _last_us == 0 else (now - _last_us) / 1000000.0
 	_last_us = now
+	if _analysis:
+		_analysis_step(delta)
+		return
 	_time += delta
 	var total: float = WARMUP + MEASURE
 	if _time > WARMUP:
@@ -104,7 +141,67 @@ func _process(_delta: float) -> void:
 		"riscaldamento" if _time < WARMUP else "misura: %d s" % ceili(maxf(0.0, total - _time)),
 		Engine.get_frames_per_second(), Settings.current_renderer()]
 	if _time >= total:
-		_finish()
+		_analysis = true
+
+
+func _analysis_step(delta: float) -> void:
+	if _step < 0 or _step_time >= _step_length():
+		if _step >= 0:
+			_record_step()
+		_step += 1
+		if _step >= _steps.size():
+			scene.apply_analysis_variant("completo")
+			_finish()
+			return
+		_step_time = 0.0
+		_step_sum = 0.0
+		_step_gpu = 0.0
+		_step_n = 0
+		var st: Array = _steps[_step]
+		var v: Array = st[0]
+		if st[1] == "":
+			scene.apply_analysis_variant("completo")
+			scene.cam.set_yaw(float(v[3]), true)
+			scene.cam.look_at_point(v[1], float(v[2]), true)
+		else:
+			scene.apply_analysis_variant(st[1])
+		_label.text = "TEST MAPPA DI CAMPAGNA — analisi\n%s · %s" % [v[0], ANALYSIS_NAMES.get(st[1], "preparazione")]
+		return
+	_step_time += delta
+	if _step_time > ANALYSIS_SETTLE and str(_steps[_step][1]) != "":
+		_step_sum += delta * 1000.0
+		_step_gpu += RenderingServer.viewport_get_measured_render_time_gpu(_vp_rid)
+		_step_n += 1
+
+
+func _step_length() -> float:
+	return ANALYSIS_VIEW_SETTLE if str(_steps[_step][1]) == "" else ANALYSIS_SETTLE + ANALYSIS_MEASURE
+
+
+func _record_step() -> void:
+	var st: Array = _steps[_step]
+	if str(st[1]) == "" or _step_n == 0:
+		return
+	var view: String = st[0][0]
+	if not _results.has(view):
+		_results[view] = {}
+	(_results[view] as Dictionary)[st[1]] = [_step_sum / _step_n, _step_gpu / _step_n]
+
+
+func _analysis_lines() -> PackedStringArray:
+	var out := PackedStringArray(["Analisi (costo di ogni parte; negativo = quanto si risparmia togliendola):"])
+	for v: Array in _views:
+		var r: Dictionary = _results.get(v[0], {})
+		if not r.has("completo"):
+			continue
+		var base: float = float(r["completo"][0])
+		var parts := PackedStringArray()
+		for variant: String in ANALYSIS_VARIANTS:
+			if variant == "completo" or not r.has(variant):
+				continue
+			parts.append("%s %+.1f" % [ANALYSIS_NAMES[variant], float(r[variant][0]) - base])
+		out.append("  %s: %.1f ms (scheda video %.1f) · %s" % [v[0], base, float(r["completo"][1]), " · ".join(parts)])
+	return out
 
 
 func _finish() -> void:
@@ -150,6 +247,7 @@ func _finish() -> void:
 			frame_avg, gpu_text, _cpu_render_ms / n, bound],
 		"Per tratto del percorso:",
 		"\n".join(seg_lines),
+		"\n".join(_analysis_lines()),
 		verdict,
 	]))
 	_write(text)

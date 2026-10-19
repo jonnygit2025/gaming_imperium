@@ -138,14 +138,7 @@ func apply() -> void:
 			vp.msaa_3d = Viewport.MSAA_4X
 	if g.shadows_enabled():
 		RenderingServer.directional_shadow_atlas_set_size(g.shadow_atlas_size(), true)
-		var q: RenderingServer.ShadowQuality = RenderingServer.SHADOW_QUALITY_SOFT_LOW
-		match g.shadows:
-			"basse": q = RenderingServer.SHADOW_QUALITY_HARD
-			"medie": q = RenderingServer.SHADOW_QUALITY_SOFT_VERY_LOW
-			"alte": q = RenderingServer.SHADOW_QUALITY_SOFT_LOW
-			"ultra": q = RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM
-		RenderingServer.directional_soft_shadow_filter_set_quality(q)
-		RenderingServer.positional_soft_shadow_filter_set_quality(q)
+		apply_shadow_filter()
 		vp.positional_shadow_atlas_size = mini(g.shadow_atlas_size(), 4096)
 	else:
 		vp.positional_shadow_atlas_size = 0
@@ -156,6 +149,18 @@ func apply() -> void:
 	if _fps_layer != null:
 		_fps_layer.visible = g.show_fps and not _fps_suppressed
 	changed.emit()
+
+
+## Filtro delle ombre secondo il preset (la mappa di campagna lo cambia e lo ripristina).
+func apply_shadow_filter() -> void:
+	var q: RenderingServer.ShadowQuality = RenderingServer.SHADOW_QUALITY_SOFT_LOW
+	match graphics.shadows:
+		"basse": q = RenderingServer.SHADOW_QUALITY_HARD
+		"medie": q = RenderingServer.SHADOW_QUALITY_SOFT_VERY_LOW
+		"alte": q = RenderingServer.SHADOW_QUALITY_SOFT_LOW
+		"ultra": q = RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM
+	RenderingServer.directional_soft_shadow_filter_set_quality(q)
+	RenderingServer.positional_soft_shadow_filter_set_quality(q)
 
 
 func _apply_window(g: GraphicsSettings) -> void:
