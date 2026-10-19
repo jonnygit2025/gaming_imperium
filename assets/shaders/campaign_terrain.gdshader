@@ -64,7 +64,7 @@ void fragment() {
 	// Dettaglio fine da vicino (la texture dei colori ha 2,6 km per pixel)
 	float near_f = 1.0 - smoothstep(0.02, 0.12, length(fwidth(uv)) * 512.0);
 	float detail = texture(detail_tex, world_pos.xz * 0.35).r * 0.6 + texture(detail_tex, world_pos.xz * 1.3).b * 0.4;
-	col *= 1.0 + (detail - 0.5) * 0.35 * near_f;
+	col *= 1.0 + (detail - 0.5) * 0.9 * near_f;
 
 	// Pendenza e quota: roccia sui versanti ripidi, neve in alto (più bassa d'inverno e a nord)
 	float slope = 1.0 - clamp(world_normal.y, 0.0, 1.0);

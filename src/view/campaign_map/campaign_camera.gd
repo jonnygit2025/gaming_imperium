@@ -39,6 +39,8 @@ var _preset_far: float = 1000.0
 
 
 func _ready() -> void:
+	# I tasti della telecamera devono esistere anche quando è usata da sola (test, test prestazioni).
+	CampaignControls.ensure_actions()
 	camera = Camera3D.new()
 	camera.fov = 45.0
 	camera.near = 0.3
