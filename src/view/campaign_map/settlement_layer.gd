@@ -1,7 +1,8 @@
 class_name SettlementLayer
 extends Node3D
-## Città capoluogo: un MultiMesh per tipo (villaggio, cittadina, città, capitale), quindi 4
-## chiamate di disegno per 47 città. Il colore della fazione è nei dati per istanza.
+## Città capoluogo: un MultiMesh per combinazione di taglia (villaggio, cittadina, città,
+## capitale) e stile architettonico (vedi CampaignModels), quindi poche chiamate di disegno per
+## 47 città. Il colore della fazione è nei dati per istanza.
 ## Il nome sta sopra ogni città (Label3D a dimensione fissa sullo schermo).
 
 const SCALE: Dictionary = {
@@ -13,14 +14,15 @@ const SCALE: Dictionary = {
 
 var _map: CampaignMapData = null
 var _state: CampaignState = null
-var _mm: Dictionary = {}                 # tier -> MultiMesh
-var _slot: Dictionary[String, Vector2i] = {}   # pid -> (tier, indice istanza)
+var _mm: Dictionary = {}                 # "taglia:stile" -> MultiMesh
+var _slot: Dictionary[String, Array] = {}   # pid -> [chiave, indice istanza]
 var _labels: Dictionary[String, Label3D] = {}
 var _tier_of: Dictionary[String, int] = {}
+var _style_of: Dictionary[String, String] = {}
 var positions: Dictionary[String, Vector3] = {}
 
 
-func setup(map: CampaignMapData, state: CampaignState, db: GameDatabase) -> void:
+func setup(map: CampaignMapData, state: CampaignState, db: GameDatabase, details: CampaignDetails = null) -> void:
 	_map = map
 	_state = state
 	var capitals: Dictionary = {}
@@ -33,39 +35,42 @@ func setup(map: CampaignMapData, state: CampaignState, db: GameDatabase) -> void
 			continue
 		var tier: int = CampaignModels.settlement_tier(p.population, capitals.has(pid))
 		_tier_of[pid] = tier
-		if not by_tier.has(tier):
-			by_tier[tier] = []
-		(by_tier[tier] as Array).append(pid)
+		_style_of[pid] = details.style_of(pid) if details != null else "mediterraneo"
+		var key: String = "%d:%s" % [tier, _style_of[pid]]
+		if not by_tier.has(key):
+			by_tier[key] = []
+		(by_tier[key] as Array).append(pid)
 		var c: Vector2 = map.city_pos[pid]
 		positions[pid] = Vector3(c.x, map.surface_at(c), c.y)
 	var shader: Shader = load("res://assets/shaders/campaign_props.gdshader")
 	var mat := ShaderMaterial.new()
 	mat.shader = shader
-	for tier: int in by_tier:
-		var list: Array = by_tier[tier]
+	for key: String in by_tier:
+		var list: Array = by_tier[key]
+		var tier: int = int(key.get_slice(":", 0))
 		var mm := MultiMesh.new()
 		mm.transform_format = MultiMesh.TRANSFORM_3D
 		mm.use_custom_data = true
 		# Colori per istanza bianchi: con il renderer Compatibilità il colore dei vertici viene
 		# moltiplicato per quello dell'istanza, che senza questa opzione vale zero.
 		mm.use_colors = true
-		mm.mesh = CampaignModels.settlement_mesh(tier)
+		mm.mesh = CampaignModels.settlement_mesh(tier, key.get_slice(":", 1))
 		mm.instance_count = list.size()
 		var rng := RandomNumberGenerator.new()
-		rng.seed = 100 + tier
+		rng.seed = 100 + tier * 7 + key.length()
 		for i: int in list.size():
 			var pid: String = list[i]
 			var s: float = SCALE[tier]
 			var rot := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(s, s, s))
 			mm.set_instance_transform(i, Transform3D(rot, positions[pid]))
 			mm.set_instance_color(i, Color.WHITE)
-			_slot[pid] = Vector2i(tier, i)
+			_slot[pid] = [key, i]
 		var node := MultiMeshInstance3D.new()
 		node.multimesh = mm
 		node.material_override = mat
-		node.name = "Citta_%d" % tier
+		node.name = "Citta_%d_%s" % [tier, key.get_slice(":", 1)]
 		add_child(node)
-		_mm[tier] = mm
+		_mm[key] = mm
 	for pid: String in map.province_order:
 		var p: ProvinceDef = db.provinces.get(pid)
 		if p != null:
@@ -106,9 +111,9 @@ func refresh_province(pid: String) -> void:
 
 
 func _write_color(pid: String, phase: float) -> void:
-	var s: Vector2i = _slot[pid]
+	var s: Array = _slot[pid]
 	var c: Color = GameData.faction_color(_state.province_owner.get(pid, ""))
-	(_mm[s.x] as MultiMesh).set_instance_custom_data(s.y, Color(c.r, c.g, c.b, phase))
+	(_mm[s[0]] as MultiMesh).set_instance_custom_data(int(s[1]), Color(c.r, c.g, c.b, phase))
 
 
 ## Nomi visibili secondo lo zoom: da lontano solo capitali e città grandi, e più piccoli.
@@ -134,3 +139,7 @@ func label_of(pid: String) -> Label3D:
 
 func tier_of(pid: String) -> int:
 	return _tier_of.get(pid, 0)
+
+
+func style_of(pid: String) -> String:
+	return _style_of.get(pid, "mediterraneo")

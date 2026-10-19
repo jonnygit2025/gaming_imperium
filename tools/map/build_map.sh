@@ -6,6 +6,7 @@ cd "$(dirname "$0")/../.."
 GODOT="${GODOT:-godot}"
 tools/map/fetch_natural_earth.sh
 python3 tools/map/generate_map.py "$@"
+python3 tools/map/generate_details.py
 "$GODOT" --headless --import > /dev/null 2>&1 || true
 "$GODOT" --headless -s tools/map/build_map_resources.gd
 echo "Mappa rigenerata."

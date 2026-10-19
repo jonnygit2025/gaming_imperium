@@ -14,6 +14,12 @@ uniform sampler2D ids_tex : filter_nearest, repeat_disable;
 uniform sampler2D fields_tex : filter_linear, repeat_disable;
 uniform sampler2D palette_tex : filter_nearest, repeat_disable;
 uniform sampler2D detail_tex : filter_linear_mipmap, repeat_enable;
+// details_tex R = distanza dalla strada (texel × road_scale), G = campi coltivati
+uniform sampler2D details_tex : filter_linear, repeat_disable;
+uniform float road_scale = 16.0;
+// roads_tex RG = punto della strada più vicina (scarto dal centro del texel, texel × 32 + 128),
+//           B = direzione del tratto (0..π), A = 1 vicino a una strada
+uniform sampler2D roads_tex : filter_nearest, repeat_disable;
 uniform vec2 map_min = vec2(-271.6, -200.1);
 uniform vec2 map_size = vec2(543.2, 400.3);
 uniform float vertical_units_per_km = 0.6;
@@ -45,6 +51,43 @@ vec4 pal(float index, float row) {
 // Linea di larghezza `w` texel attorno a distanza 0, antialiasing con la derivata.
 float line_mask(float d, float w, float aa) {
 	return 1.0 - smoothstep(w - aa, w + aa, d);
+}
+
+float hash2(vec2 p) {
+	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+// Campi coltivati: appezzamenti (orientati secondo la provincia, righe sfalsate) divisi in
+// 2-4 strisce; colori di grano, erba, terra arata e maggese; siepi fra gli appezzamenti.
+// wpx = unità del mondo per pixel (calcolata fuori dai rami: le derivate dentro un ramo non valgono)
+vec3 fields_color(vec2 wp, float province, float winter_amt, float wpx, out float hedge) {
+	float ang = province * 2.39996;
+	mat2 r = mat2(vec2(cos(ang), sin(ang)), vec2(-sin(ang), cos(ang)));
+	vec2 q = r * wp / vec2(0.34, 0.24);
+	q.x += hash2(vec2(floor(q.y), 7.0 + province)) * 0.8;
+	vec2 parcel = floor(q);
+	vec2 f = fract(q);
+	float hp = hash2(parcel + province * 0.37);
+	float strips = 2.0 + floor(hp * 3.0);
+	bool along_x = hash2(parcel * 1.9 + 4.2) > 0.5;
+	float sc = along_x ? f.x : f.y;
+	float strip = floor(sc * strips);
+	float h = hash2(parcel * 3.1 + strip * 17.3 + province);
+	vec3 c;
+	if (h < 0.3) c = vec3(0.72, 0.64, 0.38);       // grano
+	else if (h < 0.55) c = vec3(0.48, 0.55, 0.31); // erba
+	else if (h < 0.78) c = vec3(0.52, 0.43, 0.32); // terra arata
+	else c = vec3(0.60, 0.58, 0.40);               // maggese
+	c *= 0.93 + 0.14 * hash2(parcel * 1.7 + strip + 3.1);
+	c = mix(c, vec3(0.50, 0.44, 0.34), winter_amt * 0.65);
+	vec2 fw = max(vec2(wpx) / vec2(0.34, 0.24), vec2(1e-4));
+	vec2 e = min(f, 1.0 - f) / fw;
+	hedge = 1.0 - smoothstep(0.7, 1.7, min(e.x, e.y));
+	// confini fra le strisce: appena accennati
+	float sf = fract(sc * strips);
+	float se = min(sf, 1.0 - sf) / max((along_x ? fw.x : fw.y) * strips, 1e-4);
+	hedge = max(hedge, (1.0 - smoothstep(0.5, 1.2, se)) * 0.35);
+	return c;
 }
 
 void fragment() {
@@ -79,6 +122,27 @@ void fragment() {
 	float land = smoothstep(-0.35, 0.25, coast);
 	float px = max(fwidth(bd), 1e-4);                     // texel per pixel sullo schermo
 
+	// Campi coltivati attorno agli abitati: solo avvicinandosi (lontano diventerebbero rumore);
+	// da lontano non si legge nemmeno la texture.
+	float wpx = length(fwidth(world_pos.xz)) * 0.7;          // unità del mondo per pixel
+	float ffade = 1.0 - smoothstep(0.03, 0.07, wpx);
+	vec2 tsize = vec2(textureSize(roads_tex, 0));
+	vec2 tp = uv * tsize;
+	float rpx = max(length(fwidth(tp)) * 0.7, 1e-4);          // texel per pixel
+	float road_vis = 1.0 - smoothstep(0.9, 2.0, rpx);
+	vec4 det = ffade > 0.0 ? texture(details_tex, uv) : vec4(0.0);
+	if (det.g > 0.02 && own >= 1.0 && own <= 254.0) {
+		float hedge;
+		vec3 fc = fields_color(world_pos.xz, own, winter, wpx, hedge);
+		float shade = dot(col, vec3(0.3, 0.55, 0.15)) / 0.5;
+		fc = fc * clamp(shade, 0.6, 1.25);
+		// i campi si fondono con il terreno: niente scacchiera
+		fc = mix(col, fc, 0.5);
+		fc = mix(fc, fc * 0.7, hedge * 0.7);
+		float amt = smoothstep(0.05, 0.6, det.g) * ffade * land * (1.0 - smoothstep(0.25, 0.45, slope));
+		col = mix(col, fc, amt);
+	}
+
 	bool is_prov = own >= 1.0 && own <= 254.0;
 	bool nb_prov = nb >= 1.0 && nb <= 254.0;
 	vec4 me = pal(own, 0.0);
@@ -100,6 +164,25 @@ void fragment() {
 		float enemy = flags.r * enemy_highlight;
 		float pulse = 0.75 + 0.25 * sin(TIME * 2.5);
 		col = mix(col, vec3(0.85, 0.12, 0.08), enemy * (1.0 - smoothstep(0.0, 12.0, bd)) * 0.35 * pulse * land);
+	}
+
+	// Strade: distanza esatta dalla linea (punto più vicino + direzione salvati per texel)
+	if (road_vis > 0.0) {
+		float vis = road_vis;
+		vec4 rv = texture(roads_tex, uv);
+		if (rv.a > 0.5) {
+			vec2 q = floor(tp) + 0.5 + (rv.rg * 255.0 - 128.0) / 32.0;
+			float a = rv.b * 3.14159265;
+			vec2 t = vec2(cos(a), sin(a));
+			vec2 dq = tp - q;
+			float rd = abs(dq.x * t.y - dq.y * t.x);
+			float w = max(0.08, 0.85 * rpx);
+			float l = line_mask(rd, w, rpx * 0.75);
+			float edge = line_mask(rd, w + max(0.05, 0.6 * rpx), rpx * 0.75) - l;
+			vec3 road_c = mix(vec3(0.50, 0.41, 0.30), vec3(0.44, 0.39, 0.34), winter);
+			col = mix(col, col * 0.7, edge * vis * land * 0.7);
+			col = mix(col, road_c * clamp(dot(col, vec3(0.3, 0.55, 0.15)) / 0.45, 0.75, 1.0), l * vis * land);
+		}
 	}
 
 	// Provincia sotto il mouse e provincia selezionata (riempimento, prima delle linee)

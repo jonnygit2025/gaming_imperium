@@ -20,6 +20,8 @@ var palette: PoliticalPalette = null
 var terrain_material: ShaderMaterial = null
 var water_material: ShaderMaterial = null
 var settlements: SettlementLayer = null
+var details: CampaignDetails = null
+var detail_layer: DetailLayer = null
 var army_layer: ArmyLayer = null
 var hud: CampaignHud = null
 var environment: Environment = null
@@ -55,6 +57,7 @@ func _ready() -> void:
 		push_error("Mappa di campagna non disponibile")
 		Scenes.goto(get_tree(), Scenes.MAIN_MENU)
 		return
+	details = GameData.map_details()
 	_build_environment()
 	palette = PoliticalPalette.new()
 	palette.rebuild(state, map)
@@ -63,7 +66,7 @@ func _ready() -> void:
 	settlements = SettlementLayer.new()
 	settlements.name = "Citta"
 	add_child(settlements)
-	settlements.setup(map, state, GameData.db)
+	settlements.setup(map, state, GameData.db, details)
 	army_layer = ArmyLayer.new()
 	army_layer.name = "Eserciti"
 	add_child(army_layer)
@@ -72,6 +75,10 @@ func _ready() -> void:
 	cam.name = "Telecamera"
 	add_child(cam)
 	cam.setup(map)
+	detail_layer = DetailLayer.new()
+	detail_layer.name = "Dettagli"
+	add_child(detail_layer)
+	detail_layer.setup(map, details, cam.camera)
 	var me: FactionState = state.player()
 	var start: Vector2 = map.city_pos.get(me.capital if me != null else "", map.bounds.get_center())
 	cam.look_at_point(start, START_DISTANCE, true)
@@ -146,6 +153,9 @@ func _build_terrain() -> void:
 	terrain_material.set_shader_parameter("fields_tex", load("res://assets/map/province_fields.png"))
 	terrain_material.set_shader_parameter("palette_tex", palette.texture)
 	terrain_material.set_shader_parameter("detail_tex", load("res://assets/map/water_noise.png"))
+	terrain_material.set_shader_parameter("details_tex", load("res://assets/map/details.png"))
+	terrain_material.set_shader_parameter("road_scale", details.road_scale)
+	terrain_material.set_shader_parameter("roads_tex", load("res://assets/map/roads.png"))
 	terrain_material.set_shader_parameter("map_min", map.bounds.position)
 	terrain_material.set_shader_parameter("map_size", map.bounds.size)
 	terrain_material.set_shader_parameter("vertical_units_per_km", map.vertical_units_per_km)
@@ -181,6 +191,7 @@ func _apply_season() -> void:
 	var w: float = 1.0 if state.season_index() == 1 else 0.0
 	terrain_material.set_shader_parameter("winter", w)
 	water_material.set_shader_parameter("winter", w)
+	detail_layer.set_winter(w)
 	sun.light_color = Color("fff0d6") if w < 0.5 else Color("e4ecf5")
 	sun.light_energy = 1.1 if w < 0.5 else 0.95
 
@@ -199,6 +210,7 @@ func _process(_delta: float) -> void:
 		# Nebbia di distanza che segue lo zoom: lontano copre solo l'orizzonte.
 		environment.fog_depth_begin = cam.distance * 1.3
 		environment.fog_depth_end = cam.distance * 4.0 + 120.0
+		detail_layer.update_zoom(cam.distance)
 		if _shadow_warmup <= 0:
 			update_shadows(cam.distance)
 	if _shadow_warmup > 0:

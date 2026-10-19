@@ -6,6 +6,7 @@ var db: GameDatabase = null
 var errors: PackedStringArray = []
 
 var _map: CampaignMapData = null
+var _details: CampaignDetails = null
 
 
 func _ready() -> void:
@@ -37,3 +38,12 @@ func map_data() -> CampaignMapData:
 		if not _map.load_error.is_empty():
 			push_error(_map.load_error)
 	return _map
+
+
+## Dettagli della mappa di campagna: stili delle città, strade, villaggi, porti, alberi.
+func map_details() -> CampaignDetails:
+	if _details == null:
+		_details = CampaignDetails.load_default()
+		if not _details.load_error.is_empty():
+			push_error(_details.load_error)
+	return _details

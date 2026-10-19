@@ -58,13 +58,21 @@ func _ready() -> void:
 		["09_inverno_alpi", func() -> void:
 			_scene.hud._close_modal()
 			_cam(Vector2(-75, -88), 40.0, 0.5)],
-		["10_pausa", func() -> void: _scene.hud.open_pause_menu()],
+		["09b_inverno_bosco", func() -> void: _cam(_city("austrasia") + Vector2(-6.0, 4.0), 16.0, 0.8)],
+		["11_nord_vicino", func() -> void: _cam(_city("parisii") + Vector2(0.4, 0.4), 9.0, 0.5)],
+		["12_deserto_vicino", func() -> void: _cam(_city("asoristan") + Vector2(0.4, 0.4), 9.0, -0.3)],
+		["13_bosco", func() -> void: _cam(_city("austrasia") + Vector2(-6.0, 4.0), 16.0, 0.8)],
+		["14_porto", func() -> void: _cam(_city("africa") + Vector2(1.0, 0.5), 10.0, 2.4)],
+		["15_campagna", func() -> void: _cam(_city("mediolanum") + Vector2(2.0, 1.0), 22.0, 0.2)],
+		["10_pausa", func() -> void:
+			_scene.hud._close_modal()
+			_scene.hud.open_pause_menu()],
 	]
 	for s: Array in shots:
 		if not only.is_empty() and not (s[0] as String).begins_with(only):
 			continue
 		(s[1] as Callable).call()
-		await _frames(20)
+		await _frames(30)
 		var img: Image = get_viewport().get_texture().get_image()
 		img.save_png(_out.path_join("%s.png" % s[0]))
 		print("foto: %s · %d chiamate di disegno · %d triangoli · memoria video %.0f MB (texture %.0f MB)" % [s[0],

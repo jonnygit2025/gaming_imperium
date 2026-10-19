@@ -5,7 +5,7 @@ extends Node
 ## e misura FPS medi e minimi. Si avvia da Opzioni; scrive i risultati in benchmark_risultati.txt.
 
 const WARMUP: float = 3.0
-const MEASURE: float = 20.0
+const MEASURE: float = 24.0
 const RESULT_FILE: String = "benchmark_risultati.txt"
 const TARGET_MS: float = 12.0
 
@@ -41,11 +41,12 @@ func setup(owner_scene: CampaignMapScene) -> void:
 		[m.city_pos["thracia"], 60.0, 0.4],
 		[m.city_pos["thracia"], 14.0, -0.3],
 		[m.city_pos["syria"], 160.0, 0.0],
+		[m.city_pos["austrasia"] + Vector2(-6.0, 4.0), 16.0, 0.8],
 		[m.bounds.get_center(), CampaignCamera.MAX_DISTANCE, 0.0],
 	]
 	for seg_name: String in ["vista d'insieme → Italia", "Italia → Roma da vicino", "Roma → Neapolis",
 			"Neapolis → Costantinopoli", "Costantinopoli da vicino", "Costantinopoli → Siria",
-			"Siria → vista d'insieme"]:
+			"Siria → boschi della Gallia", "boschi della Gallia → vista d'insieme"]:
 		_segments.append([seg_name, 0, 0.0, 0.0, 0])
 	_vp_rid = scene.get_viewport().get_viewport_rid()
 	RenderingServer.viewport_set_measure_render_time(_vp_rid, true)
