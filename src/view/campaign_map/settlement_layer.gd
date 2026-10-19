@@ -14,7 +14,14 @@ const SCALE: Dictionary = {
 
 var _map: CampaignMapData = null
 var _state: CampaignState = null
+## Oltre questo zoom (0 vicino, 1 vista d'insieme) si usano i modelli semplici delle città.
+const LOD_ZOOM: float = 0.3
+
 var _mm: Dictionary = {}                 # "taglia:stile" -> MultiMesh
+var _mm_lod: Dictionary = {}             # "taglia:stile" -> MultiMesh con il modello semplice
+var _detail_nodes: Array[MultiMeshInstance3D] = []
+var _lod_nodes: Array[MultiMeshInstance3D] = []
+var lod_active: bool = false
 var _slot: Dictionary[String, Array] = {}   # pid -> [chiave, indice istanza]
 var _labels: Dictionary[String, Label3D] = {}
 var _tier_of: Dictionary[String, int] = {}
@@ -71,6 +78,25 @@ func setup(map: CampaignMapData, state: CampaignState, db: GameDatabase, details
 		node.name = "Citta_%d_%s" % [tier, key.get_slice(":", 1)]
 		add_child(node)
 		_mm[key] = mm
+		_detail_nodes.append(node)
+		# stesso insieme di città con il modello semplice, per le viste lontane
+		var lod := MultiMesh.new()
+		lod.transform_format = MultiMesh.TRANSFORM_3D
+		lod.use_custom_data = true
+		lod.use_colors = true
+		lod.mesh = CampaignModels.settlement_lod_mesh(tier, key.get_slice(":", 1))
+		lod.instance_count = list.size()
+		for i: int in list.size():
+			lod.set_instance_transform(i, mm.get_instance_transform(i))
+			lod.set_instance_color(i, Color.WHITE)
+		var lod_node := MultiMeshInstance3D.new()
+		lod_node.multimesh = lod
+		lod_node.material_override = mat
+		lod_node.name = "CittaLontane_%d_%s" % [tier, key.get_slice(":", 1)]
+		lod_node.visible = false
+		add_child(lod_node)
+		_mm_lod[key] = lod
+		_lod_nodes.append(lod_node)
 	for pid: String in map.province_order:
 		var p: ProvinceDef = db.provinces.get(pid)
 		if p != null:
@@ -114,12 +140,20 @@ func _write_color(pid: String, phase: float) -> void:
 	var s: Array = _slot[pid]
 	var c: Color = GameData.faction_color(_state.province_owner.get(pid, ""))
 	(_mm[s[0]] as MultiMesh).set_instance_custom_data(int(s[1]), Color(c.r, c.g, c.b, phase))
+	(_mm_lod[s[0]] as MultiMesh).set_instance_custom_data(int(s[1]), Color(c.r, c.g, c.b, phase))
 
 
 ## Nomi visibili secondo lo zoom: da lontano solo capitali e città grandi, e più piccoli.
 ## La dimensione cambia con la scala del nodo: cambiare pixel_size ricostruirebbe il testo di
 ## tutte le etichette a ogni fotogramma di zoom (lavoro inutile per il processore).
 func update_labels(zoom: float) -> void:
+	var far: bool = zoom > LOD_ZOOM
+	if far != lod_active:
+		lod_active = far
+		for n: MultiMeshInstance3D in _detail_nodes:
+			n.visible = not far
+		for n: MultiMeshInstance3D in _lod_nodes:
+			n.visible = far
 	var s: float = lerpf(1.0, 0.69, smoothstep(0.2, 0.9, zoom))
 	var scale_v := Vector3(s, s, s)
 	for pid: String in _labels:

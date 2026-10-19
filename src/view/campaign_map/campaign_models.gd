@@ -53,6 +53,15 @@ static func settlement_mesh(tier: int, style: String = "mediterraneo") -> ArrayM
 	return _cache[key]
 
 
+## Versione semplice (~150 triangoli) per le viste lontane: da lontano i dettagli sono più
+## piccoli di un pixel e farebbero solo lavorare la scheda video.
+static func settlement_lod_mesh(tier: int, style: String = "mediterraneo") -> ArrayMesh:
+	var key: String = "l%d_%s" % [tier, style]
+	if not _cache.has(key):
+		_cache[key] = _build_settlement_lod(tier, _style(style))
+	return _cache[key]
+
+
 static func hamlet_mesh(style: String) -> ArrayMesh:
 	var key: String = "h_%s" % style
 	if not _cache.has(key):
@@ -352,6 +361,42 @@ static func _build_settlement(tier: int, style: String) -> ArrayMesh:
 		pass
 	# stendardi
 	if cap:
+		_flag(b, Vector3(-0.24, 0.02, -0.22), 0.56, 0.2)
+		_flag(b, Vector3(0.3, 0.02, 0.0), 0.46, 0.16)
+	elif tier >= Settlement.TOWN:
+		_flag(b, Vector3(0.05, 0.02, 0.05), 0.42, 0.16)
+	else:
+		_flag(b, Vector3(0.0, 0.02, 0.0), 0.32, 0.12)
+	return b.build()
+
+
+static func _build_settlement_lod(tier: int, style: String) -> ArrayMesh:
+	var b := LowPolyBuilder.new()
+	var p: Dictionary = PALETTE[style]
+	var r: float = [0.24, 0.33, 0.43, 0.52][clampi(tier, 0, 3)]
+	b.add(_cyl(r + 0.05, r + 0.09, 0.02, 8, false), LowPolyBuilder.at(Vector3(0, 0.01, 0)), p["ground"])
+	# isolati: blocchi bassi con il colore dei tetti
+	var blocks: int = 4 + tier * 2
+	for i: int in blocks:
+		var a: float = TAU * i / blocks + 0.3
+		var rr: float = r * (0.35 if i % 2 == 0 else 0.62)
+		var sz: float = r * 0.42
+		b.add(LowPolyBuilder.box(Vector3(sz, 0.06, sz * 0.8)), LowPolyBuilder.at(Vector3(cos(a) * rr, 0.05, sin(a) * rr), Vector3(0, rad_to_deg(a), 0)),
+				p["roof"] if i % 3 != 0 else p["wall"])
+	# edificio principale
+	match style:
+		"orientale":
+			b.add(LowPolyBuilder.sphere(0.08 + tier * 0.02, 6, 3), LowPolyBuilder.at(Vector3(0, 0.08, 0)), GOLD if tier == Settlement.CAPITAL else p["accent"])
+		"desertico":
+			b.add(LowPolyBuilder.box(Vector3(0.16, 0.1 + tier * 0.02, 0.13)), LowPolyBuilder.at(Vector3(0, 0.07, 0)), p["wall"])
+		_:
+			b.add(LowPolyBuilder.box(Vector3(0.1, 0.09, 0.16)), LowPolyBuilder.at(Vector3(0, 0.065, 0)), p["accent"] if style == "mediterraneo" else p["stone"])
+	if tier >= Settlement.CITY or (tier == Settlement.TOWN and style == "settentrionale"):
+		# mura: un anello aperto (tubo senza basi)
+		var ring := _cyl(r + 0.02, r + 0.02, 0.06, 10, false)
+		ring.cap_top = false
+		b.add(ring, LowPolyBuilder.at(Vector3(0, 0.05, 0)), p["wall2"] if style == "settentrionale" else p["stone"])
+	if tier == Settlement.CAPITAL:
 		_flag(b, Vector3(-0.24, 0.02, -0.22), 0.56, 0.2)
 		_flag(b, Vector3(0.3, 0.02, 0.0), 0.46, 0.16)
 	elif tier >= Settlement.TOWN:

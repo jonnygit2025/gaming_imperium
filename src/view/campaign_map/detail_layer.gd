@@ -12,8 +12,24 @@ const TREE_SHADER: String = "res://assets/shaders/campaign_trees.gdshader"
 const PROPS_SHADER: String = "res://assets/shaders/campaign_props.gdshader"
 const HAMLET_SCALE: float = 2.0
 const PORT_SCALE: float = 2.2
-## Blocchi di alberi costruiti al massimo per fotogramma.
-const BUILDS_PER_FRAME: int = 3
+## Blocchi di alberi messi in scena al massimo per fotogramma.
+const BUILDS_PER_FRAME: int = 2
+## Blocchi preparati in parallelo sugli altri core del processore.
+const MAX_JOBS: int = 4
+
+
+## Preparazione dei dati di un blocco di alberi, eseguita su un thread separato: il ciclo in
+## GDScript costa qualche millisecondo per blocco e sul thread principale farebbe scattare la vista.
+class TreeJob:
+	extends RefCounted
+	var index: int = 0
+	var chunk: Dictionary = {}
+	var fraction: float = 1.0
+	var source: CampaignDetails = null
+	var buf := PackedFloat32Array()
+
+	func run() -> void:
+		buf = source.tree_chunk_buffer(chunk, fraction)
 ## Oltre questa distanza della telecamera villaggi minori e porti non si leggono più: nascosti.
 const SMALL_PROPS_MAX_DISTANCE: float = 150.0
 
@@ -30,6 +46,10 @@ var _tree_mesh: ArrayMesh = null
 var _tree_nodes: Dictionary[int, MultiMeshInstance3D] = {}
 var _check_timer: float = 0.0
 var _camera: Camera3D = null
+## Blocchi in preparazione: indice -> [id del compito, TreeJob]
+var _jobs: Dictionary[int, Array] = {}
+## false = prepara i blocchi sul thread principale (test).
+var threaded: bool = true
 
 
 func setup(map: CampaignMapData, det: CampaignDetails, camera: Camera3D) -> void:
@@ -39,7 +59,7 @@ func setup(map: CampaignMapData, det: CampaignDetails, camera: Camera3D) -> void
 	var veg: float = clampf(Settings.graphics.vegetation_density, 0.0, 1.0)
 	tree_fraction = veg
 	# Con meno vegetazione gli alberi spariscono anche prima.
-	tree_fade_end = lerpf(20.0, 30.0, clampf((veg - 0.3) / 0.7, 0.0, 1.0))
+	tree_fade_end = lerpf(19.0, 27.0, clampf((veg - 0.3) / 0.7, 0.0, 1.0))
 	tree_fade_start = tree_fade_end * 0.6
 	_tree_mat = ShaderMaterial.new()
 	_tree_mat.shader = load(TREE_SHADER)
@@ -124,45 +144,78 @@ func _build_ports(mat: ShaderMaterial) -> void:
 	add_child(node)
 
 
+func _exit_tree() -> void:
+	for i: int in _jobs:
+		WorkerThreadPool.wait_for_task_completion(int(_jobs[i][0]))
+	_jobs.clear()
+
+
 func _process(delta: float) -> void:
 	if details == null or _camera == null or tree_fraction <= 0.0:
 		return
 	_check_timer -= delta
-	if _check_timer > 0.0:
+	if _check_timer > 0.0 and _jobs.is_empty():
 		return
 	_check_timer = 0.15
 	update_trees(_camera.global_position)
 
 
-## Costruisce i blocchi di alberi vicini alla telecamera (al massimo BUILDS_PER_FRAME alla volta).
-## Restituisce quanti ne ha costruiti.
+## Prepara (su un altro thread) e mette in scena i blocchi di alberi vicini alla telecamera,
+## i più vicini per primi. Restituisce quanti blocchi ha messo in scena in questa chiamata.
 func update_trees(cam_pos: Vector3, max_builds: int = BUILDS_PER_FRAME) -> int:
-	var reach: float = tree_fade_end + details.tree_chunk_size
 	var built: int = 0
+	# blocchi pronti
+	for i: int in _jobs.keys():
+		if built >= max_builds:
+			break
+		var task: int = int(_jobs[i][0])
+		if WorkerThreadPool.is_task_completed(task):
+			WorkerThreadPool.wait_for_task_completion(task)
+			var job: TreeJob = _jobs[i][1]
+			_jobs.erase(i)
+			_add_chunk(i, job.chunk, job.buf)
+			built += 1
+	# nuovi blocchi da preparare, dal più vicino
+	var reach: float = tree_fade_end + details.tree_chunk_size
 	var cam2 := Vector2(cam_pos.x, cam_pos.z)
+	var wanted: Array = []
 	for i: int in details.tree_chunks.size():
-		if _tree_nodes.has(i):
+		if _tree_nodes.has(i) or _jobs.has(i):
 			continue
 		var c: Dictionary = details.tree_chunks[i]
 		var r: Rect2 = c["rect"]
-		var center: Vector2 = r.get_center()
 		var dy: float = maxf(cam_pos.y - float(c["y_max"]), 0.0)
-		var dxz: float = maxf(cam2.distance_to(center) - r.size.x * 0.71, 0.0)
-		if Vector2(dxz, dy).length() > reach:
+		var dxz: float = maxf(cam2.distance_to(r.get_center()) - r.size.x * 0.71, 0.0)
+		var d: float = Vector2(dxz, dy).length()
+		if d <= reach:
+			wanted.append([d, i])
+	wanted.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0])
+	for w: Array in wanted:
+		var i: int = w[1]
+		var c: Dictionary = details.tree_chunks[i]
+		if not threaded:
+			if built >= max_builds:
+				break
+			_add_chunk(i, c, details.tree_chunk_buffer(c, tree_fraction))
+			built += 1
 			continue
-		_build_chunk(i, c)
-		built += 1
-		if built >= max_builds:
+		if _jobs.size() >= MAX_JOBS:
 			break
+		var job := TreeJob.new()
+		job.index = i
+		job.chunk = c
+		job.fraction = tree_fraction
+		job.source = details
+		_jobs[i] = [WorkerThreadPool.add_task(job.run, false, "Alberi"), job]
 	return built
 
 
-func _build_chunk(i: int, c: Dictionary) -> void:
-	var buf: PackedFloat32Array = details.tree_chunk_buffer(c, tree_fraction)
+func _add_chunk(i: int, c: Dictionary, buf: PackedFloat32Array) -> void:
 	var node := MultiMeshInstance3D.new()
 	node.name = "Alberi_%d" % i
 	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	node.visibility_range_end = tree_fade_end + details.tree_chunk_size
+	# misurata dal centro del blocco: oltre fade_end + mezza diagonale gli alberi sono già spariti
+	node.visibility_range_end = tree_fade_end + details.tree_chunk_size * 0.71
 	node.material_override = _tree_mat
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
