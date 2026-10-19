@@ -7,6 +7,11 @@ const TERRAIN_SHADER: String = "res://assets/shaders/campaign_terrain.gdshader"
 const WATER_SHADER: String = "res://assets/shaders/campaign_water.gdshader"
 const START_DISTANCE: float = 95.0
 const FOCUS_DISTANCE: float = 32.0
+## Ombre del sole solo da vicino: piene fino a SHADOW_FULL, sfumano fino a SHADOW_OFF, poi
+## spente. Le proiettano solo città ed eserciti, che da lontano sono troppo piccoli per
+## vederle, mentre leggere la mappa delle ombre su ogni pixel del terreno costa sempre.
+const SHADOW_FULL: float = 30.0
+const SHADOW_OFF: float = 55.0
 
 var map: CampaignMapData = null
 var state: CampaignState = null
@@ -32,6 +37,9 @@ var _press_pos: Vector2 = Vector2.ZERO
 var _press_valid: bool = false
 var _last_mouse: Vector2 = Vector2(-1, -1)
 var _last_cam: Vector3 = Vector3.ZERO
+## Fotogrammi iniziali con le ombre accese: compilano subito le varianti degli shader con le
+## ombre, così il primo zoom ravvicinato non scatta.
+var _shadow_warmup: int = 2
 
 
 func _ready() -> void:
@@ -107,9 +115,10 @@ func _build_environment() -> void:
 	environment.fog_light_energy = 1.0
 	environment.fog_sky_affect = 0.6
 	environment.fog_depth_curve = 1.4
-	environment.glow_intensity = 0.25
-	environment.glow_bloom = 0.0
 	Settings.configure_environment(environment)
+	# Sulla mappa non c'è nulla che brilli (niente luci né materiali emissivi): il glow
+	# costerebbe un passaggio a tutto schermo senza cambiare l'immagine.
+	environment.glow_enabled = false
 	var we := WorldEnvironment.new()
 	we.environment = environment
 	add_child(we)
@@ -118,6 +127,9 @@ func _build_environment() -> void:
 	sun.light_color = Color("fff0d6")
 	sun.light_energy = 1.1
 	Settings.configure_sun(sun)
+	# Sulla mappa le ombre coprono solo la zona vicina alla telecamera: bastano 2 suddivisioni.
+	if sun.directional_shadow_mode == DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS:
+		sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
 	add_child(sun)
 
 
@@ -187,7 +199,24 @@ func _process(_delta: float) -> void:
 		# Nebbia di distanza che segue lo zoom: lontano copre solo l'orizzonte.
 		environment.fog_depth_begin = cam.distance * 1.3
 		environment.fog_depth_end = cam.distance * 4.0 + 120.0
+		if _shadow_warmup <= 0:
+			update_shadows(cam.distance)
+	if _shadow_warmup > 0:
+		_shadow_warmup -= 1
+		if _shadow_warmup == 0:
+			update_shadows(cam.distance)
 	_update_hover()
+
+
+## Ombre del sole secondo la distanza della telecamera (vedi SHADOW_FULL e SHADOW_OFF).
+func update_shadows(dist: float) -> void:
+	var allowed: bool = Settings.graphics.shadows_enabled()
+	var on: bool = allowed and dist < SHADOW_OFF
+	if sun.shadow_enabled != on:
+		sun.shadow_enabled = on
+	if on:
+		sun.shadow_opacity = 1.0 - smoothstep(SHADOW_FULL, SHADOW_OFF, dist)
+		sun.directional_shadow_max_distance = clampf(dist * 2.5, 20.0, maxf(Settings.graphics.shadow_distance(), 20.0))
 
 
 func _update_hover() -> void:

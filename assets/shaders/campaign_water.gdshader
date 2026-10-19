@@ -2,7 +2,9 @@ shader_type spatial;
 // Mare leggero per il renderer Compatibilità: nessuna lettura della profondità né riflessi
 // dello schermo. Il colore dipende dalla distanza dalla costa (campo precalcolato), le onde
 // sono due campionamenti di una piccola texture di rumore che scorre.
-render_mode diffuse_burley, specular_schlick_ggx, cull_disabled;
+// Nessun oggetto proietta ombre sul mare: shadows_disabled evita di leggere la mappa delle
+// ombre su ogni pixel d'acqua.
+render_mode diffuse_burley, specular_schlick_ggx, cull_disabled, shadows_disabled;
 
 uniform sampler2D fields_tex : filter_linear, repeat_disable;
 uniform sampler2D noise_tex : filter_linear_mipmap, repeat_enable;

@@ -18,6 +18,15 @@ var _label: Label = null
 var _peak_draw_calls: int = 0
 var _peak_triangles: int = 0
 var _peak_vram: float = 0.0
+## Per tratto del percorso: [nome, fotogrammi, somma ms, fotogramma peggiore ms, fotogrammi > 20 ms]
+var _segments: Array = []
+var _frame_ms: float = 0.0
+var _cpu_render_ms: float = 0.0
+var _gpu_ms: float = 0.0
+var _timed_frames: int = 0
+var _vp_rid: RID
+## Orologio reale: con fotogrammi molto lenti il delta di Godot viene limitato e non basta.
+var _last_us: int = 0
 
 
 func setup(owner_scene: CampaignMapScene) -> void:
@@ -34,6 +43,12 @@ func setup(owner_scene: CampaignMapScene) -> void:
 		[m.city_pos["syria"], 160.0, 0.0],
 		[m.bounds.get_center(), CampaignCamera.MAX_DISTANCE, 0.0],
 	]
+	for seg_name: String in ["vista d'insieme → Italia", "Italia → Roma da vicino", "Roma → Neapolis",
+			"Neapolis → Costantinopoli", "Costantinopoli da vicino", "Costantinopoli → Siria",
+			"Siria → vista d'insieme"]:
+		_segments.append([seg_name, 0, 0.0, 0.0, 0])
+	_vp_rid = scene.get_viewport().get_viewport_rid()
+	RenderingServer.viewport_set_measure_render_time(_vp_rid, true)
 	scene.cam.input_enabled = false
 	scene.cam.edge_scroll = false
 	Engine.max_fps = 0
@@ -47,12 +62,17 @@ func setup(owner_scene: CampaignMapScene) -> void:
 
 
 func _exit_tree() -> void:
+	if _vp_rid.is_valid():
+		RenderingServer.viewport_set_measure_render_time(_vp_rid, false)
 	Settings.apply()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if _done or scene == null:
 		return
+	var now: int = Time.get_ticks_usec()
+	var delta: float = 0.0 if _last_us == 0 else (now - _last_us) / 1000000.0
+	_last_us = now
 	_time += delta
 	var total: float = WARMUP + MEASURE
 	if _time > WARMUP:
@@ -60,8 +80,20 @@ func _process(delta: float) -> void:
 		_peak_draw_calls = maxi(_peak_draw_calls, int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)))
 		_peak_triangles = maxi(_peak_triangles, int(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)))
 		_peak_vram = maxf(_peak_vram, Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1048576.0)
+		_frame_ms += delta * 1000.0
+		_cpu_render_ms += RenderingServer.viewport_get_measured_render_time_cpu(_vp_rid) + RenderingServer.get_frame_setup_time_cpu()
+		_gpu_ms += RenderingServer.viewport_get_measured_render_time_gpu(_vp_rid)
+		_timed_frames += 1
 	var t: float = clampf(_time / total, 0.0, 1.0) * (_keys.size() - 1)
 	var i: int = mini(floori(t), _keys.size() - 2)
+	if _time > WARMUP:
+		var seg: Array = _segments[i]
+		var ms: float = delta * 1000.0
+		seg[1] += 1
+		seg[2] += ms
+		seg[3] = maxf(seg[3], ms)
+		if ms > 20.0:
+			seg[4] += 1
 	var f: float = smoothstep(0.0, 1.0, t - i)
 	var a: Array = _keys[i]
 	var b: Array = _keys[i + 1]
@@ -92,6 +124,18 @@ func _finish() -> void:
 	else:
 		verdict = "Troppo lento: abbassa il preset grafico."
 	var size: Vector2i = scene.get_viewport().get_visible_rect().size
+	var n: float = maxf(_timed_frames, 1)
+	var gpu_avg: float = _gpu_ms / n
+	var frame_avg: float = _frame_ms / n
+	var gpu_text: String = "%.1f ms" % gpu_avg if _gpu_ms > 0.0 else "n/d"
+	var bound: String = "non misurabile (la scheda non dà i tempi)"
+	if _gpu_ms > 0.0:
+		bound = "scheda video" if gpu_avg >= frame_avg * 0.8 else "processore (la scheda video aspetta)"
+	var seg_lines := PackedStringArray()
+	for seg: Array in _segments:
+		if int(seg[1]) > 0:
+			seg_lines.append("  %s: %.1f ms medi · peggiore %.1f ms · %d fotogrammi oltre 20 ms" % [
+				seg[0], float(seg[2]) / int(seg[1]), float(seg[3]), int(seg[4])])
 	var text: String = "\n".join(PackedStringArray([
 		"Data: %s" % Time.get_datetime_string_from_system(false, true),
 		"Scheda video: %s · %s" % [Settings.hardware.gpu_name, Settings.hardware.graphics_api],
@@ -102,6 +146,10 @@ func _finish() -> void:
 			avg, avg_ms, low, _stats.worst_frame_ms()],
 		"Picchi: %d chiamate di disegno · %d triangoli · memoria video %.0f MB · caricamento mappa %.2f s" % [
 			_peak_draw_calls, _peak_triangles, _peak_vram, scene.load_ms / 1000.0],
+		"Tempi medi: fotogramma %.1f ms · lavoro della scheda video %s · preparazione del disegno sul processore %.1f ms · limite: %s" % [
+			frame_avg, gpu_text, _cpu_render_ms / n, bound],
+		"Per tratto del percorso:",
+		"\n".join(seg_lines),
 		verdict,
 	]))
 	_write(text)

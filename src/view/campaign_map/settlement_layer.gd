@@ -112,15 +112,20 @@ func _write_color(pid: String, phase: float) -> void:
 
 
 ## Nomi visibili secondo lo zoom: da lontano solo capitali e città grandi, e più piccoli.
+## La dimensione cambia con la scala del nodo: cambiare pixel_size ricostruirebbe il testo di
+## tutte le etichette a ogni fotogramma di zoom (lavoro inutile per il processore).
 func update_labels(zoom: float) -> void:
-	var px_size: float = lerpf(0.0009, 0.00062, smoothstep(0.2, 0.9, zoom))
+	var s: float = lerpf(1.0, 0.69, smoothstep(0.2, 0.9, zoom))
+	var scale_v := Vector3(s, s, s)
 	for pid: String in _labels:
 		var tier: int = _tier_of[pid]
 		var visible_now: bool = zoom < 0.32 or tier == CampaignModels.Settlement.CAPITAL \
 				or (zoom < 0.62 and tier >= CampaignModels.Settlement.CITY)
 		var l: Label3D = _labels[pid]
-		l.visible = visible_now
-		l.pixel_size = px_size
+		if l.visible != visible_now:
+			l.visible = visible_now
+		if visible_now:
+			l.scale = scale_v
 
 
 func label_of(pid: String) -> Label3D:

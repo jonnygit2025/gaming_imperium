@@ -90,6 +90,29 @@ func test_campaign_map_opens_and_ends_turn() -> void:
 	Session.end_game()
 
 
+func test_campaign_shadows_only_up_close() -> void:
+	Session.start_new_game("476_caduta_di_roma", "odoacre")
+	var scene := await _open(Scenes.CAMPAIGN, 5) as CampaignMapScene
+	var saved: String = Settings.graphics.shadows
+	Settings.graphics.shadows = "alte"
+	scene.update_shadows(10.0)
+	assert_true(scene.sun.shadow_enabled, "da vicino le ombre ci sono")
+	assert_almost_eq(scene.sun.shadow_opacity, 1.0, 0.001)
+	assert_lte(scene.sun.directional_shadow_max_distance, Settings.graphics.shadow_distance())
+	scene.update_shadows((CampaignMapScene.SHADOW_FULL + CampaignMapScene.SHADOW_OFF) * 0.5)
+	assert_between(scene.sun.shadow_opacity, 0.01, 0.99, "sfumano")
+	scene.update_shadows(CampaignMapScene.SHADOW_OFF + 1.0)
+	assert_false(scene.sun.shadow_enabled, "da lontano niente ombre")
+	Settings.graphics.shadows = "disattivate"
+	scene.update_shadows(10.0)
+	assert_false(scene.sun.shadow_enabled, "il preset senza ombre vale anche da vicino")
+	assert_ne(scene.sun.directional_shadow_mode, DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS,
+			"sulla mappa bastano 2 suddivisioni")
+	assert_false(scene.environment.glow_enabled, "niente glow sulla mappa")
+	Settings.graphics.shadows = saved
+	Session.end_game()
+
+
 
 func test_benchmark_runs() -> void:
 	var n: Node = await _open(Scenes.BENCHMARK, 20)
