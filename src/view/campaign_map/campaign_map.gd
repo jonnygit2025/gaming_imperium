@@ -4,11 +4,18 @@ extends Node3D
 ## e interfaccia. Solo grafica e input: le regole stanno in src/core (TurnProcessor ecc.).
 
 const TERRAIN_SHADER: String = "res://assets/shaders/campaign_terrain.gdshader"
+const TERRAIN_MID_SHADER: String = "res://assets/shaders/campaign_terrain_mid.gdshader"
 const TERRAIN_FAR_SHADER: String = "res://assets/shaders/campaign_terrain_far.gdshader"
-## Oltre questa distanza della telecamera il terreno usa lo shader senza dettagli (stessa
-## immagine: rumore fine, campi e strade sono già spariti), più leggero per la scheda video.
-const TERRAIN_FAR_ON: float = 155.0
-const TERRAIN_FAR_OFF: float = 150.0
+## Livelli del terreno secondo la distanza della telecamera (misure sulla GTX 650: il codice dei
+## dettagli costa ~1 ms anche dove non si vede, i 310.000 triangoli da lontano sono minuscoli):
+##   vicino   (< 60)   shader completo (rumore fine, campi, strade), mesh completa
+##   medio    (< 155)  shader con le sole strade, mesh completa
+##   lontano           shader senza dettagli, mesh semplificata (77.600 triangoli)
+const TERRAIN_NEAR_MAX: float = 60.0
+const TERRAIN_MID_MAX: float = 155.0
+## Margine per non alternare i livelli quando lo zoom si ferma vicino a un confine.
+const TERRAIN_HYSTERESIS: float = 4.0
+enum TerrainTier { NEAR, MID, FAR }
 const WATER_SHADER: String = "res://assets/shaders/campaign_water.gdshader"
 const START_DISTANCE: float = 95.0
 const FOCUS_DISTANCE: float = 32.0
@@ -23,9 +30,14 @@ var state: CampaignState = null
 var cam: CampaignCamera = null
 var palette: PoliticalPalette = null
 var terrain_material: ShaderMaterial = null
+var terrain_mid_material: ShaderMaterial = null
 var terrain_far_material: ShaderMaterial = null
-## Prova delle prestazioni (test in Opzioni): forza lo shader senza dettagli.
+var terrain_mesh_full: Mesh = null
+var terrain_mesh_far: Mesh = null
+var terrain_tier: int = TerrainTier.FAR
+## Prove delle prestazioni (test in Opzioni): shader senza dettagli / mesh completa ovunque.
 var force_far_terrain: bool = false
+var force_full_mesh: bool = false
 var water_material: ShaderMaterial = null
 var settlements: SettlementLayer = null
 var details: CampaignDetails = null
@@ -49,7 +61,7 @@ var _last_mouse: Vector2 = Vector2(-1, -1)
 var _last_cam: Vector3 = Vector3.ZERO
 ## Fotogrammi iniziali con le ombre accese: compilano subito le varianti degli shader con le
 ## ombre, così il primo zoom ravvicinato non scatta.
-var _shadow_warmup: int = 2
+var _shadow_warmup: int = 3
 
 
 func _ready() -> void:
@@ -145,17 +157,25 @@ func _build_environment() -> void:
 	# Sulla mappa le ombre coprono solo la zona vicina alla telecamera: bastano 2 suddivisioni.
 	if sun.directional_shadow_mode == DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS:
 		sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	# Ombre nette (un solo campione): sugli edifici minuscoli della mappa le ombre morbide non si
+	# distinguono e sulla GTX 650 costavano fino a 3 ms nei boschi. Ripristinate all'uscita.
+	if not Settings.is_headless():
+		RenderingServer.directional_soft_shadow_filter_set_quality(RenderingServer.SHADOW_QUALITY_HARD)
 	add_child(sun)
 
 
 func _build_terrain() -> void:
-	var mesh: Mesh = load("res://assets/map/terrain_mesh.res")
+	terrain_mesh_full = load("res://assets/map/terrain_mesh.res")
+	terrain_mesh_far = load("res://assets/map/terrain_mesh_far.res")
+	var mesh: Mesh = terrain_mesh_far
 	terrain_node = MeshInstance3D.new()
 	terrain_node.name = "Terreno"
 	terrain_node.mesh = mesh
 	terrain_node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	terrain_material = ShaderMaterial.new()
 	terrain_material.shader = load(TERRAIN_SHADER)
+	terrain_mid_material = ShaderMaterial.new()
+	terrain_mid_material.shader = load(TERRAIN_MID_SHADER)
 	terrain_far_material = ShaderMaterial.new()
 	terrain_far_material.shader = load(TERRAIN_FAR_SHADER)
 	set_terrain_param("albedo_tex", load("res://assets/map/terrain_albedo.png"))
@@ -177,16 +197,25 @@ func _build_terrain() -> void:
 ## Imposta un parametro in entrambi gli shader del terreno.
 func set_terrain_param(param: String, value: Variant) -> void:
 	terrain_material.set_shader_parameter(param, value)
+	terrain_mid_material.set_shader_parameter(param, value)
 	terrain_far_material.set_shader_parameter(param, value)
 
 
-## Sceglie lo shader del terreno secondo la distanza della telecamera (con isteresi).
+## Sceglie shader e mesh del terreno secondo la distanza della telecamera (con isteresi).
 func update_terrain_material(dist: float) -> void:
-	var far: bool = force_far_terrain or dist > TERRAIN_FAR_ON \
-			or (dist >= TERRAIN_FAR_OFF and terrain_node.material_override == terrain_far_material)
-	var want: ShaderMaterial = terrain_far_material if far else terrain_material
-	if terrain_node.material_override != want:
-		terrain_node.material_override = want
+	var h: float = TERRAIN_HYSTERESIS
+	var near_max: float = TERRAIN_NEAR_MAX + (h if terrain_tier == TerrainTier.NEAR else -h) * 0.5
+	var mid_max: float = TERRAIN_MID_MAX + (h if terrain_tier <= TerrainTier.MID else -h) * 0.5
+	var tier: int = TerrainTier.NEAR if dist < near_max else (TerrainTier.MID if dist < mid_max else TerrainTier.FAR)
+	terrain_tier = tier
+	var mat: ShaderMaterial = [terrain_material, terrain_mid_material, terrain_far_material][tier]
+	if force_far_terrain:
+		mat = terrain_far_material
+	if terrain_node.material_override != mat:
+		terrain_node.material_override = mat
+	var mesh: Mesh = terrain_mesh_far if tier == TerrainTier.FAR and not force_full_mesh else terrain_mesh_full
+	if terrain_node.mesh != mesh:
+		terrain_node.mesh = mesh
 
 
 func _build_water() -> void:
@@ -222,6 +251,11 @@ func _apply_season() -> void:
 	sun.light_energy = 1.1 if w < 0.5 else 0.95
 
 
+func _exit_tree() -> void:
+	if not Settings.is_headless():
+		Settings.apply_shadow_filter()
+
+
 # ------------------------------------------------------------------ ciclo
 
 func _process(_delta: float) -> void:
@@ -244,6 +278,11 @@ func _process(_delta: float) -> void:
 			update_shadows(cam.distance)
 	if _shadow_warmup > 0:
 		_shadow_warmup -= 1
+		# primi fotogrammi: un livello di terreno ciascuno, così tutti gli shader sono già compilati
+		if _shadow_warmup == 2:
+			terrain_node.material_override = terrain_mid_material
+		elif _shadow_warmup == 1:
+			terrain_node.material_override = terrain_material
 		if _shadow_warmup == 0:
 			update_shadows(cam.distance)
 			update_terrain_material(cam.distance)
@@ -258,7 +297,7 @@ func update_shadows(dist: float) -> void:
 		sun.shadow_enabled = on
 	if on:
 		sun.shadow_opacity = 1.0 - smoothstep(SHADOW_FULL, SHADOW_OFF, dist)
-		sun.directional_shadow_max_distance = clampf(dist * 2.5, 20.0, maxf(Settings.graphics.shadow_distance(), 20.0))
+		sun.directional_shadow_max_distance = clampf(dist * 1.6, 15.0, maxf(Settings.graphics.shadow_distance(), 15.0))
 
 
 func _update_hover() -> void:
@@ -363,6 +402,7 @@ func end_turn() -> void:
 ## "completo" rimette tutto com'era.
 func apply_analysis_variant(variant: String) -> void:
 	force_far_terrain = variant == "shader_senza_dettagli"
+	force_full_mesh = variant == "terreno_completo"
 	update_terrain_material(cam.distance)
 	for c: Node in detail_layer.get_children():
 		if c.name.begins_with("Alberi"):

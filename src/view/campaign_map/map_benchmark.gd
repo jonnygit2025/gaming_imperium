@@ -30,10 +30,11 @@ var _vp_rid: RID
 ## Orologio reale: con fotogrammi molto lenti il delta di Godot viene limitato e non basta.
 var _last_us: int = 0
 
-const ANALYSIS_VARIANTS: PackedStringArray = ["completo", "shader_senza_dettagli", "senza_alberi",
+const ANALYSIS_VARIANTS: PackedStringArray = ["completo", "terreno_completo", "shader_senza_dettagli", "senza_alberi",
 		"senza_citta_dettagliate", "senza_ombre", "senza_mare"]
 const ANALYSIS_NAMES: Dictionary = {
-	"completo": "completo", "shader_senza_dettagli": "shader del terreno senza dettagli",
+	"completo": "completo", "terreno_completo": "terreno con tutti i triangoli",
+	"shader_senza_dettagli": "shader del terreno senza dettagli",
 	"senza_alberi": "senza alberi", "senza_citta_dettagliate": "città semplici e senza villaggi/porti",
 	"senza_ombre": "senza ombre", "senza_mare": "senza mare",
 }

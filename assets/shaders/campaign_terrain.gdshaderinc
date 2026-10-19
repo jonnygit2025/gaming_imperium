@@ -1,6 +1,9 @@
 // Terreno della mappa di campagna (compatibile con il renderer Compatibilità / OpenGL 3.3).
-// Codice comune: campaign_terrain.gdshader (con i dettagli: rumore fine, campi, strade, definisce
-// WITH_DETAILS) e campaign_terrain_far.gdshader (senza: usato da lontano, shader più piccolo e veloce).
+// Codice comune a tre varianti (sulle schede di vecchia generazione conta anche il codice che non
+// viene eseguito, quindi ogni distanza ha lo shader più piccolo che le serve):
+//   campaign_terrain.gdshader      da vicino: rumore fine, campi e strade (WITH_DETAILS + WITH_ROADS)
+//   campaign_terrain_mid.gdshader  a media distanza: solo strade (WITH_ROADS)
+//   campaign_terrain_far.gdshader  da lontano: nessun dettaglio
 // Colori delle fazioni con UNA tavolozza: ids_tex dice di quale provincia è il pixel,
 // palette_tex dice chi la possiede. Cambiare padrone = aggiornare un pixel della tavolozza.
 //   ids_tex    R = provincia (0 mare, 255 terre esterne), G = provincia oltre il confine più vicino
@@ -19,6 +22,8 @@ uniform sampler2D detail_tex : filter_linear_mipmap, repeat_enable;
 // details_tex R = distanza dalla strada (texel × road_scale), G = campi coltivati
 uniform sampler2D details_tex : filter_linear, repeat_disable;
 uniform float road_scale = 16.0;
+#endif
+#ifdef WITH_ROADS
 // roads_tex RG = punto della strada più vicina (scarto dal centro del texel, texel × 32 + 128),
 //           B = direzione del tratto (0..π), A = 1 vicino a una strada
 uniform sampler2D roads_tex : filter_nearest, repeat_disable;
@@ -33,7 +38,7 @@ uniform float tint_strength = 0.3;
 uniform float winter = 0.0;
 uniform float facets = 0.4;
 uniform float enemy_highlight = 1.0;
-#ifdef WITH_DETAILS
+#ifdef WITH_ROADS
 // Distanza della telecamera (aggiornata dal gioco a ogni zoom): oltre certe distanze interi
 // blocchi di lavoro (rumore fine, campi, strade) non servono e si saltano per tutti i pixel.
 uniform float cam_dist = 100.0;
@@ -145,30 +150,36 @@ void fragment() {
 	float land = smoothstep(-0.35, 0.25, coast);
 	float px = max(fwidth(bd), 1e-4);                     // texel per pixel sullo schermo
 
-#ifdef WITH_DETAILS
-	// Campi coltivati attorno agli abitati: solo avvicinandosi (lontano diventerebbero rumore);
-	// da lontano non si legge nemmeno la texture.
+#ifdef WITH_ROADS
+	// Strade (e da vicino campi): solo entro certe distanze della telecamera.
 	float wpx = 1.0;
-	float ffade = 0.0;
 	float rpx = 10.0;
 	float road_vis = 0.0;
 	vec2 tp = vec2(0.0);
 	// Le letture delle texture dei dettagli stanno SOLO dentro questo blocco (condizione uguale
 	// per tutti i pixel) e con il livello esplicito: altrimenti la scheda video le esegue comunque
 	// per ogni pixel, anche da lontano (texture da 12 MB senza mipmap: costa ~1 ms sulla GTX 650).
-	vec4 det = vec4(0.0);
 	vec4 rv = vec4(0.0);
+#ifdef WITH_DETAILS
+	float ffade = 0.0;
+	vec4 det = vec4(0.0);
+#endif
 	if (cam_dist < ROADS_MAX) {
 		wpx = length(fwidth(world_pos.xz)) * 0.7;                // unità del mondo per pixel
-		ffade = cam_dist < FIELDS_MAX ? 1.0 - smoothstep(0.03, 0.07, wpx) : 0.0;
 		tp = uv * vec2(textureSize(roads_tex, 0));
 		rpx = max(length(fwidth(tp)) * 0.7, 1e-4);              // texel per pixel
 		road_vis = (1.0 - smoothstep(0.9, 2.0, rpx)) * (1.0 - smoothstep(ROADS_MAX * 0.7, ROADS_MAX, cam_dist));
+		rv = textureLod(roads_tex, uv, 0.0);
+#ifdef WITH_DETAILS
 		if (cam_dist < FIELDS_MAX) {
+			ffade = 1.0 - smoothstep(0.03, 0.07, wpx);
 			det = textureLod(details_tex, uv, 0.0);
 		}
-		rv = textureLod(roads_tex, uv, 0.0);
+#endif
 	}
+#endif
+#ifdef WITH_DETAILS
+	// Campi coltivati attorno agli abitati: solo avvicinandosi (lontano diventerebbero rumore)
 	if (det.g > 0.02 && own >= 1.0 && own <= 254.0) {
 		float hedge;
 		vec3 fc = fields_color(world_pos.xz, own, winter, wpx, hedge);
@@ -205,7 +216,7 @@ void fragment() {
 		col = mix(col, vec3(0.85, 0.12, 0.08), enemy * (1.0 - smoothstep(0.0, 12.0, bd)) * 0.35 * pulse * land);
 	}
 
-#ifdef WITH_DETAILS
+#ifdef WITH_ROADS
 	// Strade: distanza esatta dalla linea (punto più vicino + direzione salvati per texel)
 	if (road_vis > 0.0) {
 		float vis = road_vis;

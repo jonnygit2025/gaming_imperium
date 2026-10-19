@@ -59,7 +59,7 @@ func setup(map: CampaignMapData, det: CampaignDetails, camera: Camera3D) -> void
 	var veg: float = clampf(Settings.graphics.vegetation_density, 0.0, 1.0)
 	tree_fraction = veg
 	# Con meno vegetazione gli alberi spariscono anche prima.
-	tree_fade_end = lerpf(19.0, 27.0, clampf((veg - 0.3) / 0.7, 0.0, 1.0))
+	tree_fade_end = lerpf(18.0, 24.0, clampf((veg - 0.3) / 0.7, 0.0, 1.0))
 	tree_fade_start = tree_fade_end * 0.6
 	_tree_mat = ShaderMaterial.new()
 	_tree_mat.shader = load(TREE_SHADER)

@@ -53,7 +53,7 @@ STYLE_BY_PROVINCE = {
 STYLES = ["mediterraneo", "orientale", "settentrionale", "desertico"]
 
 ROAD_SCALE = 16.0          # valore del canale R per texel di distanza
-TREES_PER_PX = 0.75        # alberi per pixel (2,65 km) di bosco pieno
+TREES_PER_PX = 0.5         # alberi per pixel (2,65 km) di bosco pieno
 CHUNK = 12.0               # lato dei blocchi di alberi (unità)
 FLOATS_PER_TREE = 6        # x, y, z, scala, rotazione, tipo + tinta/10
 
@@ -386,7 +386,8 @@ def trees(forest, temperate, km, lat, land, farm, road_d, small_h, rng):
     r = rng.random(n)
     kind = np.where((k > 0.9) | (la > 50.5) | (r < 0.18 * t), 1, 0)
     kind = np.where((t < 0.45) & (k < 0.7) & (r < 0.55), 2, kind)
-    scale = rng.uniform(0.3, 0.42, n) * np.where(kind == 1, 1.08, 1.0)
+    # un terzo di alberi in meno (misura sulla GTX 650), un po' più grandi: la chioma resta piena
+    scale = rng.uniform(0.35, 0.48, n) * np.where(kind == 1, 1.08, 1.0)
     yaw = rng.uniform(0, math.tau, n)
     tint = rng.uniform(0.82, 1.12, n)
     return wx, y, wz, kind, scale, yaw, tint

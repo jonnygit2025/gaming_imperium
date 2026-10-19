@@ -9,4 +9,5 @@ python3 tools/map/generate_map.py "$@"
 python3 tools/map/generate_details.py
 "$GODOT" --headless --import > /dev/null 2>&1 || true
 "$GODOT" --headless -s tools/map/build_map_resources.gd
+"$GODOT" --headless -s tools/map/build_far_terrain.gd
 echo "Mappa rigenerata."

@@ -5,7 +5,8 @@ shader_type spatial;
 // INSTANCE_CUSTOM.r = tinta, .g = fase dell'ondeggiamento.
 // Lontano dalla telecamera gli alberi si rimpiccioliscono fino a sparire: niente comparse
 // improvvise e nessun costo di trasparenza.
-render_mode diffuse_burley, cull_back;
+// Gli alberi non leggono la mappa delle ombre: nei boschi costava ~3 ms sulla GTX 650.
+render_mode diffuse_burley, cull_back, shadows_disabled;
 
 uniform float fade_start = 18.0;
 uniform float fade_end = 30.0;

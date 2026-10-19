@@ -178,3 +178,25 @@ func test_campaign_details_trees_and_city_lod() -> void:
 	layer.update_zoom(40.0)
 	assert_true((layer.get_node("Porti") as Node3D).visible)
 	Session.end_game()
+
+
+func test_campaign_terrain_tiers() -> void:
+	Session.start_new_game("476_caduta_di_roma", "odoacre")
+	var scene := await _open(Scenes.CAMPAIGN, 6) as CampaignMapScene
+	scene.update_terrain_material(20.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_material, "da vicino: shader completo")
+	assert_eq(scene.terrain_node.mesh, scene.terrain_mesh_full)
+	scene.update_terrain_material(100.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_mid_material, "media distanza: solo strade")
+	assert_eq(scene.terrain_node.mesh, scene.terrain_mesh_full)
+	scene.update_terrain_material(300.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_far_material, "da lontano: niente dettagli")
+	assert_eq(scene.terrain_node.mesh, scene.terrain_mesh_far, "da lontano: terreno semplificato")
+	# isteresi: appena sotto il confine resta lontano, ben sotto torna medio
+	scene.update_terrain_material(CampaignMapScene.TERRAIN_MID_MAX - 1.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_far_material)
+	scene.update_terrain_material(CampaignMapScene.TERRAIN_MID_MAX - 10.0)
+	assert_eq(scene.terrain_node.material_override, scene.terrain_mid_material)
+	var far_tris: int = (scene.terrain_mesh_far.surface_get_arrays(0)[Mesh.ARRAY_INDEX] as PackedInt32Array).size() >> 0
+	assert_lt(far_tris, 300000, "terreno lontano semplificato (indici: meno di 100.000 triangoli)")
+	Session.end_game()

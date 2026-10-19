@@ -15,7 +15,7 @@ const SCALE: Dictionary = {
 var _map: CampaignMapData = null
 var _state: CampaignState = null
 ## Oltre questo zoom (0 vicino, 1 vista d'insieme) si usano i modelli semplici delle città.
-const LOD_ZOOM: float = 0.3
+const LOD_ZOOM: float = 0.15
 
 var _mm: Dictionary = {}                 # "taglia:stile" -> MultiMesh
 var _mm_lod: Dictionary = {}             # "taglia:stile" -> MultiMesh con il modello semplice
