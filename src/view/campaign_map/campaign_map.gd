@@ -207,6 +207,7 @@ func _process(_delta: float) -> void:
 		_last_zoom = z
 		settlements.update_labels(z)
 		terrain_material.set_shader_parameter("tint_strength", lerpf(0.2, 0.4, z))
+		terrain_material.set_shader_parameter("cam_dist", cam.distance)
 		# Nebbia di distanza che segue lo zoom: lontano copre solo l'orizzonte.
 		environment.fog_depth_begin = cam.distance * 1.3
 		environment.fog_depth_end = cam.distance * 4.0 + 120.0
