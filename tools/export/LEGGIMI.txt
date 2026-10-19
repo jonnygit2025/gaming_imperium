@@ -3,6 +3,8 @@ REGNA - L'Ombra di Roma (Fase 2: mappa di campagna 3D)
 1. Doppio clic su AVVIA_REGNA.bat
    La prima volta ricompone Regna.exe dai pezzi (Regna.zip.part0, part1, ...)
    e lo avvia. Le volte successive puoi aprire direttamente Regna.exe.
+   Prima controlla che i pezzi siano integri (file Regna.sha256): se sono
+   danneggiati lo dice e non li cancella, cosi' si possono ricopiare.
 
 2. Se Windows mostra "Windows ha protetto il PC":
    clic su "Ulteriori informazioni" e poi "Esegui comunque".
