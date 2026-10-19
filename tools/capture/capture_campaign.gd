@@ -39,7 +39,7 @@ func _ready() -> void:
 	await _frames(5)
 	_scene.cam.edge_scroll = false
 	print("caricamento della mappa: %.0f ms" % _scene.load_ms)
-	_scene.terrain_material.set_shader_parameter("debug_grey", _grey)
+	_scene.set_terrain_param("debug_grey", _grey)
 	var shots: Array = [
 		["01_vista_insieme", func() -> void: _cam(_scene.map.bounds.get_center(), CampaignCamera.MAX_DISTANCE, 0.0)],
 		["02_italia", func() -> void: _cam(_city("roma"), 95.0, 0.0)],

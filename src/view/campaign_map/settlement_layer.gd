@@ -22,6 +22,8 @@ var _mm_lod: Dictionary = {}             # "taglia:stile" -> MultiMesh con il mo
 var _detail_nodes: Array[MultiMeshInstance3D] = []
 var _lod_nodes: Array[MultiMeshInstance3D] = []
 var lod_active: bool = false
+## Prova delle prestazioni: modelli semplici anche da vicino.
+var force_lod: bool = false
 var _slot: Dictionary[String, Array] = {}   # pid -> [chiave, indice istanza]
 var _labels: Dictionary[String, Label3D] = {}
 var _tier_of: Dictionary[String, int] = {}
@@ -147,7 +149,7 @@ func _write_color(pid: String, phase: float) -> void:
 ## La dimensione cambia con la scala del nodo: cambiare pixel_size ricostruirebbe il testo di
 ## tutte le etichette a ogni fotogramma di zoom (lavoro inutile per il processore).
 func update_labels(zoom: float) -> void:
-	var far: bool = zoom > LOD_ZOOM
+	var far: bool = zoom > LOD_ZOOM or force_lod
 	if far != lod_active:
 		lod_active = far
 		for n: MultiMeshInstance3D in _detail_nodes:

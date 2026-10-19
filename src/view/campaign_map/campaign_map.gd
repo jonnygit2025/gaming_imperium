@@ -4,6 +4,11 @@ extends Node3D
 ## e interfaccia. Solo grafica e input: le regole stanno in src/core (TurnProcessor ecc.).
 
 const TERRAIN_SHADER: String = "res://assets/shaders/campaign_terrain.gdshader"
+const TERRAIN_FAR_SHADER: String = "res://assets/shaders/campaign_terrain_far.gdshader"
+## Oltre questa distanza della telecamera il terreno usa lo shader senza dettagli (stessa
+## immagine: rumore fine, campi e strade sono già spariti), più leggero per la scheda video.
+const TERRAIN_FAR_ON: float = 155.0
+const TERRAIN_FAR_OFF: float = 150.0
 const WATER_SHADER: String = "res://assets/shaders/campaign_water.gdshader"
 const START_DISTANCE: float = 95.0
 const FOCUS_DISTANCE: float = 32.0
@@ -18,6 +23,9 @@ var state: CampaignState = null
 var cam: CampaignCamera = null
 var palette: PoliticalPalette = null
 var terrain_material: ShaderMaterial = null
+var terrain_far_material: ShaderMaterial = null
+## Prova delle prestazioni (test in Opzioni): forza lo shader senza dettagli.
+var force_far_terrain: bool = false
 var water_material: ShaderMaterial = null
 var settlements: SettlementLayer = null
 var details: CampaignDetails = null
@@ -148,19 +156,37 @@ func _build_terrain() -> void:
 	terrain_node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	terrain_material = ShaderMaterial.new()
 	terrain_material.shader = load(TERRAIN_SHADER)
-	terrain_material.set_shader_parameter("albedo_tex", load("res://assets/map/terrain_albedo.png"))
-	terrain_material.set_shader_parameter("ids_tex", load("res://assets/map/province_ids.png"))
-	terrain_material.set_shader_parameter("fields_tex", load("res://assets/map/province_fields.png"))
-	terrain_material.set_shader_parameter("palette_tex", palette.texture)
-	terrain_material.set_shader_parameter("detail_tex", load("res://assets/map/water_noise.png"))
-	terrain_material.set_shader_parameter("details_tex", load("res://assets/map/details.png"))
-	terrain_material.set_shader_parameter("road_scale", details.road_scale)
-	terrain_material.set_shader_parameter("roads_tex", load("res://assets/map/roads.png"))
-	terrain_material.set_shader_parameter("map_min", map.bounds.position)
-	terrain_material.set_shader_parameter("map_size", map.bounds.size)
-	terrain_material.set_shader_parameter("vertical_units_per_km", map.vertical_units_per_km)
-	terrain_node.material_override = terrain_material
+	terrain_far_material = ShaderMaterial.new()
+	terrain_far_material.shader = load(TERRAIN_FAR_SHADER)
+	set_terrain_param("albedo_tex", load("res://assets/map/terrain_albedo.png"))
+	set_terrain_param("ids_tex", load("res://assets/map/province_ids.png"))
+	set_terrain_param("fields_tex", load("res://assets/map/province_fields.png"))
+	set_terrain_param("palette_tex", palette.texture)
+	set_terrain_param("detail_tex", load("res://assets/map/water_noise.png"))
+	set_terrain_param("details_tex", load("res://assets/map/details.png"))
+	set_terrain_param("road_scale", details.road_scale)
+	set_terrain_param("roads_tex", load("res://assets/map/roads.png"))
+	set_terrain_param("map_min", map.bounds.position)
+	set_terrain_param("map_size", map.bounds.size)
+	set_terrain_param("vertical_units_per_km", map.vertical_units_per_km)
+	# primo fotogramma con lo shader da lontano: lo compila subito (nessuno scatto al primo zoom)
+	terrain_node.material_override = terrain_far_material
 	add_child(terrain_node)
+
+
+## Imposta un parametro in entrambi gli shader del terreno.
+func set_terrain_param(param: String, value: Variant) -> void:
+	terrain_material.set_shader_parameter(param, value)
+	terrain_far_material.set_shader_parameter(param, value)
+
+
+## Sceglie lo shader del terreno secondo la distanza della telecamera (con isteresi).
+func update_terrain_material(dist: float) -> void:
+	var far: bool = force_far_terrain or dist > TERRAIN_FAR_ON \
+			or (dist >= TERRAIN_FAR_OFF and terrain_node.material_override == terrain_far_material)
+	var want: ShaderMaterial = terrain_far_material if far else terrain_material
+	if terrain_node.material_override != want:
+		terrain_node.material_override = want
 
 
 func _build_water() -> void:
@@ -189,7 +215,7 @@ func _build_water() -> void:
 
 func _apply_season() -> void:
 	var w: float = 1.0 if state.season_index() == 1 else 0.0
-	terrain_material.set_shader_parameter("winter", w)
+	set_terrain_param("winter", w)
 	water_material.set_shader_parameter("winter", w)
 	detail_layer.set_winter(w)
 	sun.light_color = Color("fff0d6") if w < 0.5 else Color("e4ecf5")
@@ -206,8 +232,10 @@ func _process(_delta: float) -> void:
 	if absf(z - _last_zoom) > 0.002:
 		_last_zoom = z
 		settlements.update_labels(z)
-		terrain_material.set_shader_parameter("tint_strength", lerpf(0.2, 0.4, z))
-		terrain_material.set_shader_parameter("cam_dist", cam.distance)
+		set_terrain_param("tint_strength", lerpf(0.2, 0.4, z))
+		set_terrain_param("cam_dist", cam.distance)
+		if _shadow_warmup <= 0:
+			update_terrain_material(cam.distance)
 		# Nebbia di distanza che segue lo zoom: lontano copre solo l'orizzonte.
 		environment.fog_depth_begin = cam.distance * 1.3
 		environment.fog_depth_end = cam.distance * 4.0 + 120.0
@@ -218,6 +246,7 @@ func _process(_delta: float) -> void:
 		_shadow_warmup -= 1
 		if _shadow_warmup == 0:
 			update_shadows(cam.distance)
+			update_terrain_material(cam.distance)
 	_update_hover()
 
 
@@ -244,7 +273,7 @@ func _update_hover() -> void:
 		pid = province_at_screen(m)
 	if pid != hovered:
 		hovered = pid
-		terrain_material.set_shader_parameter("hover_index", float(map.index_of.get(pid, -1)))
+		set_terrain_param("hover_index", float(map.index_of.get(pid, -1)))
 	hud.update_tooltip(hovered, m)
 
 
@@ -293,7 +322,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func select_province(pid: String) -> void:
 	selected = pid
-	terrain_material.set_shader_parameter("selected_index", float(map.index_of.get(pid, -1)))
+	set_terrain_param("selected_index", float(map.index_of.get(pid, -1)))
 	hud.show_province(pid)
 
 
@@ -326,3 +355,23 @@ func end_turn() -> void:
 		hud.show_province(selected)
 	hud.show_turn_report(report)
 	Session.last_report = null
+
+
+# ------------------------------------------------------------------ analisi delle prestazioni
+
+## Toglie una parte della scena per misurarne il costo (fase di analisi del test prestazioni).
+## "completo" rimette tutto com'era.
+func apply_analysis_variant(variant: String) -> void:
+	force_far_terrain = variant == "shader_senza_dettagli"
+	update_terrain_material(cam.distance)
+	for c: Node in detail_layer.get_children():
+		if c.name.begins_with("Alberi"):
+			(c as Node3D).visible = variant != "senza_alberi"
+	detail_layer.update_zoom(cam.distance if variant != "senza_citta_dettagliate" else 1.0e6)
+	settlements.force_lod = variant == "senza_citta_dettagliate"
+	settlements.update_labels(cam.zoom_factor())
+	if variant == "senza_ombre":
+		sun.shadow_enabled = false
+	else:
+		update_shadows(cam.distance)
+	water_node.visible = variant != "senza_mare"
