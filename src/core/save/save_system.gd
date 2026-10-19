@@ -2,9 +2,13 @@ class_name SaveSystem
 extends RefCounted
 ## Salvataggio e caricamento delle partite in JSON (leggibile e robusto).
 
-const SAVE_VERSION: int = 1
+## 2 = Fase 2 (eserciti nello stato). I salvataggi della versione 1 si caricano ancora.
+const SAVE_VERSION: int = 2
 const EXTENSION: String = ".regna.json"
 const DEFAULT_DIR: String = "user://saves"
+## Salvataggi automatici: a rotazione su AUTOSAVE_SLOTS file.
+const AUTOSAVE_PREFIX: String = "autosalvataggio_"
+const AUTOSAVE_SLOTS: int = 3
 
 
 ## Trasforma un nome libero in un nome di file sicuro.
@@ -17,6 +21,8 @@ static func slot_file_name(slot_name: String) -> String:
 			clean += "_"
 	if clean.is_empty():
 		clean = "partita"
+	if clean.begins_with(AUTOSAVE_PREFIX):
+		clean = "partita_" + clean  # i nomi dei salvataggi automatici sono riservati
 	return clean.left(40) + EXTENSION
 
 
@@ -32,8 +38,52 @@ static func save_game(state: CampaignState, slot_name: String, meta: Dictionary 
 	info["date_label"] = state.date_label()
 	info["turn"] = state.turn
 	var payload: Dictionary = {"version": SAVE_VERSION, "meta": info, "state": state.to_dict()}
-	var path: String = dir_path.path_join(slot_file_name(slot_name))
-	# Scrittura sicura: prima un file temporaneo, poi lo si rinomina.
+	return _write(dir_path.path_join(slot_file_name(slot_name)), payload)
+
+
+## Salvataggio automatico di fine turno: usa a rotazione AUTOSAVE_SLOTS file e sovrascrive
+## sempre il più vecchio, così restano gli ultimi tre.
+static func autosave(state: CampaignState, meta: Dictionary = {}, dir_path: String = DEFAULT_DIR) -> String:
+	var err: Error = DirAccess.make_dir_recursive_absolute(dir_path)
+	if err != OK:
+		return "Impossibile creare la cartella dei salvataggi (%s)" % error_string(err)
+	var seq: int = 0
+	var free_slot: int = -1
+	var oldest_slot: int = 1
+	var oldest_seq: int = 1 << 30
+	for i: int in range(1, AUTOSAVE_SLOTS + 1):
+		var s: int = _autosave_seq(dir_path.path_join("%s%d%s" % [AUTOSAVE_PREFIX, i, EXTENSION]))
+		seq = maxi(seq, s)
+		if s < 0:
+			if free_slot < 0:
+				free_slot = i
+		elif s < oldest_seq:
+			oldest_seq = s
+			oldest_slot = i
+	var slot: int = free_slot if free_slot > 0 else oldest_slot
+	var info: Dictionary = meta.duplicate()
+	info["name"] = "Automatico – turno %d" % state.turn
+	info["autosave"] = true
+	info["autosave_seq"] = seq + 1
+	info["saved_at"] = Time.get_datetime_string_from_system(false, true)
+	info["unix_time"] = Time.get_unix_time_from_system()
+	info["date_label"] = state.date_label()
+	info["turn"] = state.turn
+	var payload: Dictionary = {"version": SAVE_VERSION, "meta": info, "state": state.to_dict()}
+	return _write(dir_path.path_join("%s%d%s" % [AUTOSAVE_PREFIX, slot, EXTENSION]), payload)
+
+
+static func _autosave_seq(path: String) -> int:
+	if not FileAccess.file_exists(path):
+		return -1
+	var res: Dictionary = JsonLoader.load_file(path)
+	if not res["ok"] or not res["data"] is Dictionary:
+		return 0
+	return DataUtil.to_int(DataUtil.to_dict(res["data"], "meta"), "autosave_seq", 0)
+
+
+## Scrittura sicura: prima un file temporaneo, poi lo si rinomina.
+static func _write(path: String, payload: Dictionary) -> String:
 	var tmp_path: String = path + ".tmp"
 	var f: FileAccess = FileAccess.open(tmp_path, FileAccess.WRITE)
 	if f == null:
@@ -42,13 +92,13 @@ static func save_game(state: CampaignState, slot_name: String, meta: Dictionary 
 	f.close()
 	if FileAccess.file_exists(path):
 		DirAccess.remove_absolute(path)
-	err = DirAccess.rename_absolute(tmp_path, path)
+	var err: Error = DirAccess.rename_absolute(tmp_path, path)
 	if err != OK:
 		return "Impossibile completare il salvataggio (%s)" % error_string(err)
 	return ""
 
 
-## Restituisce { "ok": bool, "state": CampaignState, "meta": Dictionary, "error": String }.
+## Restituisce { "ok": bool, "state": CampaignState, "meta": Dictionary, "error": String, "version": int }.
 static func load_game(path: String) -> Dictionary:
 	var res: Dictionary = JsonLoader.load_file(path)
 	if not res["ok"]:
@@ -63,7 +113,7 @@ static func load_game(path: String) -> Dictionary:
 	if state_dict.is_empty():
 		return {"ok": false, "state": null, "meta": {}, "error": "Il salvataggio non contiene una partita"}
 	var state: CampaignState = CampaignState.from_dict(state_dict)
-	return {"ok": true, "state": state, "meta": DataUtil.to_dict(data, "meta"), "error": ""}
+	return {"ok": true, "state": state, "meta": DataUtil.to_dict(data, "meta"), "error": "", "version": version}
 
 
 ## Elenco dei salvataggi, dal più recente: [{ "path", "name", "saved_at", "date_label", ... }]

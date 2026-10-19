@@ -248,5 +248,133 @@
       "longobardi",
       20
     ]
+  ],
+  "armies": [
+    {
+      "id": "omayyadi_1",
+      "faction": "omayyadi",
+      "province": "tingitana",
+      "general": "Tariq ibn Ziyad",
+      "units": [
+        "fanteria_berbera",
+        "fanteria_berbera",
+        "fanteria_berbera",
+        "fanteria_berbera",
+        "lancieri_arabi",
+        "arcieri_arabi",
+        "cavalleria_araba",
+        "cavalleria_araba"
+      ]
+    },
+    {
+      "id": "omayyadi_2",
+      "faction": "omayyadi",
+      "province": "africa",
+      "general": "Musa ibn Nusayr",
+      "units": [
+        "lancieri_arabi",
+        "lancieri_arabi",
+        "arcieri_arabi",
+        "cavalleria_araba",
+        "cavalleria_araba",
+        "faris"
+      ]
+    },
+    {
+      "id": "omayyadi_3",
+      "faction": "omayyadi",
+      "province": "syria",
+      "general": "Maslama",
+      "units": [
+        "lancieri_arabi",
+        "lancieri_arabi",
+        "arcieri_arabi",
+        "arcieri_arabi",
+        "faris",
+        "mubarizun"
+      ]
+    },
+    {
+      "id": "visigoti_1",
+      "faction": "visigoti",
+      "province": "carthaginensis",
+      "general": "Roderico",
+      "units": [
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "lancieri_goti",
+        "lancieri_goti",
+        "arcieri_goti",
+        "cavalleria_gotica",
+        "cavalleria_gotica"
+      ]
+    },
+    {
+      "id": "franchi_1",
+      "faction": "franchi",
+      "province": "austrasia",
+      "general": "Carlo Martello",
+      "units": [
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "leudes",
+        "leudes",
+        "lancieri_franchi",
+        "scara",
+        "antrustioni"
+      ]
+    },
+    {
+      "id": "aquitania_1",
+      "faction": "aquitania",
+      "province": "aquitania",
+      "general": "Oddone",
+      "units": [
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "lancieri_franchi",
+        "arcieri_franchi",
+        "scara"
+      ]
+    },
+    {
+      "id": "longobardi_1",
+      "faction": "longobardi",
+      "province": "mediolanum",
+      "general": "Liutprando",
+      "units": [
+        "arimanni",
+        "arimanni",
+        "lancieri_longobardi",
+        "cavalleria_longobarda"
+      ]
+    },
+    {
+      "id": "bizantini_1",
+      "faction": "bizantini",
+      "province": "thracia",
+      "general": "Filippico",
+      "units": [
+        "skutatoi",
+        "skutatoi",
+        "toxotai",
+        "toxotai",
+        "kataphraktoi"
+      ]
+    },
+    {
+      "id": "bulgari_1",
+      "faction": "bulgari",
+      "province": "moesia",
+      "general": "Tervel",
+      "units": [
+        "arcieri_cavallo_avari",
+        "arcieri_cavallo_avari",
+        "lancieri_cavallo_avari",
+        "fanteria_slava",
+        "fanteria_slava"
+      ]
+    }
   ]
 }

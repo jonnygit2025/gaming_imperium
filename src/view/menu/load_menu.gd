@@ -94,4 +94,8 @@ func _ask_delete() -> void:
 
 
 func on_back() -> void:
-	goto(Scenes.MAIN_MENU)
+	# Se si è arrivati dal menu di pausa della campagna, si torna alla mappa.
+	if Session.return_scene == Scenes.CAMPAIGN and Session.has_game():
+		goto(Scenes.CAMPAIGN)
+	else:
+		goto(Scenes.MAIN_MENU)

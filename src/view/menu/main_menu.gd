@@ -17,8 +17,9 @@ func build() -> void:
 	var gap := Control.new()
 	gap.custom_minimum_size.y = 40
 	left.add_child(gap)
-	var resume := UiKit.menu_button("Continua la partita", func() -> void: goto(Scenes.CAMPAIGN))
-	resume.visible = Session.has_game()
+	var resume := UiKit.menu_button("Continua la partita", _continue)
+	resume.visible = Session.has_game() or Session.has_saves()
+	resume.tooltip_text = "Torna alla partita in corso" if Session.has_game() else "Carica il salvataggio più recente"
 	left.add_child(resume)
 	var first := UiKit.menu_button("Nuova partita", func() -> void: goto(Scenes.NEW_GAME))
 	left.add_child(first)
@@ -27,7 +28,7 @@ func build() -> void:
 	left.add_child(UiKit.menu_button("Esci", _quit))
 	left.add_child(UiKit.spacer())
 	var version: String = str(ProjectSettings.get_setting("application/config/version", ""))
-	left.add_child(UiKit.label("Versione %s · Fase 1 (base e menu)" % version, UiTheme.SMALL_SIZE, UiTheme.TEXT_DIM))
+	left.add_child(UiKit.label("Versione %s · Fase 2 (mappa di campagna)" % version, UiTheme.SMALL_SIZE, UiTheme.TEXT_DIM))
 	focus_later(resume if resume.visible else first)
 
 	row.add_child(UiKit.spacer(false))
@@ -80,6 +81,15 @@ func _ask_restart() -> void:
 		"Per usare il renderer \"%s\" il gioco deve riavviarsi. Vuoi riavviarlo ora?" % names.get(Settings.graphics.renderer, Settings.graphics.renderer),
 		[{"text": "Più tardi", "action": Callable()},
 		 {"text": "Riavvia ora", "action": Settings.restart_game}])
+
+
+func _continue() -> void:
+	if not Session.has_game():
+		var err: String = Session.load_latest()
+		if not err.is_empty():
+			show_message("Impossibile continuare", err)
+			return
+	goto(Scenes.CAMPAIGN)
 
 
 func _quit() -> void:

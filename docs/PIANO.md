@@ -20,7 +20,7 @@ NVIDIA GeForce GTX 650 (2 GB). Il prompt originale è in `docs/PROMPT_GIOCO.md`.
 1. **Base e menu** — progetto, dati JSON, menu, scelta scenario/fazione, opzioni grafiche con
    rilevamento automatico, test prestazioni, test GUT, primo .exe. ✅
 2. **Mappa di campagna 3D** — province selezionabili, confini colorati, città ed eserciti, telecamera,
-   risorse, fine turno.
+   risorse, fine turno. ✅ (entrate provvisorie, eserciti fermi; simulazione headless di 200 turni)
 3. **Economia e costruzione** — tasse, popolazione, ordine pubblico, edifici con slot, livelli e coda.
 4a. **Eserciti** — reclutamento, generali, movimento, trasporto via mare, assedi, risoluzione automatica.
 4b. **Mondo vivo** — diplomazia, IA delle fazioni, eventi storici, vittoria, salvataggi completi,

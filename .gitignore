@@ -226,3 +226,6 @@ __marimo__/
 export_credentials.cfg
 # Risultati locali del test prestazioni
 benchmark_risultati.txt
+
+# Mappa: dati scaricati e file intermedi della generazione
+tools/map/_cache/

@@ -338,5 +338,164 @@
       "svevi",
       -30
     ]
+  ],
+  "armies": [
+    {
+      "id": "odoacre_1",
+      "faction": "odoacre",
+      "province": "ravenna",
+      "general": "Odoacre",
+      "units": [
+        "comitatenses",
+        "comitatenses",
+        "foederati_eruli",
+        "foederati_eruli",
+        "foederati_eruli",
+        "limitanei",
+        "sagittarii",
+        "equites"
+      ]
+    },
+    {
+      "id": "odoacre_2",
+      "faction": "odoacre",
+      "province": "mediolanum",
+      "general": "Onulfo",
+      "units": [
+        "limitanei",
+        "limitanei",
+        "foederati_eruli",
+        "foederati_eruli",
+        "sagittarii"
+      ]
+    },
+    {
+      "id": "bizantini_1",
+      "faction": "bizantini",
+      "province": "thracia",
+      "general": "Illo",
+      "units": [
+        "skutatoi",
+        "skutatoi",
+        "skutatoi",
+        "toxotai",
+        "toxotai",
+        "kataphraktoi",
+        "foederati_unni"
+      ]
+    },
+    {
+      "id": "bizantini_2",
+      "faction": "bizantini",
+      "province": "syria",
+      "general": "Trocondo",
+      "units": [
+        "skutatoi",
+        "skutatoi",
+        "toxotai",
+        "bucellarii"
+      ]
+    },
+    {
+      "id": "visigoti_1",
+      "faction": "visigoti",
+      "province": "tolosa",
+      "general": "Eurico",
+      "units": [
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "lancieri_goti",
+        "lancieri_goti",
+        "arcieri_goti",
+        "cavalleria_gotica",
+        "cavalleria_gotica"
+      ]
+    },
+    {
+      "id": "visigoti_2",
+      "faction": "visigoti",
+      "province": "carthaginensis",
+      "general": "Vincenzo",
+      "units": [
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "lancieri_goti",
+        "cavalieri_vandali"
+      ]
+    },
+    {
+      "id": "franchi_1",
+      "faction": "franchi",
+      "province": "belgica",
+      "general": "Childerico",
+      "units": [
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "lancieri_franchi",
+        "angonarii",
+        "arcieri_franchi"
+      ]
+    },
+    {
+      "id": "vandali_1",
+      "faction": "vandali",
+      "province": "africa",
+      "general": "Genserico",
+      "units": [
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "lancieri_goti",
+        "arcieri_goti",
+        "cavalieri_vandali",
+        "cavalieri_vandali",
+        "cavalieri_vandali",
+        "cavalleria_gotica"
+      ]
+    },
+    {
+      "id": "ostrogoti_1",
+      "faction": "ostrogoti",
+      "province": "moesia",
+      "general": "Teodorico",
+      "units": [
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "lancieri_goti",
+        "arcieri_goti",
+        "cavalleria_gotica",
+        "cavalleria_gotica",
+        "cavalleria_gotica"
+      ]
+    },
+    {
+      "id": "soissons_1",
+      "faction": "soissons",
+      "province": "parisii",
+      "general": "Siagrio",
+      "units": [
+        "limitanei",
+        "limitanei",
+        "comitatenses",
+        "sagittarii",
+        "equites"
+      ]
+    },
+    {
+      "id": "sasanidi_1",
+      "faction": "sasanidi",
+      "province": "asoristan",
+      "general": "Peroz I",
+      "units": [
+        "paighan",
+        "paighan",
+        "arcieri_persiani",
+        "arcieri_persiani",
+        "savaran",
+        "savaran"
+      ]
+    }
   ]
 }

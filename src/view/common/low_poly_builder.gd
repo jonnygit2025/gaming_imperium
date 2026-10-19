@@ -1,7 +1,8 @@
 class_name LowPolyBuilder
 extends RefCounted
 ## Unisce forme semplici (cilindri, sfere, cubi) in un'unica mesh low-poly con colori per vertice.
-## UV.x = 1 indica le parti da tingere col colore della fazione (tunica, scudo).
+## UV.x = 1 indica le parti da tingere col colore della fazione (tunica, scudo);
+## UV.y = 1 le parti di stoffa che sventolano (bandiere della mappa di campagna).
 
 var _verts := PackedVector3Array()
 var _normals := PackedVector3Array()
@@ -10,19 +11,39 @@ var _uvs := PackedVector2Array()
 var _indices := PackedInt32Array()
 
 
-func add(mesh: PrimitiveMesh, xform: Transform3D, color: Color, team_tint: bool = false) -> LowPolyBuilder:
+func add(mesh: PrimitiveMesh, xform: Transform3D, color: Color, team_tint: bool = false, wave: bool = false) -> LowPolyBuilder:
 	var arrays: Array = mesh.get_mesh_arrays()
 	var v: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
 	var n: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
 	var idx: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
 	var base: int = _verts.size()
 	var nb: Basis = xform.basis.inverse().transposed()
-	var tint := Vector2(1.0 if team_tint else 0.0, 0.0)
+	var tint := Vector2(1.0 if team_tint else 0.0, 1.0 if wave else 0.0)
 	for i: int in v.size():
 		_verts.append(xform * v[i])
 		_normals.append((nb * n[i]).normalized())
 		_colors.append(color)
 		_uvs.append(tint)
+	for i: int in idx:
+		_indices.append(base + i)
+	return self
+
+
+## Aggiunge una mesh già costruita da questo builder (colori e tinte compresi).
+func add_built(mesh: ArrayMesh, xform: Transform3D) -> LowPolyBuilder:
+	var arrays: Array = mesh.surface_get_arrays(0)
+	var v: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var n: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+	var c: PackedColorArray = arrays[Mesh.ARRAY_COLOR]
+	var uv: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+	var idx: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+	var base: int = _verts.size()
+	var nb: Basis = xform.basis.inverse().transposed()
+	for i: int in v.size():
+		_verts.append(xform * v[i])
+		_normals.append((nb * n[i]).normalized())
+		_colors.append(c[i])
+		_uvs.append(uv[i])
 	for i: int in idx:
 		_indices.append(base + i)
 	return self

@@ -19,6 +19,8 @@ var restart_pending: bool = false
 var _fps_layer: CanvasLayer = null
 var _fps_label: Label = null
 var _fps_timer: float = 0.0
+## Le scene con un proprio pannello delle misure (es. la mappa di campagna) nascondono il contatore.
+var _fps_suppressed: bool = false
 
 
 func _ready() -> void:
@@ -152,7 +154,7 @@ func apply() -> void:
 		1: vp.mesh_lod_threshold = 2.0
 		_: vp.mesh_lod_threshold = 1.0
 	if _fps_layer != null:
-		_fps_layer.visible = g.show_fps
+		_fps_layer.visible = g.show_fps and not _fps_suppressed
 	changed.emit()
 
 
@@ -209,8 +211,15 @@ func _build_fps_overlay() -> void:
 	_fps_label.add_theme_color_override("font_outline_color", Color.BLACK)
 	_fps_label.add_theme_constant_override("outline_size", 4)
 	_fps_layer.add_child(_fps_label)
-	_fps_layer.visible = graphics.show_fps
+	_fps_layer.visible = graphics.show_fps and not _fps_suppressed
 	add_child(_fps_layer)
+
+
+## Nasconde il contatore generale finché una scena mostra le sue misure (F3 resta attivo).
+func set_fps_overlay_suppressed(value: bool) -> void:
+	_fps_suppressed = value
+	if _fps_layer != null:
+		_fps_layer.visible = graphics.show_fps and not _fps_suppressed
 
 
 func _process(delta: float) -> void:
@@ -228,5 +237,5 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_fps"):
 		graphics.show_fps = not graphics.show_fps
 		if _fps_layer != null:
-			_fps_layer.visible = graphics.show_fps
+			_fps_layer.visible = graphics.show_fps and not _fps_suppressed
 		save()

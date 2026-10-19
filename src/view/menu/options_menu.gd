@@ -43,8 +43,17 @@ func build() -> void:
 	rv.add_child(UiKit.button("Rileva automaticamente", _auto_detect, 0.0))
 	rv.add_child(HSeparator.new())
 	rv.add_child(UiKit.heading("Test prestazioni"))
-	rv.add_child(UiKit.paragraph("Una battaglia di prova con migliaia di soldati per 15 secondi. Misura gli FPS con le impostazioni applicate e consiglia il preset giusto. I risultati vengono salvati nel file benchmark_risultati.txt accanto al gioco.", UiTheme.SMALL_SIZE, UiTheme.TEXT_DIM))
-	rv.add_child(UiKit.button("Avvia il test", _run_benchmark, 0.0))
+	rv.add_child(UiKit.paragraph("Due prove: una battaglia con migliaia di soldati (15 s) e un volo sulla mappa di campagna (20 s). Misurano gli FPS con le impostazioni applicate; i risultati vanno nel file benchmark_risultati.txt accanto al gioco.", UiTheme.SMALL_SIZE, UiTheme.TEXT_DIM))
+	var tests := UiKit.hbox(10)
+	var b1 := UiKit.button("Battaglia", _run_benchmark, 0.0)
+	b1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	b1.tooltip_text = "2.000 soldati in battaglia (preset Alto)"
+	var b2 := UiKit.button("Mappa di campagna", _run_map_benchmark, 0.0)
+	b2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	b2.tooltip_text = "Volo della telecamera sulla mappa di campagna per 20 secondi"
+	tests.add_child(b1)
+	tests.add_child(b2)
+	rv.add_child(tests)
 	rv.add_child(UiKit.spacer())
 	rv.add_child(UiKit.paragraph("F3 mostra o nasconde il contatore FPS in qualunque momento.", UiTheme.SMALL_SIZE, UiTheme.TEXT_DIM))
 
@@ -233,5 +242,17 @@ func _run_benchmark() -> void:
 	goto(Scenes.BENCHMARK)
 
 
+func _run_map_benchmark() -> void:
+	if not g.renderer == Settings.graphics.renderer or g.matching_preset() != Settings.graphics.matching_preset():
+		show_message("Prima applica", "Il test usa le impostazioni applicate. Premi \"Applica\" e poi avvia il test.")
+		return
+	Session.start_map_benchmark()
+	goto(Scenes.CAMPAIGN)
+
+
 func on_back() -> void:
-	goto(Scenes.MAIN_MENU)
+	# Se si è arrivati dal menu di pausa della campagna, si torna alla mappa.
+	if Session.return_scene == Scenes.CAMPAIGN and Session.has_game():
+		goto(Scenes.CAMPAIGN)
+	else:
+		goto(Scenes.MAIN_MENU)

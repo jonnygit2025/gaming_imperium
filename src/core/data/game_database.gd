@@ -372,3 +372,34 @@ func _validate_scenarios(e: PackedStringArray) -> void:
 				e.append("%s: relazione con fazione assente" % tag)
 			if absi(int(rel["value"])) > 100:
 				e.append("%s: relazione fuori scala (-100..100)" % tag)
+		_validate_armies(e, s, owner)
+
+
+func _validate_armies(e: PackedStringArray, s: ScenarioDef, owner: Dictionary) -> void:
+	var tag: String = "Scenario %s" % s.id
+	var seen: Dictionary = {}
+	for a: ArmyDef in s.armies:
+		var at: String = "%s, esercito %s" % [tag, a.id]
+		if a.id.is_empty():
+			e.append("%s: esercito senza id" % tag)
+		elif seen.has(a.id):
+			e.append("%s: id ripetuto" % at)
+		seen[a.id] = true
+		if not s.factions.has(a.faction):
+			e.append("%s: fazione assente dallo scenario '%s'" % [at, a.faction])
+			continue
+		if not provinces.has(a.province):
+			e.append("%s: provincia sconosciuta '%s'" % [at, a.province])
+		elif owner.get(a.province, "") != a.faction:
+			e.append("%s: parte da %s, che non è della sua fazione" % [at, a.province])
+		if a.general.strip_edges().is_empty():
+			e.append("%s: manca il generale" % at)
+		if a.units.is_empty() or a.units.size() > ArmyState.MAX_UNITS:
+			e.append("%s: servono da 1 a %d reggimenti" % [at, ArmyState.MAX_UNITS])
+		var culture: String = factions[a.faction].culture if factions.has(a.faction) else ""
+		for uid: String in a.units:
+			var u: UnitDef = units.get(uid)
+			if u == null:
+				e.append("%s: unità sconosciuta '%s'" % [at, uid])
+			elif not culture in u.cultures:
+				e.append("%s: l'unità %s non appartiene alla cultura %s" % [at, uid, culture])

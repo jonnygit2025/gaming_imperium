@@ -238,5 +238,120 @@
       "sasanidi",
       10
     ]
+  ],
+  "armies": [
+    {
+      "id": "califfato_1",
+      "faction": "califfato",
+      "province": "phoenice",
+      "general": "Khalid ibn al-Walid",
+      "units": [
+        "fanteria_tribale",
+        "fanteria_tribale",
+        "lancieri_arabi",
+        "lancieri_arabi",
+        "arcieri_arabi",
+        "cavalleria_araba",
+        "cavalleria_araba",
+        "faris",
+        "mubarizun"
+      ]
+    },
+    {
+      "id": "califfato_2",
+      "faction": "califfato",
+      "province": "hijaz",
+      "general": "Sa'd ibn Abi Waqqas",
+      "units": [
+        "fanteria_tribale",
+        "fanteria_tribale",
+        "lancieri_arabi",
+        "arcieri_arabi",
+        "cavalleria_araba",
+        "cavalleria_araba"
+      ]
+    },
+    {
+      "id": "bizantini_1",
+      "faction": "bizantini",
+      "province": "syria",
+      "general": "Vahan",
+      "units": [
+        "skutatoi",
+        "skutatoi",
+        "skutatoi",
+        "toxotai",
+        "toxotai",
+        "kataphraktoi",
+        "bucellarii",
+        "bucellarii"
+      ]
+    },
+    {
+      "id": "bizantini_2",
+      "faction": "bizantini",
+      "province": "palaestina",
+      "general": "Teodoro",
+      "units": [
+        "skutatoi",
+        "skutatoi",
+        "toxotai",
+        "akontistai"
+      ]
+    },
+    {
+      "id": "sasanidi_1",
+      "faction": "sasanidi",
+      "province": "asoristan",
+      "general": "Rostam Farrokhzad",
+      "units": [
+        "paighan",
+        "paighan",
+        "paighan",
+        "dailamiti",
+        "arcieri_persiani",
+        "arcieri_persiani",
+        "savaran",
+        "savaran",
+        "immortali_sasanidi"
+      ]
+    },
+    {
+      "id": "longobardi_1",
+      "faction": "longobardi",
+      "province": "mediolanum",
+      "general": "Rotari",
+      "units": [
+        "arimanni",
+        "arimanni",
+        "lancieri_longobardi",
+        "cavalleria_longobarda"
+      ]
+    },
+    {
+      "id": "franchi_1",
+      "faction": "franchi",
+      "province": "parisii",
+      "general": "Dagoberto I",
+      "units": [
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "guerrieri_franchi",
+        "leudes",
+        "scara"
+      ]
+    },
+    {
+      "id": "visigoti_1",
+      "faction": "visigoti",
+      "province": "carthaginensis",
+      "general": "Chintila",
+      "units": [
+        "guerrieri_goti",
+        "guerrieri_goti",
+        "lancieri_goti",
+        "cavalleria_gotica"
+      ]
+    }
   ]
 }
